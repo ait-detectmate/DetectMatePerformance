@@ -1,0 +1,14 @@
+# add cmake to build requirements
+[build-system]
+requires = ["setuptools", "wheel", "cmake"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "DetectMatePerformance"
+version = "0.1.0"
+description = "A Python package for DetectMate performance evaluation."
+requires-python = ">=3.12"
+dependencies = [
+    "pytest",
+    "pytest-cpp",
+]
