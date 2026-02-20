@@ -5,6 +5,7 @@ project(DetectMatePerformance)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
+
 include(FetchContent)
 FetchContent_Declare(
   googletest
@@ -16,14 +17,28 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
+
+add_test(
+  NAME memory_leak_test 
+  COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./test_c
+)
+
+
+add_library(
+  message
+  DetectMatePerformance/src/_core/message.h
+  DetectMatePerformance/src/_core/messages.cpp
+)
+
 add_executable(
   test_c
-  DetectMatePerformance/tests/test_c/test_dummy.cpp
+  DetectMatePerformance/tests/test_c/test_message.cpp
 )
 
 target_link_libraries(
   test_c
   GTest::gtest_main
+  message
 )
 
 include(GoogleTest)
