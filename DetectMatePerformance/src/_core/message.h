@@ -9,7 +9,7 @@
 std::deque<std::string> preprocessing(std::string message);
 
 class Messages {
-private:
+protected:
     std::deque<std::deque<std::string>> messages;
  
 public:

@@ -29,6 +29,12 @@ add_library(
   DetectMatePerformance/src/_core/messages.cpp
 )
 
+add_library(
+  templates
+  DetectMatePerformance/src/_core/templates.h
+  DetectMatePerformance/src/_core/templates.cpp
+)
+
 add_executable(
   test_c
   DetectMatePerformance/tests/test_c/test_message.cpp
@@ -38,6 +44,7 @@ target_link_libraries(
   test_c
   GTest::gtest_main
   message
+  templates
 )
 
 include(GoogleTest)
