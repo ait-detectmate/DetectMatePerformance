@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 
-#include "../../src/_core/message.h"
-#include "../../src/_core/templates.h"
+#include "../../src/_core/_type/message.h"
+#include "../../src/_core/_type/templates.h"
 
 
 TEST(MessagesTest, Preprocessing) {

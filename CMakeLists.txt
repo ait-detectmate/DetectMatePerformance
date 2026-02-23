@@ -25,14 +25,14 @@ add_test(
 
 add_library(
   message
-  DetectMatePerformance/src/_core/message.h
-  DetectMatePerformance/src/_core/messages.cpp
+  DetectMatePerformance/src/_core/_type/message.h
+  DetectMatePerformance/src/_core/_type/messages.cpp
 )
 
 add_library(
   templates
-  DetectMatePerformance/src/_core/templates.h
-  DetectMatePerformance/src/_core/templates.cpp
+  DetectMatePerformance/src/_core/_type/templates.h
+  DetectMatePerformance/src/_core/_type/templates.cpp
 )
 
 add_executable(
