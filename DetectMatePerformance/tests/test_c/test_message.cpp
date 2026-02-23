@@ -12,6 +12,14 @@ TEST(MessagesTest, Preprocessing) {
     EXPECT_EQ(result[1], "world!");
 }
 
+TEST(MessagesTest, SizeShape) {
+    std::deque<std::string> input = {"Hello, world!", "Goodbye, world! goodbye"};
+    Messages messages(input);
+
+    EXPECT_EQ(messages.size(), 2);
+    EXPECT_EQ(messages.shape(), std::make_pair(2, 3));
+}
+
 TEST(MessagesTest, GetNextMessage) {
     std::deque<std::string> input = {"Hello, world!", "Goodbye, world!"};
     Messages messages(input);

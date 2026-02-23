@@ -11,7 +11,7 @@ std::deque<std::string> preprocessing(std::string message);
 class Messages {
 private:
     std::deque<std::deque<std::string>> messages;
-
+ 
 public:
     Messages(std::deque<std::string> messages);
     Messages(std::string message);
@@ -20,5 +20,6 @@ public:
 
     std::deque<std::string> getNextMessage();
     int size();
+    std::pair<int, int> shape();
 };
 #endif 

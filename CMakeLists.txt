@@ -23,7 +23,6 @@ add_test(
   COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./test_c
 )
 
-
 add_library(
   message
   DetectMatePerformance/src/_core/message.h

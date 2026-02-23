@@ -51,3 +51,15 @@ std::deque<std::string> Messages::getNextMessage() {
 int Messages::size() {
     return this->messages.size();
 }
+
+std::pair<int, int> Messages::shape() {
+    if (this->messages.empty()) {
+        return {0, 0};
+    }
+    int max_length = 0;
+    for (const auto& message : this->messages) {
+        max_length = std::max(max_length, static_cast<int>(message.size()));
+    }
+
+    return {this->messages.size(), max_length};
+}
