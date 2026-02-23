@@ -9,6 +9,7 @@ version = "0.1.0"
 description = "A Python package for DetectMate performance evaluation."
 requires-python = ">=3.12"
 dependencies = [
+    "pybind11>=3.0.2",
     "pytest",
     "pytest-cpp",
 ]
