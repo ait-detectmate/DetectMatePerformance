@@ -2,6 +2,7 @@
 
 #include "../../src/_core/_type/message.h"
 #include "../../src/_core/_type/templates.h"
+#include "../../src/_core/_type/parsed.h"
 
 
 TEST(MessagesTest, Preprocessing) {
@@ -78,3 +79,4 @@ TEST(TemplatesTest, GetNextTemplate) {
     auto message3 = templates.getNextTemplate();
     EXPECT_TRUE(message3.empty());
 }
+
