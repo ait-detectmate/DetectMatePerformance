@@ -56,6 +56,12 @@ add_library(
   DetectMatePerformance/src/_core/template_matcher/tree.cpp
 )
 
+add_library(
+  variable
+  DetectMatePerformance/src/_core/template_matcher/variables.h
+  DetectMatePerformance/src/_core/template_matcher/variables.cpp
+)
+
 add_executable(
   test_c
   DetectMatePerformance/tests/test_c/test_message.cpp
@@ -78,7 +84,8 @@ target_link_libraries(
   message
   templates
   parsed
-  tree  
+  tree 
+  variable
 )
 
 
