@@ -63,6 +63,8 @@ pybind11_add_module(
   DetectMatePerformance/src/_core/_type/messages.cpp
   DetectMatePerformance/src/_core/_type/templates.h
   DetectMatePerformance/src/_core/_type/templates.cpp
+  DetectMatePerformance/src/_core/_type/parsed.h
+  DetectMatePerformance/src/_core/_type/parsed.cpp
 )
 
 target_link_libraries(

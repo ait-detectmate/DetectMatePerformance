@@ -1,4 +1,4 @@
-from DetectMatePerformance.src.message import Logs, LogTemplates
+from DetectMatePerformance.src.message import Logs, LogTemplates, ParsedLogs
 
 
 path_temp = "DetectMatePerformance/tests/test_data/audit_templates.txt"
@@ -62,3 +62,12 @@ class TestCaseTemplates:
     def test_eq(self):
         assert LogTemplates(msg) == LogTemplates(msg)
         assert LogTemplates(msg) != LogTemplates(["hi"])
+
+
+class TestCaseParsed:
+    def test_init(self):
+        log_temp = LogTemplates(templates)
+        parsed = ParsedLogs(log_temp)
+
+        assert len(parsed) == 0
+        assert parsed.shape() == (0, 0)

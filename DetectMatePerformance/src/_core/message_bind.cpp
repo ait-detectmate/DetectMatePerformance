@@ -4,6 +4,7 @@
 
 #include "_type/message.h"
 #include "_type/templates.h"
+#include "_type/parsed.h"
 
 
 namespace py = pybind11;
@@ -20,4 +21,10 @@ PYBIND11_MODULE(message_class, m) {
         .def("get_next_template", &Templates::getNextTemplate)
         .def("size", &Templates::size)
         .def("shape", &Templates::shape);
+    py::class_<ParsedMessages>(m, "Parsed")
+        .def(py::init<Templates&>())
+        .def("get_next_parsed", &ParsedMessages::getNext)
+        .def("set_next_parsed", &ParsedMessages::setNext)
+        .def("size", &ParsedMessages::size)
+        .def("shape", &ParsedMessages::shape);
 }

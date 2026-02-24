@@ -1,7 +1,7 @@
 import sys
 sys.path.append("./build/")
 
-from message_class import Messages, Templates
+from message_class import Messages, Templates, Parsed
 
 
 def _load_file(path: str) -> list[str]:
@@ -58,3 +58,8 @@ class Logs(_BasicMessage):
     @classmethod
     def from_file(cls, path: str) -> "Logs":
         return cls(_load_file(path))
+    
+
+class ParsedLogs(_BasicMessage):
+    def __init__(self, templates: LogTemplates):
+        self.inst = Parsed(templates.inst)
