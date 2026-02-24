@@ -27,14 +27,16 @@ class ParsedMessages {
 protected:
     std::deque<std::deque<std::string>> variables;
     std::deque<int> event_ids;
+
     std::unordered_map<std::deque<std::string>, int, ListHasher> event_ids_map;
+    std::vector<std::deque<std::string>> id_to_template;
  
 public:
     ParsedMessages(Templates& templates);
 
     ~ParsedMessages();
 
-    int getNext();
+    std::deque<std::string> getNext();
     void setNext(std::deque<std::string> template_);
 
     int size();

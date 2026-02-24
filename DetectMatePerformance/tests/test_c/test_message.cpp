@@ -80,3 +80,48 @@ TEST(TemplatesTest, GetNextTemplate) {
     EXPECT_TRUE(message3.empty());
 }
 
+TEST(ParsedMessagesTest, Initialization) {
+    std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
+    Templates templates(input);
+    ParsedMessages parsed(templates);
+
+    EXPECT_EQ(parsed.size(), 0);
+    EXPECT_EQ(parsed.shape(), std::make_pair(0, 0));
+
+    parsed.setNext({"Hello", "VAR", "world", "VAR"});
+
+    EXPECT_EQ(parsed.size(), 1);
+    EXPECT_EQ(parsed.shape(), std::make_pair(1, 0));
+}
+
+TEST(ParsedMessagesTest, GetNext) {
+    std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
+    Templates templates(input);
+    ParsedMessages parsed(templates);
+
+    parsed.setNext({"Hello", "VAR", "world", "VAR"});
+    parsed.setNext({"Hello", "VAR", "world", "VAR"});
+    parsed.setNext({"Goodbye", "VAR"});
+
+    std::deque<std::string> temp1 = {"Hello", "VAR", "world", "VAR"};
+    std::deque<std::string> temp2 = {"Goodbye", "VAR"};
+
+    int i;
+    i = 0;
+    for (std::string s : parsed.getNext()) {
+        EXPECT_EQ(s, temp1[i]);
+        i++;
+    }
+
+    i = 0;
+    for (std::string s : parsed.getNext()) {
+        EXPECT_EQ(s, temp1[i]);
+        i++;
+    }
+
+    i = 0;
+    for (std::string s : parsed.getNext()) {
+        EXPECT_EQ(s, temp2[i]);
+        i++;
+    }
+}
