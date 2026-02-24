@@ -18,8 +18,8 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/pybind/pybind11.git
   GIT_TAG v3.0.1  # Use the latest stable version
 )
-FetchContent_MakeAvailable(pybind11)
 
+FetchContent_MakeAvailable(pybind11)
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
 set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
@@ -50,9 +50,19 @@ add_library(
   DetectMatePerformance/src/_core/_type/parsed.cpp
 )
 
+
 add_executable(
   test_c
   DetectMatePerformance/tests/test_c/test_message.cpp
+)
+
+pybind11_add_module(
+  message_class 
+  DetectMatePerformance/src/_core/message_bind.cpp
+  DetectMatePerformance/src/_core/_type/message.h
+  DetectMatePerformance/src/_core/_type/messages.cpp
+  DetectMatePerformance/src/_core/_type/templates.h
+  DetectMatePerformance/src/_core/_type/templates.cpp
 )
 
 target_link_libraries(
@@ -61,9 +71,9 @@ target_link_libraries(
   message
   templates
   parsed
+  
 )
 
-pybind11_add_module(message_class DetectMatePerformance/src/_core/message_bind.cpp)
 
 include(GoogleTest)
 gtest_discover_tests(test_c)

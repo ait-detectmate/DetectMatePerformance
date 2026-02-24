@@ -1,4 +1,7 @@
-from DetectMatePerformance.src.message_class import Messages, Templates
+import sys
+sys.path.append("./build/")
+
+from message_class import Messages, Templates
 
 
 def _load_file(path: str) -> list[str]:
