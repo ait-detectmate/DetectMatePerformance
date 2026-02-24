@@ -6,6 +6,7 @@
 
 #include "../../src/_core/template_matcher/tree.h"
 #include "../../src/_core/template_matcher/variables.h"
+#include "../../src/_core/template_matcher/tree_op.h"
 
 
 TEST(MessagesTest, Preprocessing) {
@@ -291,4 +292,145 @@ TEST(VariableTest, VariableNotCapture) {
 
     delete variables1;
     delete variables2;
+}
+
+TEST(TreeOpTest, SearchTree) {
+    Tree* root = new Tree("");
+    Tree* child1 = new Tree("hello");
+    Tree* child2 = new Tree("hi", "hi");
+    Tree* grandchild = new Tree("there");
+    Tree* grandchild2 = new Tree("kenobi", "hello there kenobi");
+
+    root->addChild(child1);
+    root->addChild(child2);
+    child1->addChild(grandchild);
+    grandchild->addChild(grandchild2);
+
+    Variables* vars = new Variables();
+
+    std::deque<std::string> sequence0 = {"hello", "there"};
+    auto result0 = searchTree(root, sequence0, vars);
+    EXPECT_FALSE(result0.first);
+
+    std::deque<std::string> sequence1 = {"hello", "there", "kenobi"};
+    auto result1 = searchTree(root, sequence1, vars);
+    EXPECT_TRUE(result1.first);
+
+    std::deque<std::string> sequence2 = {"hello", "yo", "kenobi"};
+    auto result2 = searchTree(root, sequence2, vars);
+    EXPECT_FALSE(result2.first);
+
+    std::deque<std::string> sequence3 = {};
+    auto result3 = searchTree(root, sequence3, vars);
+    EXPECT_FALSE(result3.first);
+
+    delete root;
+    delete vars;
+
+}
+
+TEST(TreeOpTest, SearchTreeWithVariable) {
+    Tree* root = new Tree("");
+    Tree* child1 = new Tree("hello");
+    Tree* child2 = new Tree("hi");
+    Tree* grandchild0 = new Tree("VAR", "hi VAR");
+    Tree* grandchild = new Tree("VAR");
+    Tree* grandchild2 = new Tree("kenobi", "hello VAR kenobi");
+    Tree* grandchild3 = new Tree("VAR");
+    Tree* grandchild4 = new Tree("you", "hello VAR kenobi VAR you");
+
+    root->addChild(child1);
+    root->addChild(child2);
+    child2->addChild(grandchild0);
+    child1->addChild(grandchild);
+    grandchild->addChild(grandchild2);
+    grandchild2->addChild(grandchild3);
+    grandchild3->addChild(grandchild4);
+
+    Variables* vars1 = new Variables();
+    std::deque<std::string> sequence1 = {"hello", "there", "mr.", "kenobi"};
+    auto result1 = searchTree(root, sequence1, vars1);
+    EXPECT_TRUE(result1.first);
+
+    Variables* vars2 = new Variables();
+    std::deque<std::string> sequence2 = {"hello", "there", "mr.", "jonathan"};
+    auto result2 = searchTree(root, sequence2, vars2);
+    EXPECT_FALSE(result2.first);
+
+    Variables* vars3 = new Variables();
+    std::deque<std::string> sequence3 = {"hello", "there", "mr.", "kenobi", "nice", "to", "meet", "you"};
+    auto result3 = searchTree(root, sequence3, vars3);
+    EXPECT_TRUE(result3.first);
+
+    Variables* vars4 = new Variables();
+    std::deque<std::string> sequence4 = {"hi", "there", "mr.", "asdads"};
+    auto result4 = searchTree(root, sequence4, vars4);
+    EXPECT_TRUE(result4.first);
+
+    Variables* vars5 = new Variables();
+    std::deque<std::string> sequence5 = {"hello", "there", "mr.", "kenobi", "nice", "to", "meet"};
+    auto result5 = searchTree(root, sequence5, vars5);
+    EXPECT_FALSE(result5.first);
+
+    std::deque<std::string> expected1 = {"there", "mr."};
+    EXPECT_EQ(vars1->export_variables(), expected1);
+
+    std::deque<std::string> expected2 = {"there", "mr.", "nice", "to", "meet"};
+    EXPECT_EQ(vars3->export_variables(), expected2);
+
+    std::deque<std::string> expected3 = {"there", "mr.", "asdads"};
+    EXPECT_EQ(vars4->export_variables(), expected3);
+
+    delete root;
+    delete vars1;
+    delete vars2;
+    delete vars3;
+    delete vars4;
+    delete vars5;
+}
+
+TEST(TreeOpTest, AddSequence) {
+    Tree* root = new Tree("");
+    Tree* child1 = new Tree("hi");
+    Tree* grandchild = new Tree("VAR", "hi VAR");
+
+    root->addChild(child1);
+    child1->addChild(grandchild);
+    
+    std::deque<std::string> sequence = {"hi", "VAR"};
+    Tree* root2 = new Tree("");
+    addSequence(root2, sequence, "hi VAR");
+
+    EXPECT_TRUE(root->isEqual(root2));
+
+    delete root;
+    delete root2;
+}
+
+TEST(TreeOpTest, AddSequenceSpecialCase) {
+    // TODO: decide if this is need it in the future
+    Tree* root = new Tree("");
+    Tree* child1 = new Tree("hi");
+    Tree* grandchild = new Tree("VAR", "hi VAR");
+
+    root->addChild(child1);
+    child1->addChild(grandchild);
+    
+    std::deque<std::string> sequence = {"hi", "VAR", "VAR", "VAR"};
+    Tree* root2 = new Tree("");
+    addSequence(root2, sequence, "hi <*>");
+
+    EXPECT_TRUE(root->isEqual(root2));
+
+    delete root;
+    delete root2;
+}
+
+TEST(TreeOpTest, Preprocessing) {
+    // TODO: decide if this is need it in the future
+    std::string sentence = "hello general kenobi";
+    std::deque<std::string> result = preprocess(sentence);
+    std::deque<std::string> expected = {"hello", "general", "kenobi"};
+
+    EXPECT_EQ(result, expected);
 }

@@ -62,6 +62,12 @@ add_library(
   DetectMatePerformance/src/_core/template_matcher/variables.cpp
 )
 
+add_library(
+  tree_op
+  DetectMatePerformance/src/_core/template_matcher/tree_op.h
+  DetectMatePerformance/src/_core/template_matcher/tree_op.cpp
+)
+
 add_executable(
   test_c
   DetectMatePerformance/tests/test_c/test_message.cpp
@@ -86,6 +92,7 @@ target_link_libraries(
   parsed
   tree 
   variable
+  tree_op
 )
 
 
