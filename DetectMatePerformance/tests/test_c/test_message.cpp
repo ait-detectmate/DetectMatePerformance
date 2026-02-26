@@ -7,6 +7,7 @@
 #include "../../src/_core/template_matcher/tree.h"
 #include "../../src/_core/template_matcher/variables.h"
 #include "../../src/_core/template_matcher/tree_op.h"
+#include "../../src/_core/template_matcher/match_tree.h"
 
 
 TEST(MessagesTest, Preprocessing) {
@@ -451,8 +452,149 @@ TEST(TreeOpTest, BuiltTree) {
     Templates* temp = new Templates(sequences);
     Tree* root2 = buildTree(temp);
 
-    assert(root->isEqual(root2));
+    EXPECT_TRUE(root->isEqual(root2));
 
     delete root;
     delete root2;
+}
+
+TEST(TreeMatchTest, Initializetree) {
+    Tree* root = new Tree("");
+    Tree* child1 = new Tree("hi");
+    Tree* grandchild0 = new Tree("there", "hi there");
+    Tree* grandchild1 = new Tree("general");
+    Tree* grandchild2 = new Tree("kenobi", "hi general kenobi");
+
+    root->addChild(child1);
+    child1->addChild(grandchild0);
+    child1->addChild(grandchild1);
+    grandchild1->addChild(grandchild2);
+
+    std::deque<std::string> sequences = {"hi there", "hi general kenobi"};
+    Templates* temp = new Templates(sequences);
+    MatchTree* matcher = new MatchTree(temp);
+
+    EXPECT_TRUE(matcher->isEqual(root));
+
+    delete matcher;
+    delete root;
+}
+
+TEST(TreeMatchTest, EqualMatcher) {
+    std::deque<std::string> sequences = {"hi there", "hi general kenobi"};
+    Templates* temp1 = new Templates(sequences);
+    MatchTree* matcher = new MatchTree(temp1);
+
+    std::deque<std::string> sequences2 = {"hi there", "hi general kenobi"};
+    Templates* temp2 = new Templates(sequences2);
+    MatchTree* matcher2 = new MatchTree(temp2);
+
+    std::deque<std::string> sequences3 = {"hi", "hi general kenobi"};
+    Templates* temp3 = new Templates(sequences3);
+    MatchTree* matcher3 = new MatchTree(temp3);
+
+    EXPECT_TRUE(matcher->isEqual(matcher2));
+    EXPECT_FALSE(matcher->isEqual(matcher3));
+
+    delete matcher;
+    delete matcher2;
+    delete matcher3;
+}
+
+TEST(TreeMatchTest, MatchString) {
+    std::deque<std::string> sequences = {
+        "hi there", "hi general VAR VAR kenobi", "load VAR from VAR VAR"
+    };
+    Templates* temp = new Templates(sequences);
+    MatchTree* matcher = new MatchTree(temp);
+
+    auto result1 = matcher->match_string("hi there");
+    EXPECT_EQ(result1, "hi there");
+
+    auto result2 = matcher->match_string("hi general mr. and mrs. kenobi");
+    EXPECT_EQ(result2, "hi general VAR kenobi");
+
+    auto result3 = matcher->match_string_with_var("hi random guy");
+    EXPECT_EQ(result3.first, "template not found");
+
+    delete matcher;
+}
+
+TEST(TreeMatchTest, MatchStringWithVar) {
+    std::deque<std::string> sequences = {
+        "hi there", "hi general VAR VAR kenobi", "load VAR from VAR VAR"
+    };
+    Templates* temp = new Templates(sequences);
+    MatchTree* matcher = new MatchTree(temp);
+
+    auto result1 = matcher->match_string_with_var("hi there");
+    std::deque<std::string> expected1 = {};
+    EXPECT_EQ(result1.first, "hi there");
+    EXPECT_EQ(result1.second, expected1);
+
+    auto result2 = matcher->match_string_with_var("hi general mr. and mrs. kenobi");
+    std::deque<std::string> expected2 = {"mr.", "and", "mrs."};
+    EXPECT_EQ(result2.first, "hi general VAR kenobi");
+    EXPECT_EQ(result2.second, expected2);
+
+    auto result3 = matcher->match_string_with_var("hi random guy");
+    EXPECT_EQ(result3.first, "template not found");
+
+    auto result4 = matcher->match_string_with_var("load 1213 asd from 112 bye");
+    std::deque<std::string> expected4 = {"1213", "asd", "112", "bye"};
+    EXPECT_EQ(result4.first, "load VAR from VAR");
+    EXPECT_EQ(result4.second, expected4);
+
+    delete matcher;
+}
+
+TEST(TreeMatchTest, MatchStringBatch) {
+    std::deque<std::string> sequences = {
+        "hi there", "hi general VAR VAR kenobi", "load VAR from VAR VAR"
+    };
+    std::vector<std::string> logs = {
+        "hi there", "hi general mr. and mrs. kenobi", "hi random guy", "load 1213 asd from 112 bye"
+    };
+    std::vector<std::string> expected = {
+        "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
+    };
+
+    Templates* temp = new Templates(sequences);
+    MatchTree* matcher = new MatchTree(temp);
+    auto results = matcher->match_batch(logs, 1);
+    auto results_threats = matcher->match_batch(logs, 4);
+
+    EXPECT_EQ(expected, results);
+    EXPECT_EQ(results_threats, results);
+
+    delete matcher;
+}
+
+TEST(TreeMatchTest, MatchStringBatchVar) {
+    std::deque<std::string> sequences = {
+        "hi there", "hi general VAR VAR kenobi", "load VAR from VAR VAR"
+    };
+    std::vector<std::string> logs = {
+        "hi there", "hi general mr. and mrs. kenobi", "hi random guy", "load 1213 asd from 112 bye"
+    };
+    std::vector<std::string> expected = {
+        "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
+    };
+
+    Templates* temp = new Templates(sequences);
+    MatchTree* matcher = new MatchTree(temp);
+    auto results = matcher->match_batch_with_var(logs, 1);
+    auto results_threats = matcher->match_batch_with_var(logs, 4);
+
+    assert(expected == results.first);
+    assert(results_threats == results);
+
+    std::vector<std::deque<std::string>> vector_vars = {
+        {}, {"mr.", "and", "mrs."},  {"1213", "asd", "112", "bye"}
+    };
+    assert(results.second[0] == vector_vars[0]);
+    assert(results.second[1] == vector_vars[1]);
+    assert(results.second[3] == vector_vars[2]);
+
+    delete matcher;
 }
