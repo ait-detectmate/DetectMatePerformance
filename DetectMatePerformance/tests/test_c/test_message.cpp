@@ -217,7 +217,7 @@ TEST(TreeTest, IsEqual) {
 
     Tree* bparent = new Tree("");
     Tree* bchild1 = new Tree("hi");
-    Tree* bchild2 = new Tree("there");
+    Tree* bchild2 = new Tree("there", "hi");
 
     bparent->addChild(bchild1);
     bparent->addChild(bchild2);
@@ -418,7 +418,7 @@ TEST(TreeOpTest, AddSequenceSpecialCase) {
     
     std::deque<std::string> sequence = {"hi", "VAR", "VAR", "VAR"};
     Tree* root2 = new Tree("");
-    addSequence(root2, sequence, "hi <*>");
+    addSequence(root2, sequence, "hi VAR");
 
     EXPECT_TRUE(root->isEqual(root2));
 
@@ -433,4 +433,26 @@ TEST(TreeOpTest, Preprocessing) {
     std::deque<std::string> expected = {"hello", "general", "kenobi"};
 
     EXPECT_EQ(result, expected);
+}
+
+TEST(TreeOpTest, BuiltTree) {
+    Tree* root = new Tree("");
+    Tree* child1 = new Tree("hi");
+    Tree* grandchild0 = new Tree("there", "hi there");
+    Tree* grandchild1 = new Tree("general");
+    Tree* grandchild2 = new Tree("kenobi", "hi general kenobi");
+
+    root->addChild(child1);
+    child1->addChild(grandchild0);
+    child1->addChild(grandchild1);
+    grandchild1->addChild(grandchild2);
+
+    std::deque<std::string> sequences = {"hi there", "hi general kenobi"};
+    Templates* temp = new Templates(sequences);
+    Tree* root2 = buildTree(temp);
+
+    assert(root->isEqual(root2));
+
+    delete root;
+    delete root2;
 }

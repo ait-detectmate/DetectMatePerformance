@@ -65,6 +65,10 @@ bool Tree::isEqual(Tree* node) {
         return false;
     }
 
+    if (isFullTemplate() && node->getTemplate() != getTemplate()) {
+        return false;
+    } 
+
     if (getChildren().size() != node->getChildren().size()) {
         return false;
     }

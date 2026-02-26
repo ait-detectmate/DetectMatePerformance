@@ -117,13 +117,21 @@ std::deque<std::string> preprocess(std::string& sentence) {
 
 }
 
-Tree* buildTree(std::deque<std::string>& sequences) {
+Tree* buildTree(Templates* sequences) {
     Tree* root = new Tree("");
     
-    std::deque<std::string> words;
-    for (std::string& sequence: sequences) {
-        words = preprocess(sequence);
-        addSequence(root, words, sequence);
+    auto temp = sequences->getNextTemplate();
+    std::string full_temp;
+    while (temp.size() > 0) {
+        full_temp = "";
+        for (size_t i = 0; i < temp.size(); i++){
+            if (i != 0) {
+                full_temp += " ";
+            }
+            full_temp += temp[i];
+        }
+        addSequence(root, temp, full_temp);
+        temp = sequences->getNextTemplate();
     }
 
     return root;

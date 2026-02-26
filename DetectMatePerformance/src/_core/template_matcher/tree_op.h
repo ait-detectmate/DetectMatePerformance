@@ -9,12 +9,13 @@
 #include <utility>
 #include <deque>
 
+#include "../_type/templates.h"
 
 std::pair<bool, Tree*> searchTree(Tree* root, std::deque<std::string>& sequence, Variables* variables);
 
 void addSequence(Tree* root, std::deque<std::string>& sequence, const std::string& full_template);
 
-Tree* buildTree(std::deque<std::string>& sequences);
+Tree* buildTree(Templates* sequences);
 
 std::deque<std::string> preprocess(std::string& sentence);
 
