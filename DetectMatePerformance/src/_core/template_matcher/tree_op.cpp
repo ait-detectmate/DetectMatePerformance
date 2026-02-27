@@ -61,15 +61,17 @@ std::pair<bool, Tree*> searchTree(
     return std::make_pair(false, nullptr);
 }
 
-void addSequence(Tree* node, std::deque<std::string>& sequence, const std::string& template_) {
+void addSequence(
+    Tree* node, std::vector<std::string>& sequence, const std::string& template_, int i
+) {
 
-    std::string head = sequence.front();
+    std::string head = sequence[i];
     Tree* child;
 
     if (head == VARIABLE_SYMBOL && node->getData() == VARIABLE_SYMBOL) {
         child = node;
         // In case the last element are two or more <*>
-        if (sequence.size() == 1) {
+        if (sequence.size() - 1 == i) {
             child->setTemplate(template_);
         }
 
@@ -77,7 +79,7 @@ void addSequence(Tree* node, std::deque<std::string>& sequence, const std::strin
         std::pair<bool, Tree*> result = node->contains(head);
         if (!result.first) {
 
-            if (sequence.size() == 1) {
+            if (sequence.size() - 1 == i) {
                 child = new Tree(head, template_);
             } else {
                 child = new Tree(head);
@@ -90,10 +92,10 @@ void addSequence(Tree* node, std::deque<std::string>& sequence, const std::strin
 
         }
     }
-
-    if (sequence.size() > 1) {
-        sequence.pop_front();
-        addSequence(child, sequence, template_);
+    
+    i = i + 1;
+    if (i < sequence.size()) {    
+        addSequence(child, sequence, template_, i);
     }
 
 }
@@ -130,7 +132,7 @@ Tree* buildTree(Templates* sequences) {
             }
             full_temp += temp[i];
         }
-        addSequence(root, temp, full_temp);
+        addSequence(root, temp, full_temp, 0);
         temp = sequences->getNextTemplate();
     }
 

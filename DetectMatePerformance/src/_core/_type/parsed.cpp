@@ -3,7 +3,7 @@
 
 
 ParsedMessages::ParsedMessages(Templates& templates) {
-    std::deque<std::string> template_ = templates.getNextTemplate();
+    std::vector<std::string> template_ = templates.getNextTemplate();
     int i = 0;
     while (!template_.empty()) {
         event_ids_map[template_] = i;
@@ -20,7 +20,7 @@ ParsedMessages::~ParsedMessages() {
     this->id_to_template.clear();
 }
 
-std::deque<std::string> ParsedMessages::getNext() {
+std::vector<std::string> ParsedMessages::getNext() {
     if (event_ids.empty()) {
         return {}; // or throw an exception
     }
@@ -30,7 +30,7 @@ std::deque<std::string> ParsedMessages::getNext() {
     return id_to_template[event_idsf];
 }
 
-void ParsedMessages::setNext(std::deque<std::string> template_) {
+void ParsedMessages::setNext(std::vector<std::string> template_) {
     event_ids.push_back(event_ids_map[template_]);
 }
 

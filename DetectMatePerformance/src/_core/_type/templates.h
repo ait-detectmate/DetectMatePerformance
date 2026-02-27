@@ -7,7 +7,7 @@
 #include <deque>
 #include "message.h"
 
-std::deque<std::string> tpreprocess(std::deque<std::string> message); 
+std::vector<std::string> tpreprocess(std::vector<std::string> message); 
 
 class Templates : public Messages {
 public:
@@ -16,7 +16,7 @@ public:
 
     ~Templates();
 
-    std::deque<std::string> getNextTemplate();
+    std::vector<std::string> getNextTemplate();
     int size();
     std::pair<int, int> shape();
 };

@@ -13,7 +13,9 @@
 
 std::pair<bool, Tree*> searchTree(Tree* root, std::deque<std::string>& sequence, Variables* variables);
 
-void addSequence(Tree* root, std::deque<std::string>& sequence, const std::string& full_template);
+void addSequence(
+    Tree* root, std::vector<std::string>& sequence, const std::string& full_template, int i
+);
 
 Tree* buildTree(Templates* sequences);
 

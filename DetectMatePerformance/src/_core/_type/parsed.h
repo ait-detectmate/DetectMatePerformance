@@ -12,7 +12,7 @@
 
 
 struct ListHasher {
-    size_t operator()(const std::deque<std::string>& list) const {
+    size_t operator()(const std::vector<std::string>& list) const {
         size_t seed = 0;
         for (const auto& str : list) {
             // Combine the hash o' each string with the seed
@@ -28,16 +28,16 @@ protected:
     std::deque<std::deque<std::string>> variables;
     std::deque<int> event_ids;
 
-    std::unordered_map<std::deque<std::string>, int, ListHasher> event_ids_map;
-    std::vector<std::deque<std::string>> id_to_template;
+    std::unordered_map<std::vector<std::string>, int, ListHasher> event_ids_map;
+    std::vector<std::vector<std::string>> id_to_template;
  
 public:
     ParsedMessages(Templates& templates);
 
     ~ParsedMessages();
 
-    std::deque<std::string> getNext();
-    void setNext(std::deque<std::string> template_);
+    std::vector<std::string> getNext();
+    void setNext(std::vector<std::string> template_);
 
     int size();
     std::pair<int, int> shape();

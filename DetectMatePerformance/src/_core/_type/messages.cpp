@@ -6,14 +6,14 @@ bool do_split(const char* str) {
     return *str == ' ';
 }
 
-void remove_empty(std::deque<std::string>& words) {
+void remove_empty(std::vector<std::string>& words) {
     words.erase(std::remove_if(words.begin(), words.end(), [](const std::string& word) {
         return word.empty();
     }), words.end());
 }
 
-std::deque<std::string> preprocessing(std::string message) {
-    std::deque<std::string> words;
+std::vector<std::string> preprocessing(std::string message) {
+    std::vector<std::string> words;
     
     const char* start = message.data();  
     const char* end = start;
@@ -40,22 +40,25 @@ Messages::Messages(std::deque<std::string> messages) {
     for (const auto& message : messages) {
         this->messages.push_back(preprocessing(message));
     }
+    resetCount();
 }
 
 Messages::Messages(std::string message) {
     this->messages.push_back(preprocessing(message));
+    resetCount();
 }
 
 Messages::~Messages() {
     this->messages.clear();
 }
 
-std::deque<std::string> Messages::getNextMessage() {
+std::vector<std::string> Messages::getNextMessage() {
     if (this->messages.empty()) {
         return {};
     }
-    auto message = this->messages.front();
-    this->messages.pop_front();
+    auto message = this->messages[this->count];
+    this->count++;
+
     return message;
 }
 
@@ -73,4 +76,8 @@ std::pair<int, int> Messages::shape() {
     }
 
     return {this->messages.size(), max_length};
+}
+
+void Messages::resetCount() {
+    this->count = 0;
 }

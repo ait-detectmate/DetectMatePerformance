@@ -5,9 +5,9 @@
 #include "templates.h"
 
 
-std::deque<std::string> tpreprocess(std::deque<std::string> message) {
+std::vector<std::string> tpreprocess(std::vector<std::string> message) {
     // remove multiple VARs in a row
-    std::deque<std::string> processed;
+    std::vector<std::string> processed;
     for (const auto& word : message) {
         if (word == "VAR") {
             if (!processed.empty() && processed.back() == "VAR") {
@@ -32,7 +32,7 @@ Templates::Templates(std::string message) : Messages(message) {
 Templates::~Templates() {
 }
 
-std::deque<std::string> Templates::getNextTemplate() {
+std::vector<std::string> Templates::getNextTemplate() {
     return Messages::getNextMessage();
 }
 

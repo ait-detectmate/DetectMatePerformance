@@ -55,6 +55,7 @@ void do_matches_with_var(
 }
 
 MatchTree::MatchTree(Templates* templates) {
+    this->templates = templates;
     tree = buildTree(templates);
 }
 
@@ -169,6 +170,6 @@ bool MatchTree::isEqual(MatchTree* matcher) {
     return matcher->isEqual(tree);
 }
 
-void MatchTree::free_memory() {
-    delete tree;
+Templates* MatchTree::getTemplates() {
+    return templates;
 }

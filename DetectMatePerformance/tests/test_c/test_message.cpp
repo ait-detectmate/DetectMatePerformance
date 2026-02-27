@@ -398,9 +398,10 @@ TEST(TreeOpTest, AddSequence) {
     root->addChild(child1);
     child1->addChild(grandchild);
     
-    std::deque<std::string> sequence = {"hi", "VAR"};
+    std::vector<std::string> sequence = {"hi", "VAR"};
     Tree* root2 = new Tree("");
-    addSequence(root2, sequence, "hi VAR");
+    addSequence(root2, sequence, "hi VAR", 0);
+    std::cout << root2->getData() << std::endl;
 
     EXPECT_TRUE(root->isEqual(root2));
 
@@ -417,9 +418,9 @@ TEST(TreeOpTest, AddSequenceSpecialCase) {
     root->addChild(child1);
     child1->addChild(grandchild);
     
-    std::deque<std::string> sequence = {"hi", "VAR", "VAR", "VAR"};
+    std::vector<std::string> sequence = {"hi", "VAR", "VAR", "VAR"};
     Tree* root2 = new Tree("");
-    addSequence(root2, sequence, "hi VAR");
+    addSequence(root2, sequence, "hi VAR", 0);
 
     EXPECT_TRUE(root->isEqual(root2));
 
@@ -478,6 +479,27 @@ TEST(TreeMatchTest, Initializetree) {
 
     delete matcher;
     delete root;
+}
+
+TEST(TreeMatchTree, getTemplates) {
+    std::deque<std::string> sequences = {"hi there", "hi general kenobi"};
+    Templates* temp = new Templates(sequences);
+    MatchTree* matcher = new MatchTree(temp);
+
+    std::deque<std::string> sequences2 = {"hi there", "hi general kenobi"};
+    Templates* temp2 = new Templates(sequences2);
+
+    auto match_temp = matcher->getTemplates();
+    match_temp->resetCount();
+    EXPECT_EQ(temp2->shape(), match_temp->shape());
+
+    for (size_t i = 0; i < temp2->size(); i++) {
+        auto value1 = match_temp->getNextTemplate();
+        auto value2 = temp2->getNextTemplate();
+
+        EXPECT_EQ(value1, value2);
+    }
+
 }
 
 TEST(TreeMatchTest, EqualMatcher) {

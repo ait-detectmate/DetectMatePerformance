@@ -8,11 +8,13 @@
 
 #include "tree.h"
 #include "../_type/templates.h"
+#include "../_type/parsed.h"
 
 
 class MatchTree {
 private:
     Tree* tree;
+    Templates* templates;
 
 public:
     MatchTree(Templates* templates);
@@ -33,7 +35,6 @@ public:
 
     bool isEqual(MatchTree* matcher);
 
-    void free_memory();
-
+    Templates* getTemplates();
 };
 #endif 
