@@ -70,7 +70,7 @@ ParsedMessages* MatchTree::match_string(std::string sentence) {
     std::string template_ = do_match(tree, sentence, vars);
     delete vars;
     
-    ParsedMessages* msg = new ParsedMessages(this->templates);
+    ParsedMessages* msg = new ParsedMessages(this->templates, 1);
     msg->setNext(template_);
 
     return msg;

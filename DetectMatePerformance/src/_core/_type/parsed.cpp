@@ -1,9 +1,12 @@
 
 #include "parsed.h"
 
-ParsedMessages::ParsedMessages(Templates* templates) {
+ParsedMessages::ParsedMessages(Templates* templates, int n) {
     templates->resetCount();
+    resetCount();
     std::string template_ = templates->getNextConcatenate();
+
+    this->event_ids.resize(n);
 
     int i = 0;
     while (template_ != " ") {
@@ -38,10 +41,11 @@ std::string ParsedMessages::getNext() {
 
 void ParsedMessages::setNext(std::string template_) {
     if (event_ids_map.find(template_) == event_ids_map.end()){
-        event_ids.push_back(-1);
+        event_ids[this->count] = -1;
     } else {
-        event_ids.push_back(event_ids_map[template_]);
+        event_ids[this->count] = event_ids_map[template_];
     }
+    this->count++;
 }
 
 int ParsedMessages::size() {

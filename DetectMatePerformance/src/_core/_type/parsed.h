@@ -21,7 +21,7 @@ protected:
     int count;
  
 public:
-    ParsedMessages(Templates* templates);
+    ParsedMessages(Templates* templates, int n);
 
     ~ParsedMessages();
 

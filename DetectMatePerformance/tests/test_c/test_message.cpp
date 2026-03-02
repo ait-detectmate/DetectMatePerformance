@@ -102,10 +102,10 @@ TEST(TemplatesTest, GetNextTemplate) {
 TEST(ParsedMessagesTest, Initialization) {
     std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
     Templates* templates = new Templates(input);
-    ParsedMessages parsed(templates);
+    ParsedMessages parsed(templates, 1);
 
-    EXPECT_EQ(parsed.size(), 0);
-    EXPECT_EQ(parsed.shape(), std::make_pair(0, 0));
+    EXPECT_EQ(parsed.size(), 1);
+    EXPECT_EQ(parsed.shape(), std::make_pair(1, 0));
 
     parsed.setNext("Hello VAR world VAR");
 
@@ -116,8 +116,9 @@ TEST(ParsedMessagesTest, Initialization) {
 TEST(ParsedMessagesTest, GetNext) {
     std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
     Templates* templates = new Templates(input);
-    ParsedMessages parsed(templates);
+    ParsedMessages parsed(templates, 4);
 
+    
     parsed.setNext("Hello VAR world VAR");
     parsed.setNext("Hello VAR world VAR");
     parsed.setNext("Goodbye VAR");
@@ -534,14 +535,17 @@ TEST(TreeMatchTest, MatchString) {
     MatchTree* matcher = new MatchTree(temp);
 
     ParsedMessages* result1 = matcher->match_string("hi there");
+    result1->resetCount();
     EXPECT_EQ(result1->size(), 1);
     EXPECT_EQ(result1->getNext(), "hi there");
 
     ParsedMessages* result2 = matcher->match_string("hi general mr. and mrs. kenobi");
+    result2->resetCount();
     EXPECT_EQ(result2->size(), 1);
     EXPECT_EQ(result2->getNext(), "hi general VAR kenobi");
 
     ParsedMessages* result3 = matcher->match_string("hi random guy");
+    result3->resetCount();
     EXPECT_EQ(result3->size(), 1);
     EXPECT_EQ(result3->getNext(), "template not found");
 
