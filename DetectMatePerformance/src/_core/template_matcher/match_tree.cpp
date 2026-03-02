@@ -69,21 +69,24 @@ ParsedMessages* MatchTree::match_string(std::string sentence) {
     Variables* vars = new Variables(false);
     std::string template_ = do_match(tree, sentence, vars);
     delete vars;
-    
+
     ParsedMessages* msg = new ParsedMessages(this->templates, 1);
     msg->setElem(0, template_);
 
     return msg;
 }
 
-std::pair<std::string, std::deque<std::string>> MatchTree::match_string_with_var(std::string sentence) {
+ParsedMessages* MatchTree::match_string_with_var(std::string sentence) {
     Variables* vars = new Variables();
     std::string template_ = do_match(tree, sentence, vars);
 
     std::deque<std::string> variables = vars->export_variables();
     delete vars;
 
-    return std::make_pair(template_, variables);
+    ParsedMessages* msg = new ParsedMessages(this->templates, 1);
+    msg->setElemWithVar(0, template_, variables);
+
+    return msg;
 }
 
 std::vector<std::string> MatchTree::match_batch(std::vector<std::string> sentences, int n_workers) {

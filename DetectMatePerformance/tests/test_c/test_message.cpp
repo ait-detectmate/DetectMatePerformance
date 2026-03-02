@@ -584,20 +584,24 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     Templates* temp = new Templates(sequences);
     MatchTree* matcher = new MatchTree(temp);
 
-    auto result1 = matcher->match_string_with_var("hi there");
+    auto result1 = matcher->match_string_with_var("hi there")->getElemWithVar(0);
     std::deque<std::string> expected1 = {};
     EXPECT_EQ(result1.first, "hi there");
     EXPECT_EQ(result1.second, expected1);
 
-    auto result2 = matcher->match_string_with_var("hi general mr. and mrs. kenobi");
+    auto result2 = matcher->match_string_with_var(
+        "hi general mr. and mrs. kenobi"
+    )->getElemWithVar(0);
     std::deque<std::string> expected2 = {"mr.", "and", "mrs."};
     EXPECT_EQ(result2.first, "hi general VAR kenobi");
     EXPECT_EQ(result2.second, expected2);
 
-    auto result3 = matcher->match_string_with_var("hi random guy");
+    auto result3 = matcher->match_string_with_var("hi random guy")->getElemWithVar(0);
     EXPECT_EQ(result3.first, "template not found");
 
-    auto result4 = matcher->match_string_with_var("load 1213 asd from 112 bye");
+    auto result4 = matcher->match_string_with_var(
+        "load 1213 asd from 112 bye"
+    )->getElemWithVar(0);
     std::deque<std::string> expected4 = {"1213", "asd", "112", "bye"};
     EXPECT_EQ(result4.first, "load VAR from VAR");
     EXPECT_EQ(result4.second, expected4);
