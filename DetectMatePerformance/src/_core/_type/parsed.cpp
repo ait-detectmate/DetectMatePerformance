@@ -6,6 +6,7 @@ ParsedMessages::ParsedMessages(Templates* templates, int n) {
     std::string template_ = templates->getNextConcatenate();
 
     this->event_ids.resize(n);
+    this->variables.resize(n);
 
     int i = 0;
     while (template_ != " ") {
@@ -24,9 +25,6 @@ ParsedMessages::~ParsedMessages() {
 }
 
 std::string ParsedMessages::getElem(int n) {
-    if (event_ids.empty() || n >= event_ids.size()) {
-        return "";
-    }
     
     int event_idsf = event_ids[n];
     if (event_idsf == -1) {
@@ -35,13 +33,29 @@ std::string ParsedMessages::getElem(int n) {
  
     return id_to_template[event_idsf];
 }
+    
+std::pair<std::string, std::deque<std::string>> ParsedMessages::getElemWithVar(int n) {
+    std::string temp = ParsedMessages::getElem(n);
+    std::deque<std::string> vars = this->variables[n];
+
+    return std::make_pair(temp, vars);
+}
 
 void ParsedMessages::setElem(int n, std::string template_) {
     if (event_ids_map.find(template_) == event_ids_map.end()){
-        event_ids[n] = -1;
+        this->event_ids[n] = -1;
     } else {
-        event_ids[n] = event_ids_map[template_];
+        this->event_ids[n] = event_ids_map[template_];
     }
+}
+
+void ParsedMessages::setElemWithVar(
+    int n, std::string template_, std::deque<std::string> vars
+) {
+
+    ParsedMessages::setElem(n, template_);
+    this->variables[n] = vars;
+
 }
 
 int ParsedMessages::size() {

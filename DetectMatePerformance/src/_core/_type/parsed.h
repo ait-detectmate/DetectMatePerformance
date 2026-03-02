@@ -13,7 +13,7 @@
 
 class ParsedMessages {
 protected:
-    std::deque<std::deque<std::string>> variables;
+    std::vector<std::deque<std::string>> variables;
     std::vector<int> event_ids;
 
     std::unordered_map<std::string, int> event_ids_map;
@@ -25,7 +25,11 @@ public:
     ~ParsedMessages();
 
     std::string getElem(int n);
+    std::pair<std::string, std::deque<std::string>> getElemWithVar(int n);
     void setElem(int n, std::string template_);
+    void setElemWithVar(
+        int n, std::string template_, std::deque<std::string> vars
+    );
 
     int size();
     std::pair<int, int> shape();

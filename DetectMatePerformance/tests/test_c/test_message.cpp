@@ -134,6 +134,35 @@ TEST(ParsedMessagesTest, GetNext) {
     EXPECT_EQ(parsed.getElem(3), temp3);
 }
 
+TEST(ParsedMessagesTest, GetNextWithVar) {
+    std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
+    Templates* templates = new Templates(input);
+    ParsedMessages parsed(templates, 4);
+
+    std::deque<std::string> var1 = {};
+    std::deque<std::string> var2 = {"a", "b"};
+    
+    parsed.setElemWithVar(0, "Hello VAR world VAR", var1);
+    parsed.setElemWithVar(1, "Hello VAR world VAR", var2);
+    parsed.setElemWithVar(2, "Goodbye VAR", var2);
+    parsed.setElemWithVar(3, "random thing", var1);
+
+    std::string temp1 = "Hello VAR world VAR";
+    std::string temp2 = "Goodbye VAR";
+    std::string temp3 = "template not found";
+    std::deque<std::string> evar1 = {};
+    std::deque<std::string> evar2 = {"a", "b"};
+
+    EXPECT_EQ(parsed.getElemWithVar(0).first, temp1);
+    EXPECT_EQ(parsed.getElemWithVar(0).second, evar1);
+    EXPECT_EQ(parsed.getElemWithVar(1).first, temp1);
+    EXPECT_EQ(parsed.getElemWithVar(1).second, evar2);
+    EXPECT_EQ(parsed.getElemWithVar(2).first, temp2);
+    EXPECT_EQ(parsed.getElemWithVar(2).second, evar2);
+    EXPECT_EQ(parsed.getElemWithVar(3).first, temp3);
+    EXPECT_EQ(parsed.getElemWithVar(3).second, evar1);
+}
+
 TEST(TreeTest, Initialization) {
     Tree* node = new Tree("hi", "hello");
 
