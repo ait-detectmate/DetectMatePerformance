@@ -45,6 +45,20 @@ TEST(MessagesTest, GetNextMessage) {
     EXPECT_TRUE(message3.empty());
 }
 
+TEST(MessagesTest, GetNextMessageConcatenate) {
+    std::deque<std::string> input = {"Hello, world=", "Goodbye:, VAR"};
+    Messages messages(input);
+
+    auto message1 = messages.getNextConcatenate();
+    EXPECT_EQ(message1, "Hello world");
+
+    auto message2 = messages.getNextConcatenate();
+    EXPECT_EQ(message2, "Goodbye VAR");
+
+    auto message3 = messages.getNextConcatenate();
+    EXPECT_EQ(message3, "");
+}
+
 TEST(TemplatesTest, PreprocessingTemplates) {
     std::string input = "Hello VAR, world=VAR:VAR VAR";
     auto msg = preprocessing(input);
