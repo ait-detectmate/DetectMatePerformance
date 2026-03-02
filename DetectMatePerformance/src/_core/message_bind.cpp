@@ -23,8 +23,8 @@ PYBIND11_MODULE(message_class, m) {
         .def("shape", &Templates::shape);
     py::class_<ParsedMessages>(m, "Parsed")
         .def(py::init<Templates*, int>())
-        .def("get_next_parsed", &ParsedMessages::getNext)
-        .def("set_next_parsed", &ParsedMessages::setNext)
+        .def("get_next_parsed", &ParsedMessages::getElem)
+        .def("set_next_parsed", &ParsedMessages::setElem)
         .def("size", &ParsedMessages::size)
         .def("shape", &ParsedMessages::shape);
 }

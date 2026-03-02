@@ -71,7 +71,7 @@ ParsedMessages* MatchTree::match_string(std::string sentence) {
     delete vars;
     
     ParsedMessages* msg = new ParsedMessages(this->templates, 1);
-    msg->setNext(template_);
+    msg->setElem(0, template_);
 
     return msg;
 }

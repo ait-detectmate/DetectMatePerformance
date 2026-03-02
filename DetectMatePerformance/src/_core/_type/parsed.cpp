@@ -3,7 +3,6 @@
 
 ParsedMessages::ParsedMessages(Templates* templates, int n) {
     templates->resetCount();
-    resetCount();
     std::string template_ = templates->getNextConcatenate();
 
     this->event_ids.resize(n);
@@ -24,14 +23,12 @@ ParsedMessages::~ParsedMessages() {
     this->id_to_template.clear();
 }
 
-std::string ParsedMessages::getNext() {
-    if (event_ids.empty() || this->count >= event_ids.size()) {
+std::string ParsedMessages::getElem(int n) {
+    if (event_ids.empty() || n >= event_ids.size()) {
         return "";
     }
     
-    int event_idsf = event_ids[this->count];
-    this->count++;
-    
+    int event_idsf = event_ids[n];
     if (event_idsf == -1) {
         return "template not found";
     }
@@ -39,13 +36,12 @@ std::string ParsedMessages::getNext() {
     return id_to_template[event_idsf];
 }
 
-void ParsedMessages::setNext(std::string template_) {
+void ParsedMessages::setElem(int n, std::string template_) {
     if (event_ids_map.find(template_) == event_ids_map.end()){
-        event_ids[this->count] = -1;
+        event_ids[n] = -1;
     } else {
-        event_ids[this->count] = event_ids_map[template_];
+        event_ids[n] = event_ids_map[template_];
     }
-    this->count++;
 }
 
 int ParsedMessages::size() {
@@ -64,8 +60,4 @@ std::pair<int, int> ParsedMessages::shape() {
     }
     
     return {event_ids.size(), max_length};
-}
-
-void ParsedMessages::resetCount() {
-    count = 0;
 }

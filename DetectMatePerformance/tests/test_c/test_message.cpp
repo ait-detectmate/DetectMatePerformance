@@ -107,7 +107,7 @@ TEST(ParsedMessagesTest, Initialization) {
     EXPECT_EQ(parsed.size(), 1);
     EXPECT_EQ(parsed.shape(), std::make_pair(1, 0));
 
-    parsed.setNext("Hello VAR world VAR");
+    parsed.setElem(0, "Hello VAR world VAR");
 
     EXPECT_EQ(parsed.size(), 1);
     EXPECT_EQ(parsed.shape(), std::make_pair(1, 0));
@@ -119,20 +119,19 @@ TEST(ParsedMessagesTest, GetNext) {
     ParsedMessages parsed(templates, 4);
 
     
-    parsed.setNext("Hello VAR world VAR");
-    parsed.setNext("Hello VAR world VAR");
-    parsed.setNext("Goodbye VAR");
-    parsed.setNext("random thing");
+    parsed.setElem(0, "Hello VAR world VAR");
+    parsed.setElem(1, "Hello VAR world VAR");
+    parsed.setElem(2, "Goodbye VAR");
+    parsed.setElem(3, "random thing");
 
     std::string temp1 = "Hello VAR world VAR";
     std::string temp2 = "Goodbye VAR";
     std::string temp3 = "template not found";
-    parsed.resetCount();
 
-    EXPECT_EQ(parsed.getNext(), temp1);
-    EXPECT_EQ(parsed.getNext(), temp1);
-    EXPECT_EQ(parsed.getNext(), temp2);
-    EXPECT_EQ(parsed.getNext(), temp3);
+    EXPECT_EQ(parsed.getElem(0), temp1);
+    EXPECT_EQ(parsed.getElem(1), temp1);
+    EXPECT_EQ(parsed.getElem(2), temp2);
+    EXPECT_EQ(parsed.getElem(3), temp3);
 }
 
 TEST(TreeTest, Initialization) {
@@ -535,19 +534,16 @@ TEST(TreeMatchTest, MatchString) {
     MatchTree* matcher = new MatchTree(temp);
 
     ParsedMessages* result1 = matcher->match_string("hi there");
-    result1->resetCount();
     EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getNext(), "hi there");
+    EXPECT_EQ(result1->getElem(0), "hi there");
 
     ParsedMessages* result2 = matcher->match_string("hi general mr. and mrs. kenobi");
-    result2->resetCount();
     EXPECT_EQ(result2->size(), 1);
-    EXPECT_EQ(result2->getNext(), "hi general VAR kenobi");
+    EXPECT_EQ(result2->getElem(0), "hi general VAR kenobi");
 
     ParsedMessages* result3 = matcher->match_string("hi random guy");
-    result3->resetCount();
     EXPECT_EQ(result3->size(), 1);
-    EXPECT_EQ(result3->getNext(), "template not found");
+    EXPECT_EQ(result3->getElem(0), "template not found");
 
     delete matcher;
 }

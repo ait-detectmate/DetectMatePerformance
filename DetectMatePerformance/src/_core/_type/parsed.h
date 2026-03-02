@@ -18,19 +18,17 @@ protected:
 
     std::unordered_map<std::string, int> event_ids_map;
     std::vector<std::string> id_to_template;
-    int count;
  
 public:
     ParsedMessages(Templates* templates, int n);
 
     ~ParsedMessages();
 
-    std::string getNext();
-    void setNext(std::string template_);
+    std::string getElem(int n);
+    void setElem(int n, std::string template_);
 
     int size();
     std::pair<int, int> shape();
 
-    void resetCount();
 };
 #endif 
