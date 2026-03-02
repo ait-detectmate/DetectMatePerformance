@@ -126,6 +126,7 @@ TEST(ParsedMessagesTest, GetNext) {
     std::string temp1 = "Hello VAR world VAR";
     std::string temp2 = "Goodbye VAR";
     std::string temp3 = "template not found";
+    parsed.resetCount();
 
     EXPECT_EQ(parsed.getNext(), temp1);
     EXPECT_EQ(parsed.getNext(), temp1);

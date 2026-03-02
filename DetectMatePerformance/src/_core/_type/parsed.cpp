@@ -22,12 +22,12 @@ ParsedMessages::~ParsedMessages() {
 }
 
 std::string ParsedMessages::getNext() {
-    if (event_ids.empty()) {
+    if (event_ids.empty() || this->count >= event_ids.size()) {
         return "";
     }
     
-    int event_idsf = event_ids.front();
-    event_ids.pop_front();
+    int event_idsf = event_ids[this->count];
+    this->count++;
     
     if (event_idsf == -1) {
         return "template not found";
@@ -60,4 +60,8 @@ std::pair<int, int> ParsedMessages::shape() {
     }
     
     return {event_ids.size(), max_length};
+}
+
+void ParsedMessages::resetCount() {
+    count = 0;
 }

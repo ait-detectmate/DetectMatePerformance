@@ -14,10 +14,11 @@
 class ParsedMessages {
 protected:
     std::deque<std::deque<std::string>> variables;
-    std::deque<int> event_ids;
+    std::vector<int> event_ids;
 
     std::unordered_map<std::string, int> event_ids_map;
     std::vector<std::string> id_to_template;
+    int count;
  
 public:
     ParsedMessages(Templates* templates);
@@ -29,5 +30,7 @@ public:
 
     int size();
     std::pair<int, int> shape();
+
+    void resetCount();
 };
 #endif 
