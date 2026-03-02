@@ -32,8 +32,18 @@ Templates::Templates(std::string message) : Messages(message) {
 Templates::~Templates() {
 }
 
-std::vector<std::string> Templates::getNextTemplate() {
-    return Messages::getNextMessage();
+std::string Templates::getNextConcatenate() {
+    std::vector<std::string> msg = Messages::getNext();
+    std::string result;
+
+     for (size_t i = 0; i < msg.size(); ++i) {
+        if (i != 0) {
+            result += " ";
+        }
+        result += msg[i];
+    }
+
+    return result;
 }
 
 int Templates::size() {

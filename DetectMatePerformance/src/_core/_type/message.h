@@ -19,7 +19,7 @@ public:
 
     ~Messages();
 
-    std::vector<std::string> getNextMessage();
+    std::vector<std::string> getNext();
     int size();
     std::pair<int, int> shape();
     void resetCount();

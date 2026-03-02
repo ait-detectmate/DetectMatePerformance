@@ -2,13 +2,13 @@
 #include "parsed.h"
 
 
-ParsedMessages::ParsedMessages(Templates& templates) {
-    std::vector<std::string> template_ = templates.getNextTemplate();
+ParsedMessages::ParsedMessages(Templates* templates) {
+    std::string template_ = templates->getNextConcatenate();
     int i = 0;
     while (!template_.empty()) {
         event_ids_map[template_] = i;
         id_to_template.push_back(template_);
-        template_ = templates.getNextTemplate();
+        template_ = templates->getNextConcatenate();
         i++;
     }
 }
@@ -20,7 +20,7 @@ ParsedMessages::~ParsedMessages() {
     this->id_to_template.clear();
 }
 
-std::vector<std::string> ParsedMessages::getNext() {
+std::string ParsedMessages::getNext() {
     if (event_ids.empty()) {
         return {}; // or throw an exception
     }
@@ -30,7 +30,7 @@ std::vector<std::string> ParsedMessages::getNext() {
     return id_to_template[event_idsf];
 }
 
-void ParsedMessages::setNext(std::vector<std::string> template_) {
+void ParsedMessages::setNext(std::string template_) {
     event_ids.push_back(event_ids_map[template_]);
 }
 

@@ -16,7 +16,7 @@ public:
 
     ~Templates();
 
-    std::vector<std::string> getNextTemplate();
+    std::string getNextConcatenate();
     int size();
     std::pair<int, int> shape();
 };

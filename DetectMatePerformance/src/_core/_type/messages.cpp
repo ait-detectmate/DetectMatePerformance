@@ -52,7 +52,7 @@ Messages::~Messages() {
     this->messages.clear();
 }
 
-std::vector<std::string> Messages::getNextMessage() {
+std::vector<std::string> Messages::getNext() {
     if (this->messages.empty()) {
         return {};
     }

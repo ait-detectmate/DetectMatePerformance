@@ -122,7 +122,7 @@ std::deque<std::string> preprocess(std::string& sentence) {
 Tree* buildTree(Templates* sequences) {
     Tree* root = new Tree("");
     
-    auto temp = sequences->getNextTemplate();
+    auto temp = sequences->getNext();
     std::string full_temp;
     while (temp.size() > 0) {
         full_temp = "";
@@ -133,7 +133,7 @@ Tree* buildTree(Templates* sequences) {
             full_temp += temp[i];
         }
         addSequence(root, temp, full_temp, 0);
-        temp = sequences->getNextTemplate();
+        temp = sequences->getNext();
     }
 
     return root;

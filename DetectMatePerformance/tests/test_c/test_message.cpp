@@ -31,17 +31,17 @@ TEST(MessagesTest, GetNextMessage) {
     std::deque<std::string> input = {"Hello, world=", "Goodbye:, VAR"};
     Messages messages(input);
 
-    auto message1 = messages.getNextMessage();
+    auto message1 = messages.getNext();
     EXPECT_EQ(message1.size(), 2);
     EXPECT_EQ(message1[0], "Hello");
     EXPECT_EQ(message1[1], "world");
 
-    auto message2 = messages.getNextMessage();
+    auto message2 = messages.getNext();
     EXPECT_EQ(message2.size(), 2);
     EXPECT_EQ(message2[0], "Goodbye");
     EXPECT_EQ(message2[1], "VAR");
 
-    auto message3 = messages.getNextMessage();
+    auto message3 = messages.getNext();
     EXPECT_TRUE(message3.empty());
 }
 
@@ -69,31 +69,31 @@ TEST(TemplatesTest, GetNextTemplate) {
     std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
     Templates templates(input);
 
-    auto message1 = templates.getNextTemplate();
+    auto message1 = templates.getNext();
     EXPECT_EQ(message1.size(), 4);
     EXPECT_EQ(message1[0], "Hello");
     EXPECT_EQ(message1[1], "VAR");
     EXPECT_EQ(message1[2], "world");
     EXPECT_EQ(message1[3], "VAR");
 
-    auto message2 = templates.getNextTemplate();
+    auto message2 = templates.getNext();
     EXPECT_EQ(message2.size(), 2);
     EXPECT_EQ(message2[0], "Goodbye");
     EXPECT_EQ(message2[1], "VAR");
 
-    auto message3 = templates.getNextTemplate();
+    auto message3 = templates.getNext();
     EXPECT_TRUE(message3.empty());
 }
 
 TEST(ParsedMessagesTest, Initialization) {
     std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
-    Templates templates(input);
+    Templates* templates = new Templates(input);
     ParsedMessages parsed(templates);
 
     EXPECT_EQ(parsed.size(), 0);
     EXPECT_EQ(parsed.shape(), std::make_pair(0, 0));
 
-    parsed.setNext({"Hello", "VAR", "world", "VAR"});
+    parsed.setNext("Hello VAR world VAR");
 
     EXPECT_EQ(parsed.size(), 1);
     EXPECT_EQ(parsed.shape(), std::make_pair(1, 0));
@@ -101,34 +101,19 @@ TEST(ParsedMessagesTest, Initialization) {
 
 TEST(ParsedMessagesTest, GetNext) {
     std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
-    Templates templates(input);
+    Templates* templates = new Templates(input);
     ParsedMessages parsed(templates);
 
-    parsed.setNext({"Hello", "VAR", "world", "VAR"});
-    parsed.setNext({"Hello", "VAR", "world", "VAR"});
-    parsed.setNext({"Goodbye", "VAR"});
+    parsed.setNext("Hello VAR world VAR");
+    parsed.setNext("Hello VAR world VAR");
+    parsed.setNext("Goodbye VAR");
 
-    std::deque<std::string> temp1 = {"Hello", "VAR", "world", "VAR"};
-    std::deque<std::string> temp2 = {"Goodbye", "VAR"};
+    std::string temp1 = "Hello VAR world VAR";
+    std::string temp2 = "Goodbye VAR";
 
-    int i;
-    i = 0;
-    for (std::string s : parsed.getNext()) {
-        EXPECT_EQ(s, temp1[i]);
-        i++;
-    }
-
-    i = 0;
-    for (std::string s : parsed.getNext()) {
-        EXPECT_EQ(s, temp1[i]);
-        i++;
-    }
-
-    i = 0;
-    for (std::string s : parsed.getNext()) {
-        EXPECT_EQ(s, temp2[i]);
-        i++;
-    }
+    EXPECT_EQ(parsed.getNext(), temp1);
+    EXPECT_EQ(parsed.getNext(), temp1);
+    EXPECT_EQ(parsed.getNext(), temp2);
 }
 
 TEST(TreeTest, Initialization) {
@@ -494,8 +479,8 @@ TEST(TreeMatchTree, getTemplates) {
     EXPECT_EQ(temp2->shape(), match_temp->shape());
 
     for (size_t i = 0; i < temp2->size(); i++) {
-        auto value1 = match_temp->getNextTemplate();
-        auto value2 = temp2->getNextTemplate();
+        auto value1 = match_temp->getNext();
+        auto value2 = temp2->getNext();
 
         EXPECT_EQ(value1, value2);
     }
