@@ -56,7 +56,7 @@ TEST(MessagesTest, GetNextMessageConcatenate) {
     EXPECT_EQ(message2, "Goodbye VAR");
 
     auto message3 = messages.getNextConcatenate();
-    EXPECT_EQ(message3, "");
+    EXPECT_EQ(message3, " ");
 }
 
 TEST(TemplatesTest, PreprocessingTemplates) {
@@ -121,13 +121,16 @@ TEST(ParsedMessagesTest, GetNext) {
     parsed.setNext("Hello VAR world VAR");
     parsed.setNext("Hello VAR world VAR");
     parsed.setNext("Goodbye VAR");
+    parsed.setNext("random thing");
 
     std::string temp1 = "Hello VAR world VAR";
     std::string temp2 = "Goodbye VAR";
+    std::string temp3 = "template not found";
 
     EXPECT_EQ(parsed.getNext(), temp1);
     EXPECT_EQ(parsed.getNext(), temp1);
     EXPECT_EQ(parsed.getNext(), temp2);
+    EXPECT_EQ(parsed.getNext(), temp3);
 }
 
 TEST(TreeTest, Initialization) {
@@ -529,14 +532,17 @@ TEST(TreeMatchTest, MatchString) {
     Templates* temp = new Templates(sequences);
     MatchTree* matcher = new MatchTree(temp);
 
-    auto result1 = matcher->match_string("hi there");
-    EXPECT_EQ(result1, "hi there");
+    ParsedMessages* result1 = matcher->match_string("hi there");
+    EXPECT_EQ(result1->size(), 1);
+    EXPECT_EQ(result1->getNext(), "hi there");
 
-    auto result2 = matcher->match_string("hi general mr. and mrs. kenobi");
-    EXPECT_EQ(result2, "hi general VAR kenobi");
+    ParsedMessages* result2 = matcher->match_string("hi general mr. and mrs. kenobi");
+    EXPECT_EQ(result2->size(), 1);
+    EXPECT_EQ(result2->getNext(), "hi general VAR kenobi");
 
-    auto result3 = matcher->match_string_with_var("hi random guy");
-    EXPECT_EQ(result3.first, "template not found");
+    ParsedMessages* result3 = matcher->match_string("hi random guy");
+    EXPECT_EQ(result3->size(), 1);
+    EXPECT_EQ(result3->getNext(), "template not found");
 
     delete matcher;
 }

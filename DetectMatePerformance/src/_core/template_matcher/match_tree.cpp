@@ -10,6 +10,7 @@
 
 #include <iostream>
 
+#include <cassert>
 
 std::string do_match(Tree* tree_, std::string sentence, Variables* vars) {
     std::deque<std::string> sequence = preprocess(sentence);
@@ -18,6 +19,7 @@ std::string do_match(Tree* tree_, std::string sentence, Variables* vars) {
     if (result.first) {
         return result.second->getTemplate();
     }
+
     return "template not found";
 }
 
@@ -63,12 +65,15 @@ MatchTree::~MatchTree() {
     delete tree;
 }
 
-std::string MatchTree::match_string(std::string sentence) {
+ParsedMessages* MatchTree::match_string(std::string sentence) {
     Variables* vars = new Variables(false);
     std::string template_ = do_match(tree, sentence, vars);
     delete vars;
+    
+    ParsedMessages* msg = new ParsedMessages(this->templates);
+    msg->setNext(template_);
 
-    return template_;
+    return msg;
 }
 
 std::pair<std::string, std::deque<std::string>> MatchTree::match_string_with_var(std::string sentence) {

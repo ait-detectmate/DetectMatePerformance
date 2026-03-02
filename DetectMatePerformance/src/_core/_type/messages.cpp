@@ -64,8 +64,11 @@ std::vector<std::string> Messages::getNext() {
 
 std::string Messages::getNextConcatenate() {
     std::vector<std::string> msg = Messages::getNext();
-    std::string result;
 
+    if (msg.size() == 0)
+        return " ";
+
+    std::string result;
      for (size_t i = 0; i < msg.size(); ++i) {
         if (i != 0) {
             result += " ";

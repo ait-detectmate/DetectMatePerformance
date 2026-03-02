@@ -21,7 +21,7 @@ public:
 
     ~MatchTree();
 
-    std::string match_string(std::string sentence);
+    ParsedMessages* match_string(std::string sentence);
 
     std::pair<std::string, std::deque<std::string>> match_string_with_var(std::string sentence);
 
