@@ -1,12 +1,9 @@
-from DetectMatePerformance.src.message import  LogTemplates
+from DetectMatePerformance.src.message import  LogTemplates, ParsedLogs
 
 
 path_temp = "DetectMatePerformance/tests/test_data/audit_templates.txt"
 
-msg = [
-    "Hello, world!", "Goodbye, world! goodbye"
-]
-
+msg = ["Hello, world!", "Goodbye, world! goodbye"]
 
 templates = [
     "Hello <*>, world=<*>:<*> <*>", "Goodbye <*>, world=<*>:<*> <*>"
@@ -36,3 +33,19 @@ class TestCaseTemplates:
     def test_eq(self):
         assert LogTemplates(msg) == LogTemplates(msg)
         assert LogTemplates(msg) != LogTemplates(["hi"])
+
+
+class TestCaseParsed():
+    def test_len(self):
+        parsed = ParsedLogs(LogTemplates.from_file(path_temp), 5)
+        assert len(parsed) == 5
+
+    def test_add_elements(self):
+        parsed = ParsedLogs(LogTemplates(templates), 5)
+        assert parsed.shape() == (5, 0)
+
+        parsed[0] = "Hello VAR world VAR"
+        parsed[3] = "ciaoo bellaaa"
+
+        assert parsed[0] == "Hello VAR world VAR" 
+        assert parsed[3] == "template not found"
