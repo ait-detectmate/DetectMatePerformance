@@ -582,7 +582,7 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     auto result2 = matcher->match_string_with_var(
         "hi general mr. and mrs. kenobi"
     )->getElemWithVar(0);
-    std::deque<std::string> expected2 = {"mr.", "and", "mrs."};
+    std::deque<std::string> expected2 = {"mr", "and", "mrs"};
     EXPECT_EQ(result2.first, "hi general VAR kenobi");
     EXPECT_EQ(result2.second, expected2);
 
@@ -641,7 +641,7 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
         "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
     };
     std::vector<std::deque<std::string>> vector_vars = {
-        {}, {"mr.", "and", "mrs."}, {},  {"1213", "asd", "112", "bye"}
+        {}, {"mr", "and", "mrs"}, {},  {"1213", "asd", "112", "bye"}
     };
 
     Templates* temp2 = new Templates(sequences);

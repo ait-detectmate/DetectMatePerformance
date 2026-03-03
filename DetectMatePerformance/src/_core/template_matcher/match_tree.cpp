@@ -7,12 +7,13 @@
 #include "match_tree.h"
 #include "tree_op.h"
 #include "variables.h"
+#include "../aux.h"
 
 #include <iostream>
 
 
 std::string do_match(Tree* tree_, std::string sentence, Variables* vars) {
-    std::deque<std::string> sequence = preprocess(sentence);
+    std::deque<std::string> sequence = preprocessing(sentence);
     std::pair<bool, Tree*> result = searchTree(tree_, sequence, vars);
 
     if (result.first) {
