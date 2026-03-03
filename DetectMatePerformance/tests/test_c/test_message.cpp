@@ -616,17 +616,26 @@ TEST(TreeMatchTest, MatchStringBatch) {
     std::vector<std::string> logs = {
         "hi there", "hi general mr. and mrs. kenobi", "hi random guy", "load 1213 asd from 112 bye"
     };
-    std::vector<std::string> expected = {
+    std::vector<std::string> msg = {
         "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
     };
 
+    Templates* temp2 = new Templates(sequences);
+    ParsedMessages* expected = new ParsedMessages(temp2, 4);
+    for (int i = 0; i < msg.size(); i++) {
+        expected->setElem(i, msg[i]);
+    }
+
     Templates* temp = new Templates(sequences);
     MatchTree* matcher = new MatchTree(temp);
-    auto results = matcher->match_batch(logs, 1);
-    auto results_threats = matcher->match_batch(logs, 4);
+    ParsedMessages* results = matcher->match_batch(logs, 1);
+    ParsedMessages* results_threats = matcher->match_batch(logs, 4);
 
-    EXPECT_EQ(expected, results);
-    EXPECT_EQ(results_threats, results);
+    EXPECT_EQ(4, msg.size());
+    for (int i = 0; i < msg.size(); i++) {
+        EXPECT_EQ(expected->getElem(i), results->getElem(i));
+        EXPECT_EQ(results_threats->getElem(i), results->getElem(i));
+    }
 
     delete matcher;
 }

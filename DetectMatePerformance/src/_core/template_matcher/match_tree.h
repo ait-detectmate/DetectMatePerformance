@@ -25,7 +25,7 @@ public:
 
     ParsedMessages* match_string_with_var(std::string sentence);
 
-    std::vector<std::string> match_batch(std::vector<std::string> sentences, int n_workers);
+    ParsedMessages* match_batch(std::vector<std::string> sentences, int n_workers);
 
     std::pair<std::vector<std::string>, std::vector<std::deque<std::string>>> match_batch_with_var(
         std::vector<std::string> sentences, int n_workers

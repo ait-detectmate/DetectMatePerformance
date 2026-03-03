@@ -26,14 +26,14 @@ std::string do_match(Tree* tree_, std::string sentence, Variables* vars) {
 void do_matches(
     Tree* tree_, 
     const std::vector<std::string>& sentences,
-    std::vector<std::string>& results,
+    ParsedMessages* results,
     int startIdx,
     int stopIdx
 ) {
 
     Variables* vars = new Variables(false);   
     for (int i = startIdx; i < stopIdx; ++i) {
-        results[i] = do_match(tree_, sentences[i], vars);
+        results->setElem(i, do_match(tree_, sentences[i], vars));
     }
     delete vars;
 }
@@ -89,12 +89,12 @@ ParsedMessages* MatchTree::match_string_with_var(std::string sentence) {
     return msg;
 }
 
-std::vector<std::string> MatchTree::match_batch(std::vector<std::string> sentences, int n_workers) {
+ParsedMessages* MatchTree::match_batch(std::vector<std::string> sentences, int n_workers) {
     int n = sentences.size();
-    std::vector<std::string> results(n);
+    ParsedMessages* msg = new ParsedMessages(this->templates, n);
 
     if (n_workers <= 1 || n == 0) {
-        do_matches(tree, sentences, results, 0, n);
+        do_matches(tree, sentences, msg, 0, n);
 
     } else {
         std::vector<std::thread> threads;
@@ -109,7 +109,7 @@ std::vector<std::string> MatchTree::match_batch(std::vector<std::string> sentenc
                 do_matches,
                 tree,
                 std::cref(sentences),
-                std::ref(results),
+                std::ref(msg),
                 start,
                 end
             );
@@ -124,7 +124,7 @@ std::vector<std::string> MatchTree::match_batch(std::vector<std::string> sentenc
 
     sentences.clear();
 
-    return results;
+    return msg;
 
 }
 
