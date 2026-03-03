@@ -40,12 +40,10 @@ Messages::Messages(std::deque<std::string> messages) {
     for (const auto& message : messages) {
         this->messages.push_back(preprocessing(message));
     }
-    resetCount();
 }
 
 Messages::Messages(std::string message) {
     this->messages.push_back(preprocessing(message));
-    resetCount();
 }
 
 Messages::~Messages() {
@@ -56,8 +54,8 @@ std::deque<std::string> Messages::getNext() {
     if (this->messages.empty()) {
         return {};
     }
-    auto message = this->messages[this->count];
-    this->count++;
+    auto message = this->messages.front();
+    this->messages.pop_front();
 
     return message;
 }
@@ -93,8 +91,4 @@ std::pair<int, int> Messages::shape() {
     }
 
     return {this->messages.size(), max_length};
-}
-
-void Messages::resetCount() {
-    this->count = 0;
 }

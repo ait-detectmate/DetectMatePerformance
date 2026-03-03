@@ -23,6 +23,5 @@ public:
     std::string getNextConcatenate();
     int size();
     std::pair<int, int> shape();
-    void resetCount();
 };
 #endif 
