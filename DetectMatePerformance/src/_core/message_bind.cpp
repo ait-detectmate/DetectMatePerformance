@@ -2,7 +2,6 @@
 #include <pybind11/stl.h>
 
 
-#include "_type/message.h"
 #include "_type/templates.h"
 #include "_type/parsed.h"
 
@@ -11,11 +10,6 @@ namespace py = pybind11;
 
 
 PYBIND11_MODULE(message_class, m) {
-    py::class_<Messages>(m, "Messages")
-        .def(py::init<std::deque<std::string>>())
-        .def("get_next_message", &Messages::getNext)
-        .def("size", &Messages::size)
-        .def("shape", &Messages::shape);
     py::class_<Templates>(m, "Templates")
         .def(py::init<std::deque<std::string>>())
         .def("get_next_template", &Templates::getNext)

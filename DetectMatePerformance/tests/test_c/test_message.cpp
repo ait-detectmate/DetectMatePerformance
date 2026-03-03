@@ -2,7 +2,6 @@
 
 #include "../../src/_core/aux.h"
 
-#include "../../src/_core/_type/message.h"
 #include "../../src/_core/_type/templates.h"
 #include "../../src/_core/_type/parsed.h"
 
@@ -19,46 +18,6 @@ TEST(MessagesTest, Preprocessing) {
     EXPECT_EQ(result.size(), 2);
     EXPECT_EQ(result[0], "Hello");
     EXPECT_EQ(result[1], "world");
-}
-
-TEST(MessagesTest, SizeShape) {
-    std::deque<std::string> input = {"Hello, world!", "Goodbye, world! goodbye"};
-    Messages messages(input);
-
-    EXPECT_EQ(messages.size(), 2);
-    EXPECT_EQ(messages.shape(), std::make_pair(2, 3));
-}
-
-TEST(MessagesTest, GetNextMessage) {
-    std::deque<std::string> input = {"Hello, world=", "Goodbye:, VAR"};
-    Messages messages(input);
-
-    auto message1 = messages.getNext();
-    EXPECT_EQ(message1.size(), 2);
-    EXPECT_EQ(message1[0], "Hello");
-    EXPECT_EQ(message1[1], "world");
-
-    auto message2 = messages.getNext();
-    EXPECT_EQ(message2.size(), 2);
-    EXPECT_EQ(message2[0], "Goodbye");
-    EXPECT_EQ(message2[1], "VAR");
-
-    auto message3 = messages.getNext();
-    EXPECT_TRUE(message3.empty());
-}
-
-TEST(MessagesTest, GetNextMessageConcatenate) {
-    std::deque<std::string> input = {"Hello, world=", "Goodbye:, VAR"};
-    Messages messages(input);
-
-    auto message1 = messages.getNextConcatenate();
-    EXPECT_EQ(message1, "Hello world");
-
-    auto message2 = messages.getNextConcatenate();
-    EXPECT_EQ(message2, "Goodbye VAR");
-
-    auto message3 = messages.getNextConcatenate();
-    EXPECT_EQ(message3, " ");
 }
 
 TEST(TemplatesTest, SizeShape) {

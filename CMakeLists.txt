@@ -39,12 +39,6 @@ add_library(
 )
 
 add_library(
-  message
-  DetectMatePerformance/src/_core/_type/message.h
-  DetectMatePerformance/src/_core/_type/messages.cpp
-)
-
-add_library(
   templates
   DetectMatePerformance/src/_core/_type/templates.h
   DetectMatePerformance/src/_core/_type/templates.cpp
@@ -88,8 +82,6 @@ add_executable(
 pybind11_add_module(
   message_class 
   DetectMatePerformance/src/_core/message_bind.cpp
-  DetectMatePerformance/src/_core/_type/message.h
-  DetectMatePerformance/src/_core/_type/messages.cpp
   DetectMatePerformance/src/_core/_type/templates.h
   DetectMatePerformance/src/_core/_type/templates.cpp
   DetectMatePerformance/src/_core/_type/parsed.h
@@ -99,7 +91,6 @@ pybind11_add_module(
 target_link_libraries(
   test_c
   GTest::gtest_main
-  message
   templates
   parsed
   tree 
