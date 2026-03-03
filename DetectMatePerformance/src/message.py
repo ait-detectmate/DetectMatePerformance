@@ -1,7 +1,7 @@
 import sys
 sys.path.append("./build/")
 
-from message_class import Messages, Templates, Parsed
+from message_class import Templates
 
 
 def _load_file(path: str) -> list[str]:
@@ -9,9 +9,11 @@ def _load_file(path: str) -> list[str]:
         return [line.strip() for line in f if line.strip()]
 
 
-class _BasicMessage:
-    def __init__(self, messages: list[str], inst: object):
-        self.inst = inst(messages)
+class LogTemplates:
+    def __init__(self, templates: list[str]):
+        self.inst = Templates(list(
+            map(lambda x: x.replace("<*>", "VAR"), templates)
+        ))
 
     def __len__(self) -> int:
         return self.inst.size()
@@ -20,9 +22,9 @@ class _BasicMessage:
         return self.inst.shape()
 
     def get_next(self) -> list[str]:
-        return self.inst.get_next_message()
+        return self.inst.get_next_template()
     
-    def __eq__(self, other: "_BasicMessage") -> bool:
+    def __eq__(self, other: "LogTemplates") -> bool:
         if self.shape() != other.shape():
             return False
         
@@ -32,14 +34,6 @@ class _BasicMessage:
             
         return True
 
-
-class LogTemplates(_BasicMessage):
-    def __init__(self, templates: list[str]):
-        super().__init__(
-            map(lambda x: x.replace("<*>", "VAR"), templates),
-            Templates
-        )
-
     def __str__(self) -> str:
         return f"LogTemplates(shape={self.shape()})"
     
@@ -48,18 +42,6 @@ class LogTemplates(_BasicMessage):
         return cls(_load_file(path))
 
 
-class Logs(_BasicMessage):
-    def __init__(self, logs: list[str]):
-        super().__init__(logs, Messages)
+     
 
-    def __str__(self) -> str:
-        return f"Logs(shape={self.shape()})"
 
-    @classmethod
-    def from_file(cls, path: str) -> "Logs":
-        return cls(_load_file(path))
-    
-
-class ParsedLogs(_BasicMessage):
-    def __init__(self, templates: LogTemplates):
-        self.inst = Parsed(templates.inst)

@@ -38,7 +38,7 @@ Templates::~Templates() {
 }
 
 std::vector<std::string> Templates::getNext() {
-    if (this->messages.empty()) {
+    if (this->messages.empty() || this->count >= this->messages.size()) {
         return {};
     }
     auto message = this->messages[this->count];
