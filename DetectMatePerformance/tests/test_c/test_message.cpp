@@ -450,15 +450,6 @@ TEST(TreeOpTest, AddSequenceSpecialCase) {
     delete root2;
 }
 
-TEST(TreeOpTest, Preprocessing) {
-    // TODO: decide if this is need it in the future
-    std::string sentence = "hello general kenobi";
-    std::deque<std::string> result = preprocess(sentence);
-    std::deque<std::string> expected = {"hello", "general", "kenobi"};
-
-    EXPECT_EQ(result, expected);
-}
-
 TEST(TreeOpTest, BuiltTree) {
     Tree* root = new Tree("");
     Tree* child1 = new Tree("hi");

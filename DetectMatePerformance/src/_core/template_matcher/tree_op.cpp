@@ -100,25 +100,6 @@ void addSequence(
 
 }
 
-std::deque<std::string> preprocess(std::string& sentence) {
-    std::deque<std::string> words;
-
-    const char* start = sentence.data();  
-    const char* end = start;
-
-    while (*end) {
-        if (*end == ' ') {
-            words.emplace_back(start, end);
-            start = end + 1;  
-        }
-        end++;
-    }
-    words.emplace_back(start, end);
-
-    return words;
-
-}
-
 Tree* buildTree(Templates* sequences) {
     Tree* root = new Tree("");
     

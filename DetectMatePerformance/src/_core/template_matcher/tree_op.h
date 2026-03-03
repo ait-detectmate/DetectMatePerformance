@@ -19,6 +19,5 @@ void addSequence(
 
 Tree* buildTree(Templates* sequences);
 
-std::deque<std::string> preprocess(std::string& sentence);
 
 #endif
