@@ -6,11 +6,11 @@
 #include <string>
 #include <deque>
 
-std::vector<std::string> preprocessing(std::string message);
+std::deque<std::string> preprocessing(std::string message);
 
 class Messages {
 protected:
-    std::deque<std::vector<std::string>> messages;
+    std::deque<std::deque<std::string>> messages;
     int count;
  
 public:
@@ -19,7 +19,7 @@ public:
 
     ~Messages();
 
-    std::vector<std::string> getNext();
+    std::deque<std::string> getNext();
     std::string getNextConcatenate();
     int size();
     std::pair<int, int> shape();

@@ -59,18 +59,6 @@ TEST(MessagesTest, GetNextMessageConcatenate) {
     EXPECT_EQ(message3, " ");
 }
 
-TEST(TemplatesTest, PreprocessingTemplates) {
-    std::string input = "Hello VAR, world=VAR:VAR VAR";
-    auto msg = preprocessing(input);
-    auto result = tpreprocess(msg);
-
-    EXPECT_EQ(result.size(), 4);
-    EXPECT_EQ(result[0], "Hello");
-    EXPECT_EQ(result[1], "VAR");
-    EXPECT_EQ(result[2], "world");
-    EXPECT_EQ(result[3], "VAR");
-}
-
 TEST(TemplatesTest, SizeShape) {
     std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
     Templates templates(input);

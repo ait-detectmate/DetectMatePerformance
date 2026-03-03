@@ -6,14 +6,14 @@ bool do_split(const char* str) {
     return *str == ' ';
 }
 
-void remove_empty(std::vector<std::string>& words) {
+void remove_empty(std::deque<std::string>& words) {
     words.erase(std::remove_if(words.begin(), words.end(), [](const std::string& word) {
         return word.empty();
     }), words.end());
 }
 
-std::vector<std::string> preprocessing(std::string message) {
-    std::vector<std::string> words;
+std::deque<std::string> preprocessing(std::string message) {
+    std::deque<std::string> words;
     
     const char* start = message.data();  
     const char* end = start;
@@ -52,7 +52,7 @@ Messages::~Messages() {
     this->messages.clear();
 }
 
-std::vector<std::string> Messages::getNext() {
+std::deque<std::string> Messages::getNext() {
     if (this->messages.empty()) {
         return {};
     }
@@ -63,7 +63,7 @@ std::vector<std::string> Messages::getNext() {
 }
 
 std::string Messages::getNextConcatenate() {
-    std::vector<std::string> msg = Messages::getNext();
+    std::deque<std::string> msg = Messages::getNext();
 
     if (msg.size() == 0)
         return " ";

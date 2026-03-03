@@ -7,7 +7,7 @@
 #include <deque>
 #include "message.h"
 
-std::vector<std::string> tpreprocess(std::vector<std::string> message); 
+std::vector<std::string> te_preprocess(std::vector<std::string> message); 
 
 class Templates {
 protected:

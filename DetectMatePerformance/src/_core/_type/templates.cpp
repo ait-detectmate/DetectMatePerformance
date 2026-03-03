@@ -5,7 +5,7 @@
 #include "templates.h"
 
 
-std::vector<std::string> tpreprocess(std::vector<std::string> message) {
+std::vector<std::string> te_preprocess(std::deque<std::string> message) {
     // remove multiple VARs in a row
     std::vector<std::string> processed;
     for (const auto& word : message) {
@@ -22,13 +22,13 @@ std::vector<std::string> tpreprocess(std::vector<std::string> message) {
 
 Templates::Templates(std::deque<std::string> templates) {
     for (const auto& message : templates) {
-        this->messages.push_back(tpreprocess(preprocessing(message)));
+        this->messages.push_back(te_preprocess(preprocessing(message)));
     }
     resetCount();
 }
 
 Templates::Templates(std::string message) {
-    this->messages.push_back(preprocessing(message));
+    this->messages.push_back(te_preprocess(preprocessing(message)));
     resetCount();
 }
 
