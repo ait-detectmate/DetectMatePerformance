@@ -1,7 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
-
+#include "template_matcher/match_tree.h"
 #include "_type/templates.h"
 #include "_type/parsed.h"
 
@@ -21,4 +21,10 @@ PYBIND11_MODULE(message_class, m) {
         .def("set_elem", &ParsedMessages::setElem)
         .def("size", &ParsedMessages::size)
         .def("shape", &ParsedMessages::shape);
+    py::class_<MatchTree>(m, "MatchTree")
+        .def(py::init<Templates*>())
+        .def("match_string", &MatchTree::match_string)
+        .def("match_string_with_var", &MatchTree::match_string_with_var)
+        .def("match_batch", &MatchTree::match_batch)
+        .def("match_batch_with_var", &MatchTree::match_batch_with_var);
 }

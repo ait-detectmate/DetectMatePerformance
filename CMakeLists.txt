@@ -88,6 +88,14 @@ pybind11_add_module(
   DetectMatePerformance/src/_core/_type/templates.cpp
   DetectMatePerformance/src/_core/_type/parsed.h
   DetectMatePerformance/src/_core/_type/parsed.cpp
+  DetectMatePerformance/src/_core/template_matcher/tree.h
+  DetectMatePerformance/src/_core/template_matcher/tree.cpp
+  DetectMatePerformance/src/_core/template_matcher/variables.h
+  DetectMatePerformance/src/_core/template_matcher/variables.cpp
+  DetectMatePerformance/src/_core/template_matcher/tree_op.h
+  DetectMatePerformance/src/_core/template_matcher/tree_op.cpp
+  DetectMatePerformance/src/_core/template_matcher/match_tree.h
+  DetectMatePerformance/src/_core/template_matcher/match_tree.cpp
 )
 
 target_link_libraries(

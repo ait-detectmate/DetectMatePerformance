@@ -1,4 +1,4 @@
-from DetectMatePerformance.src.message import  LogTemplates, ParsedLogs
+from DetectMatePerformance.src.types_ import  LogTemplates, ParsedLogs
 
 
 path_temp = "DetectMatePerformance/tests/test_data/audit_templates.txt"
