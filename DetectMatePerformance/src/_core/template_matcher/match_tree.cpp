@@ -41,16 +41,15 @@ void do_matches(
 void do_matches_with_var(
     Tree* tree_, 
     const std::vector<std::string>& sentences,
-    std::vector<std::string>& results,
-    std::vector<std::deque<std::string>>& out_variables,
+    ParsedMessages* results,
     int startIdx,
     int stopIdx
 ) {
 
     Variables* vars = new Variables();   
     for (int i = startIdx; i < stopIdx; ++i) {
-        results[i] = do_match(tree_, sentences[i], vars);
-        out_variables[i] = vars->export_variables();
+        auto aux = do_match(tree_, sentences[i], vars);
+        results->setElemWithVar(i, aux, vars->export_variables());
         vars->init_list();
     }
     delete vars;
@@ -128,15 +127,12 @@ ParsedMessages* MatchTree::match_batch(std::vector<std::string> sentences, int n
 
 }
 
-std::pair<std::vector<std::string>, std::vector<std::deque<std::string>>> MatchTree::match_batch_with_var(
-    std::vector<std::string> sentences, int n_workers
-){
+ParsedMessages* MatchTree::match_batch_with_var(std::vector<std::string> sentences, int n_workers){
     int n = sentences.size();
-    std::vector<std::string> results(n);
-    std::vector<std::deque<std::string>> vars(n);
+    ParsedMessages* msg = new ParsedMessages(this->templates, n);
 
     if (n_workers <= 1 || n == 0) {
-        do_matches_with_var(tree, sentences, results, vars, 0, n);
+        do_matches_with_var(tree, sentences, msg, 0, n);
 
     } else {
         std::vector<std::thread> threads;
@@ -151,8 +147,7 @@ std::pair<std::vector<std::string>, std::vector<std::deque<std::string>>> MatchT
                 do_matches_with_var,
                 tree,
                 std::cref(sentences),
-                std::ref(results),
-                std::ref(vars),
+                std::ref(msg),
                 start,
                 end
             );
@@ -167,7 +162,7 @@ std::pair<std::vector<std::string>, std::vector<std::deque<std::string>>> MatchT
 
     sentences.clear();
 
-    return std::make_pair(results, vars);
+    return msg;
 }
 
 bool MatchTree::isEqual(Tree* other_tree) {

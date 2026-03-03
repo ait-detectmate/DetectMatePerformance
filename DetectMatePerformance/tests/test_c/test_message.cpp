@@ -647,24 +647,31 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
     std::vector<std::string> logs = {
         "hi there", "hi general mr. and mrs. kenobi", "hi random guy", "load 1213 asd from 112 bye"
     };
-    std::vector<std::string> expected = {
+    std::vector<std::string> msg = {
         "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
     };
+    std::vector<std::deque<std::string>> vector_vars = {
+        {}, {"mr.", "and", "mrs."}, {},  {"1213", "asd", "112", "bye"}
+    };
+
+    Templates* temp2 = new Templates(sequences);
+    ParsedMessages* expected = new ParsedMessages(temp2, 4);
+    for (int i = 0; i < msg.size(); i++) {
+        expected->setElemWithVar(i, msg[i], vector_vars[i]);
+    }
 
     Templates* temp = new Templates(sequences);
     MatchTree* matcher = new MatchTree(temp);
-    auto results = matcher->match_batch_with_var(logs, 1);
-    auto results_threats = matcher->match_batch_with_var(logs, 4);
+    ParsedMessages* results = matcher->match_batch_with_var(logs, 1);
+    ParsedMessages* results_threats = matcher->match_batch_with_var(logs, 4);
 
-    assert(expected == results.first);
-    assert(results_threats == results);
-
-    std::vector<std::deque<std::string>> vector_vars = {
-        {}, {"mr.", "and", "mrs."},  {"1213", "asd", "112", "bye"}
-    };
-    assert(results.second[0] == vector_vars[0]);
-    assert(results.second[1] == vector_vars[1]);
-    assert(results.second[3] == vector_vars[2]);
+    EXPECT_EQ(4, msg.size());
+    for (int i = 0; i < msg.size(); i++) {
+        EXPECT_EQ(results_threats->getElemWithVar(i), results->getElemWithVar(i));
+        auto aux = results->getElemWithVar(i);
+        EXPECT_EQ(aux.first, msg[i]);
+        EXPECT_EQ(aux.second, vector_vars[i]);
+    }
 
     delete matcher;
 }
