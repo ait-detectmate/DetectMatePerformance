@@ -3,6 +3,7 @@
 #include <string>
 #include <deque>
 #include "templates.h"
+#include "../aux.h"
 
 
 std::vector<std::string> te_preprocess(std::deque<std::string> message) {

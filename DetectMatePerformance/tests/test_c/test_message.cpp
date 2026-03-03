@@ -1,5 +1,7 @@
 #include <gtest/gtest.h>
 
+#include "../../src/_core/aux.h"
+
 #include "../../src/_core/_type/message.h"
 #include "../../src/_core/_type/templates.h"
 #include "../../src/_core/_type/parsed.h"

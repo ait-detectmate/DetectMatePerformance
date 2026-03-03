@@ -33,6 +33,12 @@ add_test(
 )
 
 add_library(
+  aux
+  DetectMatePerformance/src/_core/aux.h
+  DetectMatePerformance/src/_core/aux.cpp
+)
+
+add_library(
   message
   DetectMatePerformance/src/_core/_type/message.h
   DetectMatePerformance/src/_core/_type/messages.cpp
@@ -100,6 +106,7 @@ target_link_libraries(
   variable
   tree_op
   match_tree
+  aux
 )
 
 

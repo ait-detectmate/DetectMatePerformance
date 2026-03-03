@@ -6,8 +6,6 @@
 #include <string>
 #include <deque>
 
-std::deque<std::string> preprocessing(std::string message);
-
 class Messages {
 protected:
     std::deque<std::deque<std::string>> messages;
