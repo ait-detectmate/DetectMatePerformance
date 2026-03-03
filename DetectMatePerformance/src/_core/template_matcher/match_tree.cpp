@@ -10,7 +10,6 @@
 
 #include <iostream>
 
-#include <cassert>
 
 std::string do_match(Tree* tree_, std::string sentence, Variables* vars) {
     std::deque<std::string> sequence = preprocess(sentence);

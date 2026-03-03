@@ -8,6 +8,7 @@
 
 #include "tree.h"
 #include "../_type/templates.h"
+#include "../_type/message.h"
 #include "../_type/parsed.h"
 
 

@@ -16,7 +16,7 @@ PYBIND11_MODULE(message_class, m) {
         .def("get_next_message", &Messages::getNext)
         .def("size", &Messages::size)
         .def("shape", &Messages::shape);
-    py::class_<Templates, Messages>(m, "Templates")
+    py::class_<Templates>(m, "Templates")
         .def(py::init<std::deque<std::string>>())
         .def("get_next_template", &Templates::getNext)
         .def("size", &Templates::size)
