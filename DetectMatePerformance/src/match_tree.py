@@ -22,9 +22,17 @@ class TreeMatcher:
         return len(self.templates)
         
     def match_log(self, log: str, get_var: bool = False) -> ParsedLogs:
-        return self.__wrap(self.inst.match_string(log), get_var=get_var)
+        if get_var:
+            result = self.inst.match_string_with_var(log)
+        else:
+            result = self.inst.match_string(log)
+        return self.__wrap(result, get_var=get_var)
     
     def match_batch(
         self, logs: list[str], get_var: bool = False, n_workers: int = 1
     ) -> ParsedLogs:
-        return self.__wrap(self.inst.match_batch(logs, n_workers), get_var=get_var)
+        if get_var:
+            result = self.inst.match_batch_with_var(logs, n_workers)
+        else:
+            result = self.inst.match_batch(logs, n_workers)
+        return self.__wrap(result, get_var=get_var)
