@@ -1,4 +1,4 @@
-from DetectMatePerformance.src.types_ import  LogTemplates, ParsedLogs
+from DetectMatePerformance.src.types_ import  LogTemplates, ParsedLogs, Parsed
 
 
 path_temp = "DetectMatePerformance/tests/test_data/audit_templates.txt"
@@ -49,3 +49,9 @@ class TestCaseParsed():
 
         assert parsed[0] == "Hello VAR world VAR" 
         assert parsed[3] == "template not found"
+
+    def test_init_from_class(self) -> None:
+        temp = LogTemplates.from_file(path_temp)
+        parsed = Parsed(temp.inst, 2)
+
+        assert len(ParsedLogs.from_cls(parsed)) == 2

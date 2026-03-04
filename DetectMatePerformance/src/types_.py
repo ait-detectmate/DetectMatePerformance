@@ -47,6 +47,12 @@ class ParsedLogs:
         self.inst = Parsed(templates.inst, n)
         self.with_vars = with_vars
 
+    @classmethod
+    def from_cls(cls, inst: Parsed, with_vars: bool = False) -> "ParsedLogs":
+        cls_ints = cls(LogTemplates([]), n=1, with_vars=with_vars)
+        cls_ints.inst = inst
+        return cls_ints
+
     def __len__(self) -> int:
         return self.inst.size()
 
