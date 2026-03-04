@@ -7,8 +7,11 @@ path_logs = "DetectMatePerformance/tests/test_data/audit.log"
 
 
 def load_logs() -> list[str]:
+    logs = []
     with open(path_logs, "r") as f:
-        return f.readlines()
+        for log in f.readlines():
+            logs.append("):".join(log.split("):")[1:]))
+    return logs
 
 
 class TestCaseTreeMatcher:
@@ -31,3 +34,11 @@ class TestCaseTreeMatcher:
 
         assert results[0] == "Hello VAR kenobi"
         assert results[1] == "template not found"
+
+    def test_big_batch(self):
+        logs = load_logs()
+        tree_matcher = TreeMatcher.from_file(path_temp)
+        results = tree_matcher.match_batch(logs, False, n_workers=3)
+
+        for i in range(len(results)):
+            assert "template not found" != results[i]

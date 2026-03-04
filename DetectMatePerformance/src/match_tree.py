@@ -24,5 +24,7 @@ class TreeMatcher:
     def match_log(self, log: str, get_var: bool = False) -> ParsedLogs:
         return self.__wrap(self.inst.match_string(log), get_var=get_var)
     
-    def match_batch(self, logs: list[str], get_var: bool = False) -> ParsedLogs:
-        return self.__wrap(self.inst.match_batch(logs, 1), get_var=get_var)
+    def match_batch(
+        self, logs: list[str], get_var: bool = False, n_workers: int = 1
+    ) -> ParsedLogs:
+        return self.__wrap(self.inst.match_batch(logs, n_workers), get_var=get_var)
