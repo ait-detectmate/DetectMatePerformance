@@ -19,6 +19,8 @@ PYBIND11_MODULE(message_class, m) {
         .def(py::init<Templates*, int>())
         .def("get_elem", &ParsedMessages::getElem)
         .def("set_elem", &ParsedMessages::setElem)
+        .def("get_elem_with_var", &ParsedMessages::getElemWithVar)
+        .def("set_elem_with_var", &ParsedMessages::setElemWithVar)
         .def("size", &ParsedMessages::size)
         .def("shape", &ParsedMessages::shape);
     py::class_<MatchTree>(m, "MatchTree")
