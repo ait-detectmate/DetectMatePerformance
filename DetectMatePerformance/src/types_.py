@@ -43,7 +43,9 @@ class LogTemplates:
 
 
 class ParsedLogs:
-    def __init__(self, templates: LogTemplates, n: int, with_vars: bool = False) -> None:
+    def __init__(
+        self, templates: LogTemplates, n: int, with_vars: bool = False
+    ) -> None:
         self.inst = Parsed(templates.inst, n)
         self.with_vars = with_vars
 
@@ -63,7 +65,11 @@ class ParsedLogs:
         return f"ParsedLogs(shape={self.shape()}, vars={self.with_vars})"
     
     def __getitem__(self, idx: int) -> str:
+        if self.with_vars:
+            return self.inst.get_elem_with_var(idx)
         return self.inst.get_elem(idx)
 
     def __setitem__(self, idx: int, values: str) -> str:
+        if self.with_vars:
+            return self.inst.set_elem_with_var(idx, values[0], values[1])
         return self.inst.set_elem(idx, values)

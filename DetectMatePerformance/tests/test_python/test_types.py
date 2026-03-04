@@ -35,7 +35,7 @@ class TestCaseTemplates:
         assert LogTemplates(msg) != LogTemplates(["hi"])
 
 
-class TestCaseParsed():
+class TestCaseParsed:
     def test_len(self):
         parsed = ParsedLogs(LogTemplates.from_file(path_temp), 5)
         assert len(parsed) == 5
@@ -49,6 +49,19 @@ class TestCaseParsed():
 
         assert parsed[0] == "Hello VAR world VAR" 
         assert parsed[3] == "template not found"
+
+    def test_add_elements_with_vars(self):
+        parsed = ParsedLogs(LogTemplates(templates), 5, with_vars=True)
+        assert parsed.shape() == (5, 0)
+        parsed[0] = ("Hello VAR world VAR", [])
+        parsed[3] = ("ciaoo bellaaa", ["a", "b", "c"])
+
+        assert ("Hello VAR world VAR", []) ==  parsed[0]
+        assert parsed[3] == ("template not found", ["a", "b", "c"])
+        
+    def test_add_elements(self):
+        parsed = ParsedLogs(LogTemplates(templates), 5)
+        assert parsed.shape() == (5, 0)
 
     def test_init_from_class(self) -> None:
         temp = LogTemplates.from_file(path_temp)
