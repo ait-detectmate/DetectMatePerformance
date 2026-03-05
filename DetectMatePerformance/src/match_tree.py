@@ -54,9 +54,11 @@ class TreeMatcher:
         regex: str = r"(?P<Content>.*)"
     ) -> pl.DataFrame:
         first = True
-        for i in tqdm(range(batch, len(logs) + batch, batch)):
+        for _ in tqdm(range(batch, len(logs) + batch, batch)):
             print(">>> Preprocesing logs")
-            table = polars_op.generate_table(logs[i-batch:i], regex=regex)
+            table = polars_op.generate_table(logs[:batch], regex=regex)
+            logs = logs[batch:]
+            gc.collect()
             table = table.drop_nulls()
 
             print(">>> Matching data")

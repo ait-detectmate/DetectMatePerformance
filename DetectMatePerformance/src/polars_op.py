@@ -13,7 +13,7 @@ def generate_table(logs: list[str], regex: str) -> pl.DataFrame:
             .alias("parts")
         )
         .unnest("parts") 
-    )
+    ).drop("Message")
 
 
 def add_parsed(df: pl.DataFrame, results: ParsedLogs) -> pl.DataFrame:
