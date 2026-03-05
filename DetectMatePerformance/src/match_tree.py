@@ -4,6 +4,7 @@ sys.path.append("./build/")
 from message_class import MatchTree
 
 from DetectMatePerformance.src.types_ import LogTemplates, ParsedLogs, Parsed
+from DetectMatePerformance.src.aux import convet2polars
 
 import polars as pl
 
@@ -43,6 +44,8 @@ class TreeMatcher:
         return self.__wrap(result, get_var=get_var)
     
     def __call__(
-        self, logs: list[str] | str, get_var: bool = False, n_workers: int = 1
+        self, logs: list[str], get_var: bool = False, n_workers: int = 1
     ) -> pl.DataFrame:
-        pass
+        
+        results = self.match_batch(logs, get_var=get_var, n_workers=n_workers)
+        return convet2polars(logs=logs, results=results)

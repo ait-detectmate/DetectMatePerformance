@@ -18,3 +18,4 @@ print(tree_matcher := TreeMatcher.from_file(path_temp))
 logs = load_logs()
 print(f"Num logs: {len(logs)}")
 
+print(tree_matcher(logs, get_var=True))
