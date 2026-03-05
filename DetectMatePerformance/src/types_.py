@@ -64,12 +64,12 @@ class ParsedLogs:
     def __str__(self) -> str:
         return f"ParsedLogs(shape={self.shape()}, vars={self.with_vars})"
     
-    def __getitem__(self, idx: int) -> str:
+    def __getitem__(self, idx: int) -> str | tuple[str, list[str]]:
         if self.with_vars:
             return self.inst.get_elem_with_var(idx)
         return self.inst.get_elem(idx)
 
-    def __setitem__(self, idx: int, values: str) -> str:
+    def __setitem__(self, idx: int, values: str | tuple[str, list[str]]) -> str:
         if self.with_vars:
             return self.inst.set_elem_with_var(idx, values[0], values[1])
         return self.inst.set_elem(idx, values)
