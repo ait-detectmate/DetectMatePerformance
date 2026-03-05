@@ -31,6 +31,9 @@ public:
         int n, std::string template_, std::deque<std::string> vars
     );
 
+    std::vector<std::string> getAllElemts();
+    std::vector<std::deque<std::string>> getAllVar();
+
     int size();
     std::pair<int, int> shape();
 

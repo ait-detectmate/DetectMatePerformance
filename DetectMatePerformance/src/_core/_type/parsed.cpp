@@ -58,8 +58,21 @@ void ParsedMessages::setElemWithVar(
 
 }
 
+std::vector<std::string> ParsedMessages::getAllElemts() {
+    std::vector<std::string> templates(this->size());
+
+    for (int i = 0; i < this->size(); i++) {
+        templates[i] = this->getElem(i);
+    }
+
+    return templates;
+}
+
+std::vector<std::deque<std::string>> ParsedMessages::getAllVar() {
+    return this->variables;
+}
+
 int ParsedMessages::size() {
-    
     return event_ids.size();
 }
 

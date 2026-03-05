@@ -83,6 +83,23 @@ TEST(ParsedMessagesTest, GetNext) {
     EXPECT_EQ(parsed.getElem(3), temp3);
 }
 
+TEST(ParsedMessagesTest, GetAllNext) {
+    std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
+    Templates* templates = new Templates(input);
+    ParsedMessages parsed(templates, 4);
+    
+    parsed.setElem(0, "Hello VAR world VAR");
+    parsed.setElem(1, "Hello VAR world VAR");
+    parsed.setElem(2, "Goodbye VAR");
+    parsed.setElem(3, "random thing");
+
+    std::vector<std::string> results = parsed.getAllElemts();
+    for (int i = 0; i < results.size(); i++) {
+        EXPECT_EQ(parsed.getElem(i), results[i]);
+    }
+    
+}
+
 TEST(ParsedMessagesTest, GetNextWithVar) {
     std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
     Templates* templates = new Templates(input);
@@ -110,6 +127,26 @@ TEST(ParsedMessagesTest, GetNextWithVar) {
     EXPECT_EQ(parsed.getElemWithVar(2).second, evar2);
     EXPECT_EQ(parsed.getElemWithVar(3).first, temp3);
     EXPECT_EQ(parsed.getElemWithVar(3).second, evar1);
+}
+
+TEST(ParsedMessagesTest, GetAllVar) {
+    std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
+    Templates* templates = new Templates(input);
+    ParsedMessages parsed(templates, 4);
+
+    std::deque<std::string> var1 = {};
+    std::deque<std::string> var2 = {"a", "b"};
+    
+    parsed.setElemWithVar(0, "Hello VAR world VAR", var1);
+    parsed.setElemWithVar(1, "Hello VAR world VAR", var2);
+    parsed.setElemWithVar(2, "Goodbye VAR", var2);
+    parsed.setElemWithVar(3, "random thing", var1);
+
+    std::vector<std::deque<std::string>> result = parsed.getAllVar();
+
+    for (int i = 0; i < result.size(); i++) {
+        EXPECT_EQ(parsed.getElemWithVar(i).second, result[i]);
+    }
 }
 
 TEST(TreeTest, Initialization) {
