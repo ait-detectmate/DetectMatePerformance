@@ -13,4 +13,5 @@ dependencies = [
     "pybind11>=3.0.2",
     "pytest",
     "pytest-cpp",
+    "tqdm",
 ]

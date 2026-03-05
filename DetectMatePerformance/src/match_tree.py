@@ -6,7 +6,9 @@ from message_class import MatchTree
 from DetectMatePerformance.src.types_ import LogTemplates, ParsedLogs, Parsed
 import DetectMatePerformance.src.polars_op as polars_op
 
+from tqdm import tqdm
 import polars as pl
+import gc
 
 
 class TreeMatcher:
@@ -48,9 +50,24 @@ class TreeMatcher:
         logs: list[str], 
         get_var: bool = False, 
         n_workers: int = 1, 
+        batch = int(3e+6),
         regex: str = r"(?P<Content>.*)"
     ) -> pl.DataFrame:
-        
-        table = polars_op.generate_table(logs, regex=regex)
-        results = self.match_batch(table["Content"], get_var=get_var, n_workers=n_workers)
-        return polars_op.add_parsed(df=table, results=results)
+        first = True
+        for i in tqdm(range(batch, len(logs) + batch, batch)):
+            print(">>> Preprocesing logs")
+            table = polars_op.generate_table(logs[i-batch:i], regex=regex)
+            table = table.drop_nulls()
+
+            print(">>> Matching data")
+            results = self.match_batch(
+                table["Content"].to_list(), get_var=get_var, n_workers=n_workers
+            )
+            print(">>> Postprocessing results")
+            if first:
+                df = polars_op.add_parsed(df=table, results=results)
+                first = False
+            else:
+                df = pl.concat([df, polars_op.add_parsed(df=table, results=results)])
+            del table
+        return df
