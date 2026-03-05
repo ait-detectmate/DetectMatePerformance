@@ -4,7 +4,7 @@ sys.path.append("./build/")
 from message_class import MatchTree
 
 from DetectMatePerformance.src.types_ import LogTemplates, ParsedLogs, Parsed
-from DetectMatePerformance.src.aux import add_parsed, generate_table
+import DetectMatePerformance.src.polars_op as polars_op
 
 import polars as pl
 
@@ -51,6 +51,6 @@ class TreeMatcher:
         regex: str = r"(?P<Content>.*)"
     ) -> pl.DataFrame:
         
-        table = generate_table(logs, regex=regex)
+        table = polars_op.generate_table(logs, regex=regex)
         results = self.match_batch(table["Content"], get_var=get_var, n_workers=n_workers)
-        return add_parsed(df=table, results=results)
+        return polars_op.add_parsed(df=table, results=results)
