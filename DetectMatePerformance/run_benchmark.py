@@ -33,5 +33,5 @@ for dataset in datasets:
     logs = load_logs(dataset["path_logs"])
     print(tree_matcher := TreeMatcher.from_file(dataset["path_temp"]))
     print(f"Num logs: {len(logs)} from {dataset['name']}")
-    print(tree_matcher(logs, get_var=True, regex=dataset["regex"], n_workers=10, batch=int(1e+6)))
+    print(tree_matcher(logs, get_var=False, regex=dataset["regex"], n_workers=10, batch=int(4e+6)))
     print("---------------------------------------------------\n")

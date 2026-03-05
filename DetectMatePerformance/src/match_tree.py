@@ -54,22 +54,22 @@ class TreeMatcher:
         regex: str = r"(?P<Content>.*)"
     ) -> pl.DataFrame:
         first = True
-        for _ in tqdm(range(batch, len(logs) + batch, batch)):
-            print(">>> Preprocesing logs")
-            table = polars_op.generate_table(logs[:batch], regex=regex)
-            logs = logs[batch:]
-            gc.collect()
-            table = table.drop_nulls()
-
+        print(">>> Preprocesing logs")
+        table = polars_op.generate_table(logs, regex=regex)
+        table = table.drop_nulls()
+        del logs
+        gc.collect()
+        
+        for i in tqdm(range(batch, len(table) + batch, batch)):
             print(">>> Matching data")
             results = self.match_batch(
-                table["Content"].to_list(), get_var=get_var, n_workers=n_workers
+                table["Content"][i-batch: i].to_list(), get_var=get_var, n_workers=n_workers
             )
-            print(">>> Postprocessing results")
             if first:
-                df = polars_op.add_parsed(df=table, results=results)
+                df = polars_op.add_parsed(df=table[i-batch: i], results=results)
                 first = False
             else:
-                df = pl.concat([df, polars_op.add_parsed(df=table, results=results)])
-            del table
-        return df
+                df = pl.concat([df, polars_op.add_parsed(df=table[i-batch: i], results=results)])
+            del results
+        print(">>> Postprocessing results")
+        return polars_op.postprocessing(df)
