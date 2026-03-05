@@ -22,7 +22,7 @@ PYBIND11_MODULE(message_class, m) {
         .def("get_elem_with_var", &ParsedMessages::getElemWithVar)
         .def("set_elem_with_var", &ParsedMessages::setElemWithVar)
         .def("get_all_elem", &ParsedMessages::getAllElemts)
-        .def("set_all_var", &ParsedMessages::getAllVar)
+        .def("get_all_var", &ParsedMessages::getAllVar)
         .def("size", &ParsedMessages::size)
         .def("shape", &ParsedMessages::shape);
     py::class_<MatchTree>(m, "MatchTree")

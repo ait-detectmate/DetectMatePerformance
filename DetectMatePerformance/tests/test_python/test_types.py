@@ -50,14 +50,30 @@ class TestCaseParsed:
         assert parsed[0] == "Hello VAR world VAR" 
         assert parsed[3] == "template not found"
 
+    def test_get_all_templates(self):
+        parsed = ParsedLogs(LogTemplates(templates), 2)
+        parsed[0] = "Hello VAR world VAR"
+        parsed[1] = "ciaoo bellaaa"
+
+        expected = ["Hello VAR world VAR", "template not found"]
+        assert parsed.get_all_templates() == expected
+
     def test_add_elements_with_vars(self):
         parsed = ParsedLogs(LogTemplates(templates), 5, with_vars=True)
         assert parsed.shape() == (5, 0)
         parsed[0] = ("Hello VAR world VAR", [])
         parsed[3] = ("ciaoo bellaaa", ["a", "b", "c"])
 
-        assert ("Hello VAR world VAR", []) ==  parsed[0]
+        assert parsed[0] == ("Hello VAR world VAR", [])
         assert parsed[3] == ("template not found", ["a", "b", "c"])
+
+    def test_get_all_variables(self):
+        parsed = ParsedLogs(LogTemplates(templates), 2, with_vars=True)
+        parsed[0] = ("Hello VAR world VAR", [])
+        parsed[1] = ("ciaoo bellaaa", ["a", "b", "c"])
+
+        expected = [[], ["a", "b", "c"]]
+        assert parsed.get_all_vars() == expected
         
     def test_add_elements(self):
         parsed = ParsedLogs(LogTemplates(templates), 5)

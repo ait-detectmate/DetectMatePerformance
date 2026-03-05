@@ -73,3 +73,11 @@ class ParsedLogs:
         if self.with_vars:
             return self.inst.set_elem_with_var(idx, values[0], values[1])
         return self.inst.set_elem(idx, values)
+
+    def get_all_templates(self) -> list[str]:
+        return self.inst.get_all_elem()
+    
+    def get_all_vars(self) -> list[list[str]] | None:
+        if self.with_vars:
+            return self.inst.get_all_var()
+        return
