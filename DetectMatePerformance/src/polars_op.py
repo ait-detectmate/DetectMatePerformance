@@ -1,4 +1,6 @@
 
+from tqdm import tqdm
+from typing import Callable
 from DetectMatePerformance.src.types_ import ParsedLogs
 
 import polars as pl
@@ -33,3 +35,35 @@ def postprocessing(df: pl.DataFrame) -> pl.DataFrame:
     )
 
     return df
+
+
+def run_full_pipeline(
+    func: Callable[[list[str], bool, int], ParsedLogs],
+    logs: list[str],
+    get_var: bool = False,
+    n_workers: int = 1,
+    batch = int(3e+6),
+    regex: str = r"(?P<Content>.*)"
+) -> pl.DataFrame:
+
+    first = True
+    print(">>> Preprocesing logs")
+    table = generate_table(logs, regex=regex)
+    table = table.drop_nulls()
+    del logs
+    gc.collect()
+
+    for i in tqdm(range(batch, len(table) + batch, batch)):
+        print(">>> Matching data")
+        results = func(
+            table["Content"][i-batch: i].to_list(), get_var=get_var, n_workers=n_workers
+        )
+        if first:
+            df = add_parsed(df=table[i-batch: i], results=results)
+            first = False
+        else:
+            df = pl.concat([df, add_parsed(df=table[i-batch: i], results=results)])
+        del results
+
+    print(">>> Postprocessing results")
+    return postprocessing(df)
