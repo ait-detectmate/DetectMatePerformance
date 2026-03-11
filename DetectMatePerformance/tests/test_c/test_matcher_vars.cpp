@@ -1,13 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../../src/_core/aux.h"
-
-#include "../../src/_core/_type/templates.h"
-#include "../../src/_core/_type/parsed.h"
-
-#include "../../src/_core/template_matcher/tree.h"
 #include "../../src/_core/template_matcher/variables.h"
-#include "../../src/_core/template_matcher/tree_op.h"
 
 
 TEST(VariableTest, VariableClass) {
@@ -58,3 +51,4 @@ TEST(VariableTest, VariableNotCapture) {
     delete variables1;
     delete variables2;
 }
+

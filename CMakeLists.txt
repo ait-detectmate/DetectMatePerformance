@@ -90,8 +90,8 @@ add_executable(
 )
 
 add_executable(
-  test_matcher_op
-  DetectMatePerformance/tests/test_c/test_matcher_op.cpp
+  test_matcher_vars
+  DetectMatePerformance/tests/test_c/test_matcher_vars.cpp
 )
 
 pybind11_add_module(
@@ -140,15 +140,19 @@ target_link_libraries(
 )
 
 target_link_libraries(
-  test_matcher_op
+  test_matcher_vars
   GTest::gtest_main
+  templates
+  parsed
   tree 
   variable
   tree_op
+  match_tree
+  aux
 )
 
 include(GoogleTest)
 gtest_discover_tests(test_c)
 gtest_discover_tests(test_type)
 gtest_discover_tests(test_matcher_tree)
-gtest_discover_tests(test_matcher_op)
+gtest_discover_tests(test_matcher_vars)

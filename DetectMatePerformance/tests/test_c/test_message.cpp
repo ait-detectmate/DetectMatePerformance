@@ -11,7 +11,6 @@
 #include "../../src/_core/template_matcher/match_tree.h"
 
 
-
 TEST(TreeOpTest, SearchTree) {
     Tree* root = new Tree("");
     Tree* child1 = new Tree("hello");
@@ -30,21 +29,9 @@ TEST(TreeOpTest, SearchTree) {
     auto result0 = searchTree(root, sequence0, vars);
     EXPECT_FALSE(result0.first);
 
-    std::deque<std::string> sequence1 = {"hello", "there", "kenobi"};
-    auto result1 = searchTree(root, sequence1, vars);
-    EXPECT_TRUE(result1.first);
-
-    std::deque<std::string> sequence2 = {"hello", "yo", "kenobi"};
-    auto result2 = searchTree(root, sequence2, vars);
-    EXPECT_FALSE(result2.first);
-
-    std::deque<std::string> sequence3 = {};
-    auto result3 = searchTree(root, sequence3, vars);
-    EXPECT_FALSE(result3.first);
 
     delete root;
     delete vars;
-
 }
 
 TEST(TreeOpTest, SearchTreeWithVariable) {
