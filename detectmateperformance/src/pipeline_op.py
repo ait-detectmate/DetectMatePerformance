@@ -6,6 +6,7 @@ from detectmateperformance.src.types_ import ParsedLogs
 import polars as pl
 import gc
 
+
 def generate_table(logs: list[str], regex: str) -> pl.DataFrame:
     return (
         pl.DataFrame({"Message": logs})

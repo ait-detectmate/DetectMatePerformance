@@ -1,7 +1,7 @@
 import sys
 sys.path.append("./build/")
 
-from detectmateperformance.src.polars_op import run_full_pipeline
+from detectmateperformance.src.pipeline_op import run_full_pipeline
 from bind_class import MatchTree
 
 from detectmateperformance.src.types_ import LogTemplates, ParsedLogs, Parsed
