@@ -89,6 +89,11 @@ add_executable(
   DetectMatePerformance/tests/test_c/test_matcher_tree.cpp
 )
 
+add_executable(
+  test_matcher_op
+  DetectMatePerformance/tests/test_c/test_matcher_op.cpp
+)
+
 pybind11_add_module(
   message_class 
   DetectMatePerformance/src/_core/message_bind.cpp
@@ -134,7 +139,16 @@ target_link_libraries(
   tree 
 )
 
+target_link_libraries(
+  test_matcher_op
+  GTest::gtest_main
+  tree 
+  variable
+  tree_op
+)
+
 include(GoogleTest)
 gtest_discover_tests(test_c)
 gtest_discover_tests(test_type)
 gtest_discover_tests(test_matcher_tree)
+gtest_discover_tests(test_matcher_op)
