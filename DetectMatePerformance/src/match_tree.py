@@ -2,7 +2,7 @@ import sys
 sys.path.append("./build/")
 
 from DetectMatePerformance.src.polars_op import run_full_pipeline
-from message_class import MatchTree
+from bind_class import MatchTree
 
 from DetectMatePerformance.src.types_ import LogTemplates, ParsedLogs, Parsed
 

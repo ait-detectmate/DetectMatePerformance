@@ -95,8 +95,8 @@ add_executable(
 )
 
 pybind11_add_module(
-  message_class 
-  DetectMatePerformance/src/_core/message_bind.cpp
+  bind_class 
+  DetectMatePerformance/src/_core/bind_class.cpp
   DetectMatePerformance/src/_core/aux.h
   DetectMatePerformance/src/_core/aux.cpp
   DetectMatePerformance/src/_core/_type/templates.h

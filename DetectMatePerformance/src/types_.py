@@ -1,7 +1,7 @@
 import sys
 sys.path.append("./build/")
 
-from message_class import Templates, Parsed
+from bind_class import Templates, Parsed
 
 
 def _load_file(path: str) -> list[str]:

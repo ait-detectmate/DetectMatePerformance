@@ -9,7 +9,7 @@
 namespace py = pybind11;
 
 
-PYBIND11_MODULE(message_class, m) {
+PYBIND11_MODULE(bind_class, m) {
     py::class_<Templates>(m, "Templates")
         .def(py::init<std::deque<std::string>>())
         .def("get_next_template", &Templates::getNext)
