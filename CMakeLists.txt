@@ -79,6 +79,11 @@ add_executable(
   DetectMatePerformance/tests/test_c/test_message.cpp
 )
 
+add_executable(
+  test_type
+  DetectMatePerformance/tests/test_c/test_type.cpp
+)
+
 pybind11_add_module(
   message_class 
   DetectMatePerformance/src/_core/message_bind.cpp
@@ -110,6 +115,14 @@ target_link_libraries(
   aux
 )
 
+target_link_libraries(
+  test_type
+  GTest::gtest_main
+  templates
+  parsed
+  aux
+)
 
 include(GoogleTest)
 gtest_discover_tests(test_c)
+gtest_discover_tests(test_type)
