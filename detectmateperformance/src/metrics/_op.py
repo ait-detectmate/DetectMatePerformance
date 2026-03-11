@@ -14,24 +14,22 @@ methods = {
 }
 
 
-def evaluate(
+def __evaluation(
     logs: list[str],
-    ground_templates: list[str],
-    templates: list[str],
+    ground_matcher: TreeMatcher,
+    predicted_matcher: TreeMatcher,
     n_workers: int = 1,
     batch: int = int(3e+6),
     regex: str = r"(?P<Content>.*)",
     metrics: list[str] = list(methods.keys()),
 ) -> pl.DataFrame:
     print("Running Ground Truth")
-    matcher = TreeMatcher(templates=LogTemplates(ground_templates))
-    ground_truth = matcher(
+    ground_truth = ground_matcher(
         logs, get_var=False, n_workers=n_workers, batch=batch, regex=regex
     )["Templates"]
 
     print("Running Templates")
-    matcher = TreeMatcher(templates=LogTemplates(templates))
-    predicted = matcher(
+    predicted = predicted_matcher(
         logs, get_var=False, n_workers=n_workers, batch=batch, regex=regex
     )["Templates"]
 
@@ -47,4 +45,41 @@ def evaluate(
     return final
 
 
+def evaluate(
+    logs: list[str],
+    ground_templates: list[str],
+    templates: list[str],
+    n_workers: int = 1,
+    batch: int = int(3e+6),
+    regex: str = r"(?P<Content>.*)",
+    metrics: list[str] = list(methods.keys()),
+) -> pl.DataFrame:
+    return __evaluation(
+        logs=logs,
+        ground_matcher=TreeMatcher(templates=LogTemplates(ground_templates)),
+        predicted_matcher=TreeMatcher(templates=LogTemplates(templates)),
+        n_workers=n_workers,
+        batch=batch,
+        regex=regex,
+        metrics=metrics,
+    )
 
+
+def evaluate_from_file(
+    logs: list[str],
+    ground_templates_path: str,
+    templates_path: str,
+    n_workers: int = 1,
+    batch: int = int(3e+6),
+    regex: str = r"(?P<Content>.*)",
+    metrics: list[str] = list(methods.keys()),
+) -> pl.DataFrame:
+    return __evaluation(
+        logs=logs,
+        ground_matcher=TreeMatcher.from_file(ground_templates_path),
+        predicted_matcher=TreeMatcher.from_file(templates_path),
+        n_workers=n_workers,
+        batch=batch,
+        regex=regex,
+        metrics=metrics,
+    )
