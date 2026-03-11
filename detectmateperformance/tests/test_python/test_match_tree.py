@@ -1,9 +1,9 @@
-from DetectMatePerformance.src.match_tree import TreeMatcher
-from DetectMatePerformance.src.types_ import LogTemplates
+from detectmateperformance.src.match_tree import TreeMatcher
+from detectmateperformance.src.types_ import LogTemplates
 
 
-path_temp = "DetectMatePerformance/tests/test_data/audit_templates.txt"
-path_logs = "DetectMatePerformance/tests/test_data/audit.log"
+path_temp = "detectmateperformance/tests/test_data/audit_templates.txt"
+path_logs = "detectmateperformance/tests/test_data/audit.log"
 
 
 def load_logs() -> list[str]:

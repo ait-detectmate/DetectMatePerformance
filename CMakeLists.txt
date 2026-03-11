@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.14)
-project(DetectMatePerformance)
+project(detectmateperformance)
 
 # GoogleTest requires at least C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -34,83 +34,83 @@ add_test(
 
 add_library(
   aux
-  DetectMatePerformance/src/_core/aux.h
-  DetectMatePerformance/src/_core/aux.cpp
+  detectmateperformance/src/_core/aux.h
+  detectmateperformance/src/_core/aux.cpp
 )
 
 add_library(
   templates
-  DetectMatePerformance/src/_core/_type/templates.h
-  DetectMatePerformance/src/_core/_type/templates.cpp
+  detectmateperformance/src/_core/_type/templates.h
+  detectmateperformance/src/_core/_type/templates.cpp
 )
 
 add_library(
   parsed
-  DetectMatePerformance/src/_core/_type/parsed.h
-  DetectMatePerformance/src/_core/_type/parsed.cpp
+  detectmateperformance/src/_core/_type/parsed.h
+  detectmateperformance/src/_core/_type/parsed.cpp
 )
 
 add_library(
   tree
-  DetectMatePerformance/src/_core/template_matcher/tree.h
-  DetectMatePerformance/src/_core/template_matcher/tree.cpp
+  detectmateperformance/src/_core/template_matcher/tree.h
+  detectmateperformance/src/_core/template_matcher/tree.cpp
 )
 
 add_library(
   variable
-  DetectMatePerformance/src/_core/template_matcher/variables.h
-  DetectMatePerformance/src/_core/template_matcher/variables.cpp
+  detectmateperformance/src/_core/template_matcher/variables.h
+  detectmateperformance/src/_core/template_matcher/variables.cpp
 )
 
 add_library(
   tree_op
-  DetectMatePerformance/src/_core/template_matcher/tree_op.h
-  DetectMatePerformance/src/_core/template_matcher/tree_op.cpp
+  detectmateperformance/src/_core/template_matcher/tree_op.h
+  detectmateperformance/src/_core/template_matcher/tree_op.cpp
 )
 
 add_library(
   match_tree
-  DetectMatePerformance/src/_core/template_matcher/match_tree.h
-  DetectMatePerformance/src/_core/template_matcher/match_tree.cpp
+  detectmateperformance/src/_core/template_matcher/match_tree.h
+  detectmateperformance/src/_core/template_matcher/match_tree.cpp
 )
 
 add_executable(
   test_c
-  DetectMatePerformance/tests/test_c/test_message.cpp
+  detectmateperformance/tests/test_c/test_message.cpp
 )
 
 add_executable(
   test_type
-  DetectMatePerformance/tests/test_c/test_type.cpp
+  detectmateperformance/tests/test_c/test_type.cpp
 )
 
 add_executable(
   test_matcher_tree
-  DetectMatePerformance/tests/test_c/test_matcher_tree.cpp
+  detectmateperformance/tests/test_c/test_matcher_tree.cpp
 )
 
 add_executable(
   test_matcher_vars
-  DetectMatePerformance/tests/test_c/test_matcher_vars.cpp
+  detectmateperformance/tests/test_c/test_matcher_vars.cpp
 )
 
 pybind11_add_module(
   bind_class 
-  DetectMatePerformance/src/_core/bind_class.cpp
-  DetectMatePerformance/src/_core/aux.h
-  DetectMatePerformance/src/_core/aux.cpp
-  DetectMatePerformance/src/_core/_type/templates.h
-  DetectMatePerformance/src/_core/_type/templates.cpp
-  DetectMatePerformance/src/_core/_type/parsed.h
-  DetectMatePerformance/src/_core/_type/parsed.cpp
-  DetectMatePerformance/src/_core/template_matcher/tree.h
-  DetectMatePerformance/src/_core/template_matcher/tree.cpp
-  DetectMatePerformance/src/_core/template_matcher/variables.h
-  DetectMatePerformance/src/_core/template_matcher/variables.cpp
-  DetectMatePerformance/src/_core/template_matcher/tree_op.h
-  DetectMatePerformance/src/_core/template_matcher/tree_op.cpp
-  DetectMatePerformance/src/_core/template_matcher/match_tree.h
-  DetectMatePerformance/src/_core/template_matcher/match_tree.cpp
+  detectmateperformance/src/_core/bind_class.cpp
+  detectmateperformance/src/_core/aux.h
+  detectmateperformance/src/_core/aux.cpp
+  detectmateperformance/src/_core/_type/templates.h
+  detectmateperformance/src/_core/_type/templates.cpp
+  detectmateperformance/src/_core/_type/parsed.h
+  detectmateperformance/src/_core/_type/parsed.cpp
+  detectmateperformance/src/_core/template_matcher/tree.h
+  detectmateperformance/src/_core/template_matcher/tree.cpp
+  detectmateperformance/src/_core/template_matcher/variables.h
+  detectmateperformance/src/_core/template_matcher/variables.cpp
+  detectmateperformance/src/_core/template_matcher/tree_op.h
+  detectmateperformance/src/_core/template_matcher/tree_op.cpp
+  detectmateperformance/src/_core/template_matcher/match_tree.h
+  detectmateperformance/src/_core/template_matcher/match_tree.cpp
 )
 
 target_link_libraries(

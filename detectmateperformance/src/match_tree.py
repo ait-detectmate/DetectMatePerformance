@@ -1,10 +1,10 @@
 import sys
 sys.path.append("./build/")
 
-from DetectMatePerformance.src.polars_op import run_full_pipeline
+from detectmateperformance.src.polars_op import run_full_pipeline
 from bind_class import MatchTree
 
-from DetectMatePerformance.src.types_ import LogTemplates, ParsedLogs, Parsed
+from detectmateperformance.src.types_ import LogTemplates, ParsedLogs, Parsed
 
 import polars as pl
 

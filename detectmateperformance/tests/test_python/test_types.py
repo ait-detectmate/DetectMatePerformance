@@ -1,7 +1,7 @@
-from DetectMatePerformance.src.types_ import  LogTemplates, ParsedLogs, Parsed
+from detectmateperformance.src.types_ import  LogTemplates, ParsedLogs, Parsed
 
 
-path_temp = "DetectMatePerformance/tests/test_data/audit_templates.txt"
+path_temp = "detectmateperformance/tests/test_data/audit_templates.txt"
 
 msg = ["Hello, world!", "Goodbye, world! goodbye"]
 

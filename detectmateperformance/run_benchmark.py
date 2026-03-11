@@ -1,12 +1,12 @@
 
 
-from DetectMatePerformance.src.match_tree import TreeMatcher
+from detectmateperformance.src.match_tree import TreeMatcher
 
 datasets = [
     {
         "name": "AIT - Audit",
-        "path_temp": "DetectMatePerformance/tests/test_data/audit_templates.txt",
-        "path_logs": "DetectMatePerformance/tests/test_data/audit.log",
+        "path_temp": "detectmateperformance/tests/test_data/audit_templates.txt",
+        "path_logs": "detectmateperformance/tests/test_data/audit.log",
         "regex": r"type=(?P<Type>\w+) msg=audit\((?P<Time>[^:]+):(?P<Serial>\d+)\): (?P<Content>.*)"
     },
     {
