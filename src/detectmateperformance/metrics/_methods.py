@@ -47,4 +47,4 @@ def calculate_ga(df: pl.DataFrame) -> float:
     final = np.sum([len(s) for s in grouped_g - grouped_t])
 
 
-    return (len(df) - final) / len(df)
+    return float((len(df) - final) / len(df))

@@ -10,7 +10,8 @@ import polars as pl
 methods = {
     "PA": m.calculate_pa,
     "NED": m.calculate_ned,
-    "TS": m.calculate_ts
+    "TS": m.calculate_ts,
+    "GA": m.calculate_ga,
 }
 
 
