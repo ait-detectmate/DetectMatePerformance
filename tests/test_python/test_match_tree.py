@@ -1,6 +1,7 @@
 from detectmateperformance.match_tree import TreeMatcher
 from detectmateperformance.types_ import LogTemplates
 
+import polars as pl
 
 path_temp = "tests/test_data/audit_templates.txt"
 path_logs = "tests/test_data/audit.log"
@@ -65,3 +66,11 @@ class TestCaseTreeMatcher:
 
         for i in range(len(results)):
             assert "template not found" != results[i][0]
+
+    def test_call(self):
+        logs = load_logs()
+        tree_matcher = TreeMatcher.from_file(path_temp)
+        results = tree_matcher(logs, True, n_workers=3)
+
+        assert isinstance(results, pl.DataFrame)
+        assert len(logs) == len(results)
