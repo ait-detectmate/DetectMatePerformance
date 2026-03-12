@@ -1,4 +1,20 @@
 from setuptools import setup, find_packages
+import tomllib
+
+
+def gather_dependencies(toml_path="pyproject.toml"):
+    with open(toml_path, "rb") as f:
+        data = tomllib.load(f)
+
+    # Try Poetry first
+    poetry_deps = data.get("tool", {}).get("poetry", {}).get("dependencies", {})
+    if poetry_deps:
+        return [f"{dep}{version}" for dep, version in poetry_deps.items()]
+
+    # Fall back to PEP 621
+    project_deps = data.get("project", {}).get("dependencies", [])
+    return project_deps
+
 
 setup(
     name="DetectMatePerformace",
@@ -7,11 +23,5 @@ setup(
     description="A library for HPC operations in DetectMate",
     author="Andre Garcia Gomez",
     author_email="andre@example.com",
-    install_requires=[
-        "polars>=1.38.1",
-        "pybind11>=3.0.2",
-        "pytest",
-        "pytest-cpp",
-        "tqdm",
-    ],
+    install_requires=gather_dependencies(),
 )
