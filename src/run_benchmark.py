@@ -1,6 +1,6 @@
 
 
-from detectmateperformance.src.match_tree import TreeMatcher
+from src.detectmateperformance.match_tree import TreeMatcher
 
 datasets = [
     {

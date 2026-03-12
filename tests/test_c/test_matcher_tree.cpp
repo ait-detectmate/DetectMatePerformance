@@ -1,6 +1,6 @@
 #include <gtest/gtest.h>
 
-#include "../../src/_core/template_matcher/tree.h"
+#include "../../src/detectmateperformance/_core/template_matcher/tree.h"
 
 
 TEST(TreeTest, Initialization) {

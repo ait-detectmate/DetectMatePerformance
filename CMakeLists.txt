@@ -34,83 +34,83 @@ add_test(
 
 add_library(
   aux
-  detectmateperformance/src/_core/aux.h
-  detectmateperformance/src/_core/aux.cpp
+  src/detectmateperformance/_core/aux.h
+  src/detectmateperformance/_core/aux.cpp
 )
 
 add_library(
   templates
-  detectmateperformance/src/_core/_type/templates.h
-  detectmateperformance/src/_core/_type/templates.cpp
+  src/detectmateperformance/_core/_type/templates.h
+  src/detectmateperformance/_core/_type/templates.cpp
 )
 
 add_library(
   parsed
-  detectmateperformance/src/_core/_type/parsed.h
-  detectmateperformance/src/_core/_type/parsed.cpp
+  src/detectmateperformance/_core/_type/parsed.h
+  src/detectmateperformance/_core/_type/parsed.cpp
 )
 
 add_library(
   tree
-  detectmateperformance/src/_core/template_matcher/tree.h
-  detectmateperformance/src/_core/template_matcher/tree.cpp
+  src/detectmateperformance/_core/template_matcher/tree.h
+  src/detectmateperformance/_core/template_matcher/tree.cpp
 )
 
 add_library(
   variable
-  detectmateperformance/src/_core/template_matcher/variables.h
-  detectmateperformance/src/_core/template_matcher/variables.cpp
+  src/detectmateperformance/_core/template_matcher/variables.h
+  src/detectmateperformance/_core/template_matcher/variables.cpp
 )
 
 add_library(
   tree_op
-  detectmateperformance/src/_core/template_matcher/tree_op.h
-  detectmateperformance/src/_core/template_matcher/tree_op.cpp
+  src/detectmateperformance/_core/template_matcher/tree_op.h
+  src/detectmateperformance/_core/template_matcher/tree_op.cpp
 )
 
 add_library(
   match_tree
-  detectmateperformance/src/_core/template_matcher/match_tree.h
-  detectmateperformance/src/_core/template_matcher/match_tree.cpp
+  src/detectmateperformance/_core/template_matcher/match_tree.h
+  src/detectmateperformance/_core/template_matcher/match_tree.cpp
 )
 
 add_executable(
   test_c
-  detectmateperformance/tests/test_c/test_message.cpp
+  tests/test_c/test_message.cpp
 )
 
 add_executable(
   test_type
-  detectmateperformance/tests/test_c/test_type.cpp
+  tests/test_c/test_type.cpp
 )
 
 add_executable(
   test_matcher_tree
-  detectmateperformance/tests/test_c/test_matcher_tree.cpp
+  tests/test_c/test_matcher_tree.cpp
 )
 
 add_executable(
   test_matcher_vars
-  detectmateperformance/tests/test_c/test_matcher_vars.cpp
+  tests/test_c/test_matcher_vars.cpp
 )
 
 pybind11_add_module(
   bind_class 
-  detectmateperformance/src/_core/bind_class.cpp
-  detectmateperformance/src/_core/aux.h
-  detectmateperformance/src/_core/aux.cpp
-  detectmateperformance/src/_core/_type/templates.h
-  detectmateperformance/src/_core/_type/templates.cpp
-  detectmateperformance/src/_core/_type/parsed.h
-  detectmateperformance/src/_core/_type/parsed.cpp
-  detectmateperformance/src/_core/template_matcher/tree.h
-  detectmateperformance/src/_core/template_matcher/tree.cpp
-  detectmateperformance/src/_core/template_matcher/variables.h
-  detectmateperformance/src/_core/template_matcher/variables.cpp
-  detectmateperformance/src/_core/template_matcher/tree_op.h
-  detectmateperformance/src/_core/template_matcher/tree_op.cpp
-  detectmateperformance/src/_core/template_matcher/match_tree.h
-  detectmateperformance/src/_core/template_matcher/match_tree.cpp
+  src/detectmateperformance/_core/bind_class.cpp
+  src/detectmateperformance/_core/aux.h
+  src/detectmateperformance/_core/aux.cpp
+  src/detectmateperformance/_core/_type/templates.h
+  src/detectmateperformance/_core/_type/templates.cpp
+  src/detectmateperformance/_core/_type/parsed.h
+  src/detectmateperformance/_core/_type/parsed.cpp
+  src/detectmateperformance/_core/template_matcher/tree.h
+  src/detectmateperformance/_core/template_matcher/tree.cpp
+  src/detectmateperformance/_core/template_matcher/variables.h
+  src/detectmateperformance/_core/template_matcher/variables.cpp
+  src/detectmateperformance/_core/template_matcher/tree_op.h
+  src/detectmateperformance/_core/template_matcher/tree_op.cpp
+  src/detectmateperformance/_core/template_matcher/match_tree.h
+  src/detectmateperformance/_core/template_matcher/match_tree.cpp
 )
 
 target_link_libraries(

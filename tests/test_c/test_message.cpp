@@ -1,14 +1,14 @@
 #include <gtest/gtest.h>
 
-#include "../../src/_core/aux.h"
+#include "../../src/detectmateperformance/_core/aux.h"
 
-#include "../../src/_core/_type/templates.h"
-#include "../../src/_core/_type/parsed.h"
+#include "../../src/detectmateperformance/_core/_type/templates.h"
+#include "../../src/detectmateperformance/_core/_type/parsed.h"
 
-#include "../../src/_core/template_matcher/tree.h"
-#include "../../src/_core/template_matcher/variables.h"
-#include "../../src/_core/template_matcher/tree_op.h"
-#include "../../src/_core/template_matcher/match_tree.h"
+#include "../../src/detectmateperformance/_core/template_matcher/tree.h"
+#include "../../src/detectmateperformance/_core/template_matcher/variables.h"
+#include "../../src/detectmateperformance/_core/template_matcher/tree_op.h"
+#include "../../src/detectmateperformance/_core/template_matcher/match_tree.h"
 
 
 TEST(TreeOpTest, SearchTree) {

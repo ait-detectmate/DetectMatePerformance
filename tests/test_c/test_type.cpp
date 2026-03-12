@@ -1,9 +1,9 @@
 #include <gtest/gtest.h>
 
-#include "../../src/_core/aux.h"
+#include "../../src/detectmateperformance/_core/aux.h"
 
-#include "../../src/_core/_type/templates.h"
-#include "../../src/_core/_type/parsed.h"
+#include "../../src/detectmateperformance/_core/_type/templates.h"
+#include "../../src/detectmateperformance/_core/_type/parsed.h"
 
 
 TEST(MessagesTest, Preprocessing) {
