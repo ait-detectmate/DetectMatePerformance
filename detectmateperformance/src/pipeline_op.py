@@ -1,7 +1,8 @@
 
 from tqdm import tqdm
 from typing import Callable
-from detectmateperformance.src.types_ import ParsedLogs
+
+from types_ import ParsedLogs
 
 import polars as pl
 import gc

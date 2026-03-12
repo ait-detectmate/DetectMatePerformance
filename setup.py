@@ -1,6 +1,8 @@
 from setuptools import setup, find_packages
 import tomllib
 
+import os
+
 
 def gather_dependencies(toml_path="pyproject.toml"):
     with open(toml_path, "rb") as f:
@@ -17,9 +19,10 @@ def gather_dependencies(toml_path="pyproject.toml"):
 
 
 setup(
-    name="DetectMatePerformace",
+    name="detectmateperformace",
     version="0.1",
-    packages=find_packages(),
+    package_dir={"": "detectmateperformance/src"},
+    packages=find_packages(where="detectmateperformance/src"),
     description="A library for HPC operations in DetectMate",
     author="Andre Garcia Gomez",
     author_email="andre@example.com",

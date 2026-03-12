@@ -1,5 +1,5 @@
-from detectmateperformance.src.match_tree import TreeMatcher
-from detectmateperformance.src.types_ import LogTemplates
+from match_tree import TreeMatcher
+from types_ import LogTemplates
 
 
 path_temp = "detectmateperformance/tests/test_data/audit_templates.txt"

@@ -1,4 +1,4 @@
-from detectmateperformance.src._core.bind_class import Templates, Parsed
+from _core.bind_class import Templates, Parsed
 
 
 def _load_file(path: str) -> list[str]:
