@@ -21,8 +21,8 @@ def gather_dependencies(toml_path="pyproject.toml"):
 setup(
     name="detectmateperformace",
     version="0.1",
-    package_dir={"": "detectmateperformance/src"},
-    packages=find_packages(where="detectmateperformance/src"),
+    package_dir={"": "src"},
+    packages=find_packages(where="src"),
     description="A library for HPC operations in DetectMate",
     author="Andre Garcia Gomez",
     author_email="andre@example.com",

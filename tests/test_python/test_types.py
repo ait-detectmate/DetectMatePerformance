@@ -1,11 +1,7 @@
-import sys
-
-sys.path.append("../../../detectmateperformance/")
-
-from types_ import  LogTemplates, ParsedLogs, Parsed
+from detectmateperformance.types_ import  LogTemplates, ParsedLogs, Parsed
 
 
-path_temp = "detectmateperformance/tests/test_data/audit_templates.txt"
+path_temp = "tests/test_data/audit_templates.txt"
 
 msg = ["Hello, world!", "Goodbye, world! goodbye"]
 

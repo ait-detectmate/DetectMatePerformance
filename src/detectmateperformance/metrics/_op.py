@@ -1,7 +1,7 @@
-from detectmateperformance.src.match_tree import TreeMatcher
-from detectmateperformance.src.types_ import LogTemplates
+from detectmateperformance.match_tree import TreeMatcher
+from detectmateperformance.types_ import LogTemplates
 
-import detectmateperformance.src.metrics._methods as m
+import detectmateperformance.metrics._methods as m
 
 from tqdm import tqdm
 import polars as pl

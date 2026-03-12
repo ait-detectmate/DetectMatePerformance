@@ -1,7 +1,7 @@
-from pipeline_op import run_full_pipeline
-from _core.bind_class import MatchTree
+from detectmateperformance.pipeline_op import run_full_pipeline
+from detectmateperformance._core.bind_class import MatchTree
 
-from types_ import LogTemplates, ParsedLogs, Parsed
+from detectmateperformance.types_ import LogTemplates, ParsedLogs, Parsed
 
 import polars as pl
 

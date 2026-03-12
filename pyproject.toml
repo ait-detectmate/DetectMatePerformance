@@ -17,3 +17,9 @@ dependencies = [
     "pytest-cpp",
     "tqdm",
 ]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.scripts]
+mate = "tools.workspace.create_workspace:main"
