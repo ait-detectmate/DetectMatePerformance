@@ -30,3 +30,40 @@ To run the C++ and Python unit tests:
 ```bash
 pytest
 ```
+
+### To do a local instalation in a different venv
+
+```bash
+uv pip install --no-cache-dir <directory_detectmateperformance>
+```
+
+## Code example
+
+
+```python
+import detectmateperformance as matep
+
+
+dataset = {
+    "name": "AIT - Audit",
+    "path_temp": "data/audit_templates.txt",
+    "path_logs": "data/audit.log",
+    "regex": r"type=(?P<Type>\w+) msg=audit\((?P<Time>[^:]+):(?P<Serial>\d+)\): (?P<Content>.*)"
+}
+
+
+def load_file(path_logs) -> list[str]:
+    with open(path_logs, "r") as f:
+        return f.readlines()
+
+
+results = matep.metrics.evaluate_from_file(
+    logs=load_file(dataset["path_logs"]),
+    ground_templates_path=dataset["path_temp"],
+    templates_path=dataset["path_temp"],
+    regex=dataset["regex"]
+)
+
+print(results)
+
+```
