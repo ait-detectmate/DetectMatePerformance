@@ -1,7 +1,4 @@
-import sys
-sys.path.append("./build/")
-
-from bind_class import Templates, Parsed
+from detectmateperformance.src._core.bind_class import Templates, Parsed
 
 
 def _load_file(path: str) -> list[str]:
