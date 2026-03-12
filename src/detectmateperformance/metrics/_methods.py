@@ -1,6 +1,7 @@
 from functools import lru_cache
 from Levenshtein import distance
 import polars as pl
+import numpy as np
 
 
 def calculate_ts(df: pl.DataFrame) -> float:
@@ -32,3 +33,18 @@ def calculate_pa(df: pl.DataFrame) -> float:
     # Calculate Parse Accuracy
     result = df.map_rows(lambda x: are_equal(x[0], x[1])).mean() 
     return float(result.to_numpy()[0, 0])
+
+
+def calculate_ga(df: pl.DataFrame) -> float:
+    # Calculate Group Accuracy
+    df = df.with_row_index("index")
+    grouped_t = df.group_by("Templates").agg(pl.col("index").alias("a"))["a"].to_list()
+    grouped_t = set([tuple(i) for i in grouped_t])
+    
+    grouped_g = df.group_by("GroundTruth").agg(pl.col("index").alias("a"))["a"].to_list()
+    grouped_g = set([tuple(i) for i in grouped_g])
+
+    final = np.sum([len(s) for s in grouped_g - grouped_t])
+
+
+    return (len(df) - final) / len(df)
