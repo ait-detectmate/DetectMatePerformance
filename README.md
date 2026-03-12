@@ -64,6 +64,6 @@ results = matep.metrics.evaluate_from_file(
     regex=dataset["regex"]
 )
 
-print(results)
+print(results)  # {'PA': 1.0, 'NED': 1.0, 'TS': 1.0, 'GA': 1.0}
 
 ```
