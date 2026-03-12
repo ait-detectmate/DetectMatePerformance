@@ -1,8 +1,6 @@
 from setuptools import setup, find_packages
 import tomllib
 
-import os
-
 
 def gather_dependencies(toml_path="pyproject.toml"):
     with open(toml_path, "rb") as f:
