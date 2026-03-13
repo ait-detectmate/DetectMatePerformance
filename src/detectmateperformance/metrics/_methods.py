@@ -48,3 +48,8 @@ def calculate_ga(df: pl.DataFrame) -> float:
 
 
     return float((len(df) - final) / len(df))
+
+
+def calculate_fr(df: pl.DataFrame) -> float:
+    # Percentage of found ratio
+    return float((df["Templates"] != "template not found").sum() / len(df))

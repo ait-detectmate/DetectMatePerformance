@@ -79,6 +79,24 @@ class TestCaseMetrics:
         assert m.calculate_ga(average) == 0.3333333333333333
         assert m.calculate_ga(worst) == 0.0
 
+    def test_parsing_fr(self):
+        best = pl.DataFrame({
+            "GroundTruth": ["t1", "t2", "t2"],
+            "Templates": ["t4", "t5", "t5"]
+        })
+        worst = pl.DataFrame({
+            "GroundTruth": ["t1", "t2", "t2"],
+            "Templates": ["template not found", "template not found", "template not found"]
+        })
+        average = pl.DataFrame({
+            "GroundTruth": ["t1", "t2"],
+            "Templates": ["t1", "template not found"]
+        })
+
+        assert m.calculate_fr(best) == 1.0
+        assert m.calculate_fr(average) == 0.5
+        assert m.calculate_fr(worst) == 0.0
+
 
 def load_file(path_logs) -> list[str]:
     with open(path_logs, "r") as f:

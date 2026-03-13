@@ -12,6 +12,7 @@ methods = {
     "NED": m.calculate_ned,
     "TS": m.calculate_ts,
     "GA": m.calculate_ga,
+    "FR": m.calculate_fr,
 }
 
 
