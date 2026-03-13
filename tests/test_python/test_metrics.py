@@ -106,6 +106,7 @@ def load_file(path_logs) -> list[str]:
 dataset = {
     "name": "AIT - Audit",
     "path_temp": "tests/test_data/audit_templates.txt",
+    "path_temp_incomplete": "tests/test_data/incomplete_templates.txt",
     "path_logs": "tests/test_data/audit.log",
     "regex": r"type=(?P<Type>\w+) msg=audit\((?P<Time>[^:]+):(?P<Serial>\d+)\): (?P<Content>.*)"
 }
@@ -123,13 +124,27 @@ class TestCaseRunMetrics:
         for k in evaluation:
             assert evaluation[k] == 1.0
 
+        evaluation = evaluate(
+            logs=load_file(dataset["path_logs"]),
+            ground_templates=dataset["path_temp"],
+            templates=dataset["path_temp_incomplete"],
+            regex=dataset["regex"]
+        )
+
+        for k in evaluation:
+            assert evaluation[k] != 1.0
+
     def test_multiple_evaluation(self):
         m_evaluation = MultipleEvaluation(
             logs=load_file(dataset["path_logs"]),
             ground_templates=dataset["path_temp"],
             regex=dataset["regex"],
         )
-        evaluation = m_evaluation(dataset["path_temp"])
 
+        evaluation = m_evaluation(dataset["path_temp"])
         for k in evaluation:
             assert evaluation[k] == 1.0
+            
+        evaluation = m_evaluation(dataset["path_temp_incomplete"])
+        for k in evaluation:
+            assert evaluation[k] != 1.0

@@ -1,0 +1,3 @@
+pid=<*> uid=<*> auid=<*> ses=<*> msg='op=<*> acct=<*> exe=<*> hostname=<*> addr=<*> terminal=<*> res=<*>'
+pid=<*> uid=<*> auid=<*> ses=<*> msg='unit=<*> comm=<*> exe=<*> hostname=<*> addr=<*> terminal=<*> res=<*>'
+pid=<*> uid=<*> old-auid=<*> auid=<*> tty=<*> old-ses=<*> ses=<*> res=<*>

@@ -32,9 +32,9 @@ def add_parsed(df: pl.DataFrame, results: ParsedLogs) -> pl.DataFrame:
         df.insert_column(df.shape[1], pl.Series("ParamList", vars))
     
     if "Templates" in df:
-        df.with_columns(pl.Series("Templates", results.get_all_templates()))
+        df = df.with_columns(pl.Series("Templates", results.get_all_templates()))
     else:
-        df.insert_column(df.shape[1], pl.Series("Templates", results.get_all_templates()))
+        df = df.insert_column(df.shape[1], pl.Series("Templates", results.get_all_templates()))
 
     return df
 
