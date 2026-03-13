@@ -16,22 +16,71 @@ methods = {
 }
 
 
-def __evaluation(
+def _init_temp(templates: list[str] | LogTemplates | str) -> LogTemplates:
+    if isinstance(templates, LogTemplates):
+        return templates
+    if isinstance(templates, str):
+        return LogTemplates.from_file(templates)
+    return LogTemplates(templates)
+
+
+class MultipleEvaluation:
+    def __init__(
+        self,
+        logs: list[str], 
+        ground_templates: list[str] | LogTemplates | str,
+        n_workers: int = 1, 
+        batch: int = int(3e+6),
+        regex: str = r"(?P<Content>.*)",
+        metrics: list[str] = list(methods.keys()),
+    ) -> None:
+        
+        self.n_workers, self.batch = n_workers, batch
+        self.metrics = metrics
+
+        self.table = TreeMatcher(_init_temp(ground_templates))(
+            logs=logs,
+            get_var=False,
+            n_workers=n_workers,
+            batch=batch,
+            regex=regex,
+        )[["Templates", "Content"]]
+        self.table.insert_column(0, self.table["Templates"].rename("GroundTruth"))
+
+    def __call__(self, templates: list[str] | LogTemplates | str) -> dict[str, float]:
+
+        self.table = TreeMatcher(_init_temp(templates))(
+            logs=self.table,
+            get_var=False,
+            n_workers=self.n_workers,
+            batch=self.batch
+        )[["GroundTruth", "Templates", "Content"]]
+
+        print(self.table)
+
+        final = {}
+        for m in tqdm(self.metrics, desc="Running metrics..."):
+            final[m] = methods[m](self.table)
+
+        return final
+
+
+def evaluate(
     logs: list[str],
-    ground_matcher: TreeMatcher,
-    predicted_matcher: TreeMatcher,
+    ground_templates: list[str] | LogTemplates | str,
+    templates: list[str] | LogTemplates | str,
     n_workers: int = 1,
     batch: int = int(3e+6),
     regex: str = r"(?P<Content>.*)",
     metrics: list[str] = list(methods.keys()),
 ) -> pl.DataFrame:
     print("Running Ground Truth")
-    ground_truth = ground_matcher(
+    ground_truth = TreeMatcher(_init_temp(ground_templates))(
         logs, get_var=False, n_workers=n_workers, batch=batch, regex=regex
     )["Templates"]
 
     print("Running Templates")
-    predicted = predicted_matcher(
+    predicted = TreeMatcher(_init_temp(templates))(
         logs, get_var=False, n_workers=n_workers, batch=batch, regex=regex
     )["Templates"]
 
@@ -46,42 +95,3 @@ def __evaluation(
 
     return final
 
-
-def evaluate(
-    logs: list[str],
-    ground_templates: list[str],
-    templates: list[str],
-    n_workers: int = 1,
-    batch: int = int(3e+6),
-    regex: str = r"(?P<Content>.*)",
-    metrics: list[str] = list(methods.keys()),
-) -> pl.DataFrame:
-    return __evaluation(
-        logs=logs,
-        ground_matcher=TreeMatcher(templates=LogTemplates(ground_templates)),
-        predicted_matcher=TreeMatcher(templates=LogTemplates(templates)),
-        n_workers=n_workers,
-        batch=batch,
-        regex=regex,
-        metrics=metrics,
-    )
-
-
-def evaluate_from_file(
-    logs: list[str],
-    ground_templates_path: str,
-    templates_path: str,
-    n_workers: int = 1,
-    batch: int = int(3e+6),
-    regex: str = r"(?P<Content>.*)",
-    metrics: list[str] = list(methods.keys()),
-) -> pl.DataFrame:
-    return __evaluation(
-        logs=logs,
-        ground_matcher=TreeMatcher.from_file(ground_templates_path),
-        predicted_matcher=TreeMatcher.from_file(templates_path),
-        n_workers=n_workers,
-        batch=batch,
-        regex=regex,
-        metrics=metrics,
-    )

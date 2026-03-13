@@ -1,5 +1,5 @@
 
-from detectmateperformance.metrics import evaluate_from_file
+from detectmateperformance.metrics import evaluate, MultipleEvaluation
 import detectmateperformance.metrics._methods as m
 
 
@@ -113,12 +113,23 @@ dataset = {
 
 class TestCaseRunMetrics:
     def test_evaluate(self):
-        evaluation = evaluate_from_file(
+        evaluation = evaluate(
             logs=load_file(dataset["path_logs"]),
-            ground_templates_path=dataset["path_temp"],
-            templates_path=dataset["path_temp"],
+            ground_templates=dataset["path_temp"],
+            templates=dataset["path_temp"],
             regex=dataset["regex"]
         )
+
+        for k in evaluation:
+            assert evaluation[k] == 1.0
+
+    def test_multiple_evaluation(self):
+        m_evaluation = MultipleEvaluation(
+            logs=load_file(dataset["path_logs"]),
+            ground_templates=dataset["path_temp"],
+            regex=dataset["regex"],
+        )
+        evaluation = m_evaluation(dataset["path_temp"])
 
         for k in evaluation:
             assert evaluation[k] == 1.0

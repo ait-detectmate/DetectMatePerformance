@@ -1,7 +1,7 @@
-from ._op import methods, evaluate, evaluate_from_file
+from ._op import methods, evaluate, MultipleEvaluation
 
 __all__ = [
     "methods",
     "evaluate",
-    "evaluate_from_file",
+    "MultipleEvaluation",
 ]
