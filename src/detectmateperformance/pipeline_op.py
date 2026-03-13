@@ -8,8 +8,8 @@ import polars as pl
 import gc
 
 
-def generate_table(logs: list[str], regex: str) -> pl.DataFrame:
-    return (
+def preprocessing(logs: list[str], regex: str) -> pl.DataFrame:
+    df = (
         pl.DataFrame({"Message": logs})
         .with_columns(
             pl.col("Message")
@@ -18,6 +18,12 @@ def generate_table(logs: list[str], regex: str) -> pl.DataFrame:
         )
         .unnest("parts") 
     ).drop("Message")
+    df = df.drop_nulls()
+
+    del logs
+    gc.collect()
+
+    return df
 
 
 def add_parsed(df: pl.DataFrame, results: ParsedLogs) -> pl.DataFrame: 
@@ -39,24 +45,17 @@ def postprocessing(df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
-def run_full_pipeline(
+def run_batches(
     func: Callable[[list[str], bool, int], ParsedLogs],
-    logs: list[str],
+    table: pl.DataFrame,
     get_var: bool = False,
     n_workers: int = 1,
     batch = int(3e+6),
-    regex: str = r"(?P<Content>.*)"
 ) -> pl.DataFrame:
-
+    
     first = True
-    print(">>> Preprocesing logs")
-    table = generate_table(logs, regex=regex)
-    table = table.drop_nulls()
-    del logs
-    gc.collect()
-
+    print(">>> Matching data")
     for i in tqdm(range(batch, len(table) + batch, batch)):
-        print(">>> Matching data")
         results = func(
             table["Content"][i-batch: i].to_list(), get_var=get_var, n_workers=n_workers
         )
@@ -69,3 +68,24 @@ def run_full_pipeline(
 
     print(">>> Postprocessing results")
     return postprocessing(df)
+
+
+def run_full_pipeline(
+    func: Callable[[list[str], bool, int], ParsedLogs],
+    logs: list[str],
+    get_var: bool = False,
+    n_workers: int = 1,
+    batch = int(3e+6),
+    regex: str = r"(?P<Content>.*)"
+) -> pl.DataFrame:
+
+    print(">>> Preprocesing logs")
+    table = preprocessing(logs, regex=regex)
+
+    return run_batches(
+        func=func,
+        table=table,
+        get_var=get_var,
+        n_workers=n_workers,
+        batch=batch,
+    )

@@ -1,4 +1,4 @@
-from detectmateperformance.pipeline_op import run_full_pipeline
+from detectmateperformance.pipeline_op import run_full_pipeline, run_batches
 from detectmateperformance._core.bind_class import MatchTree
 
 from detectmateperformance.types_ import LogTemplates, ParsedLogs, Parsed
@@ -43,12 +43,21 @@ class TreeMatcher:
     
     def __call__(
         self,
-        logs: list[str], 
+        logs: list[str] | pl.DataFrame, 
         get_var: bool = False, 
         n_workers: int = 1, 
         batch = int(3e+6),
         regex: str = r"(?P<Content>.*)"
     ) -> pl.DataFrame:
+        
+        if isinstance(logs, pl.DataFrame):
+            return run_batches(
+                func=self.match_batch,
+                table=logs,
+                get_var=get_var,
+                n_workers=n_workers,
+                batch=batch,
+            )
         
         return run_full_pipeline(
             func=self.match_batch,
