@@ -57,10 +57,10 @@ def load_file(path_logs) -> list[str]:
         return f.readlines()
 
 
-results = matep.metrics.evaluate_from_file(
+results = matep.metrics.evaluate(
     logs=load_file(dataset["path_logs"]),
-    ground_templates_path=dataset["path_temp"],
-    templates_path=dataset["path_temp"],
+    ground_templates=dataset["path_temp"],
+    templates=dataset["path_temp"],
     regex=dataset["regex"]
 )
 
