@@ -1,0 +1,10 @@
+site_name: DetectMate Performance
+site_url: https://ait-detectmate.github.io/DetectMatePerformance/
+
+theme:
+  name: readthedocs
+
+nav:
+  - Home: index.md
+  - Methods:
+      - TreeMatcher: tree_matcher.md
