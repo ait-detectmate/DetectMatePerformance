@@ -21,8 +21,5 @@ dependencies = [
 [tool.setuptools.packages.find]
 where = ["src"]
 
-[project.scripts]
-mate = "tools.workspace.create_workspace:main"
-
 [tool.setuptools.package-data]
 "*" = ["_core/bind_class.cpython-312-x86_64-linux-gnu.so"]
