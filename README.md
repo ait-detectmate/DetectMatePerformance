@@ -17,6 +17,7 @@ Intall python dependencies:
 ```bash
 pip install uv
 uv sync
+prek install
 ```
 
 Compile the code, make sure that all unit tests are green:
