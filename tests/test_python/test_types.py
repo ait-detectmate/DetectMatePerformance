@@ -1,4 +1,4 @@
-from detectmateperformance.types_ import  LogTemplates, ParsedLogs, Parsed
+from detectmateperformance.types_ import LogTemplates, ParsedLogs, Parsed
 
 
 path_temp = "tests/test_data/audit_templates.txt"
@@ -47,7 +47,7 @@ class TestCaseParsed:
         parsed[0] = "Hello VAR world VAR"
         parsed[3] = "ciaoo bellaaa"
 
-        assert parsed[0] == "Hello VAR world VAR" 
+        assert parsed[0] == "Hello VAR world VAR"
         assert parsed[3] == "template not found"
 
     def test_get_all_templates(self):
@@ -74,8 +74,8 @@ class TestCaseParsed:
 
         expected = [[], ["a", "b", "c"]]
         assert parsed.get_all_vars() == expected
-        
-    def test_add_elements(self):
+
+    def test_add_elements_shape_(self):
         parsed = ParsedLogs(LogTemplates(templates), 5)
         assert parsed.shape() == (5, 0)
 

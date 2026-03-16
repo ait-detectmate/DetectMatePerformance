@@ -6,7 +6,7 @@ from . import _core
 
 __all__ = [
     "match_tree",
-    "types_"
-    "metrics"
-    "_core"
+    "types_",
+    "metrics",
+    "_core",
 ]

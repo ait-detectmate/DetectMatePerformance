@@ -51,4 +51,3 @@ TEST(VariableTest, VariableNotCapture) {
     delete variables1;
     delete variables2;
 }
-

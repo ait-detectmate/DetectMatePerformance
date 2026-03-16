@@ -101,7 +101,7 @@ TEST(TreeOpTest, AddSequence) {
 
     root->addChild(child1);
     child1->addChild(grandchild);
-    
+
     std::vector<std::string> sequence = {"hi", "VAR"};
     Tree* root2 = new Tree("");
     addSequence(root2, sequence, "hi VAR", 0);
@@ -121,7 +121,7 @@ TEST(TreeOpTest, AddSequenceSpecialCase) {
 
     root->addChild(child1);
     child1->addChild(grandchild);
-    
+
     std::vector<std::string> sequence = {"hi", "VAR", "VAR", "VAR"};
     Tree* root2 = new Tree("");
     addSequence(root2, sequence, "hi VAR", 0);

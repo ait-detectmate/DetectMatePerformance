@@ -1,4 +1,4 @@
-#include "tree_op.h" 
+#include "tree_op.h"
 #include "tree.h"
 #include "variables.h"
 
@@ -14,7 +14,7 @@ std::pair<bool, Tree*> searchTree(
     // Sequence is empty but the tree is not
     if (sequence.empty()) {
         return std::make_pair(false, nullptr);
-    }    
+    }
 
     std::string head = sequence.front();
     std::pair<bool, Tree*> result = node->contains(head);
@@ -30,7 +30,7 @@ std::pair<bool, Tree*> searchTree(
         }
 
     }
-    
+
     // sequence element not found but the tree has <*>
     result = node->contains_variable();
     if (result.first) {
@@ -57,7 +57,7 @@ std::pair<bool, Tree*> searchTree(
         }
 
     }
-    
+
     return std::make_pair(false, nullptr);
 }
 
@@ -92,9 +92,9 @@ void addSequence(
 
         }
     }
-    
+
     i = i + 1;
-    if (i < sequence.size()) {    
+    if (i < sequence.size()) {
         addSequence(child, sequence, template_, i);
     }
 
@@ -102,7 +102,7 @@ void addSequence(
 
 Tree* buildTree(Templates* sequences) {
     Tree* root = new Tree("");
-    
+
     auto temp = sequences->getNext();
     std::string full_temp;
     while (temp.size() > 0) {

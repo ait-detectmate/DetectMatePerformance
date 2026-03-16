@@ -2,7 +2,7 @@
 #include "variables.h"
 
 #include <vector>
-#include <utility> 
+#include <utility>
 #include <string>
 
 
@@ -10,7 +10,7 @@
 Variables::Variables() {
     capture_vars = true;
 }
-    
+
 Variables::Variables(bool get_variables) {
     capture_vars = get_variables;
 }

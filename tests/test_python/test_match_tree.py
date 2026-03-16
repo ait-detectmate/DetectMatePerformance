@@ -20,7 +20,7 @@ class TestCaseTreeMatcher:
         assert len(TreeMatcher.from_file(path_temp)) == 9
 
         templates = LogTemplates.from_file(path_temp)
-        assert len(TreeMatcher(templates)) == 9 
+        assert len(TreeMatcher(templates)) == 9
 
     def test_match_log(self):
         tree_matcher = TreeMatcher(LogTemplates(["Hello`=<*> kenobi"]))
@@ -34,7 +34,7 @@ class TestCaseTreeMatcher:
 
         result = tree_matcher.match_log(log, True)
         assert result[0] == ("Hello VAR kenobi", ["there", "general"])
- 
+
     def test_match_batch(self):
         tree_matcher = TreeMatcher(LogTemplates(["Hello`=<*> kenobi"]))
         logs = ["Hello`=there general kenobi", "roger roger"]

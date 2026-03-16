@@ -13,8 +13,8 @@ void remove_empty(std::deque<std::string>& words) {
 
 std::deque<std::string> preprocessing(std::string message) {
     std::deque<std::string> words;
-    
-    const char* start = message.data();  
+
+    const char* start = message.data();
     const char* end = start;
 
     while (*end) {
@@ -24,7 +24,7 @@ std::deque<std::string> preprocessing(std::string message) {
 
         if (do_split(end)) {
             words.emplace_back(start, end);
-            start = end + 1;  
+            start = end + 1;
         }
         end++;
 

@@ -14,7 +14,7 @@ make
 cd ..
 
 # Move compiled C++ code
-cp build/bind_class* src/detectmateperformance/_core/ 
+cp build/bind_class* src/detectmateperformance/_core/
 
 # Run tests
 uv run pytest

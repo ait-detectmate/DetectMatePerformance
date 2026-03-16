@@ -1,8 +1,8 @@
-#ifndef M_TREE_H  
+#ifndef M_TREE_H
 #define M_TREE_H
 
 #include <vector>
-#include <utility> 
+#include <utility>
 #include <string>
 #include <deque>
 
@@ -35,4 +35,4 @@ public:
 
     Templates* getTemplates();
 };
-#endif 
+#endif

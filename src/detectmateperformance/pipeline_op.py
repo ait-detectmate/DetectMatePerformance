@@ -13,10 +13,10 @@ def preprocessing(logs: list[str], regex: str) -> pl.DataFrame:
         pl.DataFrame({"Message": logs})
         .with_columns(
             pl.col("Message")
-            .str.extract_groups(regex)  
+            .str.extract_groups(regex)
             .alias("parts")
         )
-        .unnest("parts") 
+        .unnest("parts")
     ).drop("Message")
     df = df.drop_nulls()
 
@@ -26,11 +26,11 @@ def preprocessing(logs: list[str], regex: str) -> pl.DataFrame:
     return df
 
 
-def add_parsed(df: pl.DataFrame, results: ParsedLogs) -> pl.DataFrame: 
+def add_parsed(df: pl.DataFrame, results: ParsedLogs) -> pl.DataFrame:
     vars = results.get_all_vars()
     if vars is not None:
         df.insert_column(df.shape[1], pl.Series("ParamList", vars))
-    
+
     if "Templates" in df:
         df = df.with_columns(pl.Series("Templates", results.get_all_templates()))
     else:
@@ -56,13 +56,13 @@ def run_batches(
     table: pl.DataFrame,
     get_var: bool = False,
     n_workers: int = 1,
-    batch = int(3e+6),
+    batch: int = int(3e+6),
 ) -> pl.DataFrame:
-    
+
     first = True
     print(">>> Matching data")
     for i in tqdm(range(batch, len(table) + batch, batch)):
-        results = func(
+        results = func(  # type: ignore
             table["Content"][i-batch: i].to_list(), get_var=get_var, n_workers=n_workers
         )
         if first:
@@ -81,7 +81,7 @@ def run_full_pipeline(
     logs: list[str],
     get_var: bool = False,
     n_workers: int = 1,
-    batch = int(3e+6),
+    batch: int = int(3e+6),
     regex: str = r"(?P<Content>.*)"
 ) -> pl.DataFrame:
 

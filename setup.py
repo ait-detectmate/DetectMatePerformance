@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 import tomllib
 
 
-def gather_dependencies(toml_path="pyproject.toml"):
+def gather_dependencies(toml_path: str = "pyproject.toml") -> list[str]:
     with open(toml_path, "rb") as f:
         data = tomllib.load(f)
 
@@ -12,7 +12,7 @@ def gather_dependencies(toml_path="pyproject.toml"):
         return [f"{dep}{version}" for dep, version in poetry_deps.items()]
 
     # Fall back to PEP 621
-    project_deps = data.get("project", {}).get("dependencies", [])
+    project_deps: list[str] = data.get("project", {}).get("dependencies", [])
     return project_deps
 
 

@@ -1,14 +1,14 @@
 #ifndef M_PARSED_H
 #define M_PARSED_H
 
-#include <utility> 
+#include <utility>
 #include <string>
 #include <unordered_map>
 #include <deque>
 
 #include "templates.h"
 
-#include <functional> 
+#include <functional>
 
 
 class ParsedMessages {
@@ -18,7 +18,7 @@ protected:
 
     std::unordered_map<std::string, int> event_ids_map;
     std::vector<std::string> id_to_template;
- 
+
 public:
     ParsedMessages(Templates* templates, int n);
 
@@ -38,4 +38,4 @@ public:
     std::pair<int, int> shape();
 
 };
-#endif 
+#endif

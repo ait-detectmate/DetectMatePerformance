@@ -144,7 +144,7 @@ class TestCaseRunMetrics:
         evaluation = m_evaluation(dataset["path_temp"])
         for k in evaluation:
             assert evaluation[k] == 1.0
-            
+
         evaluation = m_evaluation(dataset["path_temp_incomplete"])
         for k in evaluation:
             assert evaluation[k] != 1.0

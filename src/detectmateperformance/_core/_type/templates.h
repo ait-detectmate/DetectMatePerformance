@@ -2,11 +2,11 @@
 #define M_TEMPLATES_H
 
 #include <vector>
-#include <utility> 
+#include <utility>
 #include <string>
 #include <deque>
 
-std::vector<std::string> te_preprocess(std::vector<std::string> message); 
+std::vector<std::string> te_preprocess(std::vector<std::string> message);
 
 class Templates {
 protected:
@@ -25,4 +25,4 @@ public:
     std::pair<int, int> shape();
     void resetCount();
 };
-#endif 
+#endif

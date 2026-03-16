@@ -27,14 +27,14 @@ def _init_temp(templates: list[str] | LogTemplates | str) -> LogTemplates:
 class MultipleEvaluation:
     def __init__(
         self,
-        logs: list[str], 
+        logs: list[str],
         ground_templates: list[str] | LogTemplates | str,
-        n_workers: int = 1, 
+        n_workers: int = 1,
         batch: int = int(3e+6),
         regex: str = r"(?P<Content>.*)",
         metrics: list[str] = list(methods.keys()),
     ) -> None:
-        
+
         self.n_workers, self.batch = n_workers, batch
         self.metrics = metrics
 
@@ -59,8 +59,8 @@ class MultipleEvaluation:
         print(self.table)
 
         final = {}
-        for m in tqdm(self.metrics, desc="Running metrics..."):
-            final[m] = methods[m](self.table)
+        for me in tqdm(self.metrics, desc="Running metrics..."):
+            final[me] = methods[me](self.table)
 
         return final
 
@@ -90,8 +90,7 @@ def evaluate(
     print(results)
 
     final = {}
-    for m in tqdm(metrics, desc="Running metrics..."):
-        final[m] = methods[m](results)
+    for me in tqdm(metrics, desc="Running metrics..."):
+        final[me] = methods[me](results)
 
     return final
-

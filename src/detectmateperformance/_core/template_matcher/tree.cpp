@@ -1,6 +1,6 @@
 #include "tree.h"
-#include <algorithm>  
-#include <utility> 
+#include <algorithm>
+#include <utility>
 #include <string>
 
 
@@ -18,7 +18,7 @@ Tree::Tree(std::string value, std::string template_) {
 
 Tree::~Tree() {
     for (Tree* child : getChildren()) {
-        delete child;  
+        delete child;
     }
 }
 
@@ -67,20 +67,20 @@ bool Tree::isEqual(Tree* node) {
 
     if (isFullTemplate() && node->getTemplate() != getTemplate()) {
         return false;
-    } 
+    }
 
     if (getChildren().size() != node->getChildren().size()) {
         return false;
     }
 
-    std::pair<bool, Tree*> result;      
+    std::pair<bool, Tree*> result;
     for (Tree* child: getChildren()) {
         result = node->contains(child->getData());
 
         if (result.first) {
             if (!child->isEqual(result.second)) {
                 return false;
-            }             
+            }
         } else {
             return false;
         }

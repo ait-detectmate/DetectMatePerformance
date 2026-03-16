@@ -25,15 +25,15 @@ ParsedMessages::~ParsedMessages() {
 }
 
 std::string ParsedMessages::getElem(int n) {
-    
+
     int event_idsf = event_ids[n];
     if (event_idsf == -1) {
         return "template not found";
     }
- 
+
     return id_to_template[event_idsf];
 }
-    
+
 std::pair<std::string, std::deque<std::string>> ParsedMessages::getElemWithVar(int n) {
     std::string temp = ParsedMessages::getElem(n);
     std::deque<std::string> vars = this->variables[n];
@@ -85,6 +85,6 @@ std::pair<int, int> ParsedMessages::shape() {
     for (const auto& vars : this->variables) {
         max_length = std::max(max_length, static_cast<int>(vars.size()));
     }
-    
+
     return {event_ids.size(), max_length};
 }

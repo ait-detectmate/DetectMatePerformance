@@ -1,5 +1,5 @@
 #include <vector>
-#include <utility> 
+#include <utility>
 #include <string>
 #include <algorithm>
 #include <thread>
@@ -24,14 +24,14 @@ std::string do_match(Tree* tree_, std::string sentence, Variables* vars) {
 }
 
 void do_matches(
-    Tree* tree_, 
+    Tree* tree_,
     const std::vector<std::string>& sentences,
     ParsedMessages* results,
     int startIdx,
     int stopIdx
 ) {
 
-    Variables* vars = new Variables(false);   
+    Variables* vars = new Variables(false);
     for (int i = startIdx; i < stopIdx; ++i) {
         results->setElem(i, do_match(tree_, sentences[i], vars));
     }
@@ -39,14 +39,14 @@ void do_matches(
 }
 
 void do_matches_with_var(
-    Tree* tree_, 
+    Tree* tree_,
     const std::vector<std::string>& sentences,
     ParsedMessages* results,
     int startIdx,
     int stopIdx
 ) {
 
-    Variables* vars = new Variables();   
+    Variables* vars = new Variables();
     for (int i = startIdx; i < stopIdx; ++i) {
         auto aux = do_match(tree_, sentences[i], vars);
         results->setElemWithVar(i, aux, vars->export_variables());

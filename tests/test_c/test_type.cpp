@@ -62,7 +62,7 @@ TEST(ParsedMessagesTest, GetNext) {
     Templates* templates = new Templates(input);
     ParsedMessages parsed(templates, 4);
 
-    
+
     parsed.setElem(0, "Hello VAR world VAR");
     parsed.setElem(1, "Hello VAR world VAR");
     parsed.setElem(2, "Goodbye VAR");
@@ -82,7 +82,7 @@ TEST(ParsedMessagesTest, GetAllNext) {
     std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
     Templates* templates = new Templates(input);
     ParsedMessages parsed(templates, 4);
-    
+
     parsed.setElem(0, "Hello VAR world VAR");
     parsed.setElem(1, "Hello VAR world VAR");
     parsed.setElem(2, "Goodbye VAR");
@@ -92,7 +92,7 @@ TEST(ParsedMessagesTest, GetAllNext) {
     for (int i = 0; i < results.size(); i++) {
         EXPECT_EQ(parsed.getElem(i), results[i]);
     }
-    
+
 }
 
 TEST(ParsedMessagesTest, GetNextWithVar) {
@@ -102,7 +102,7 @@ TEST(ParsedMessagesTest, GetNextWithVar) {
 
     std::deque<std::string> var1 = {};
     std::deque<std::string> var2 = {"a", "b"};
-    
+
     parsed.setElemWithVar(0, "Hello VAR world VAR", var1);
     parsed.setElemWithVar(1, "Hello VAR world VAR", var2);
     parsed.setElemWithVar(2, "Goodbye VAR", var2);
@@ -131,7 +131,7 @@ TEST(ParsedMessagesTest, GetAllVar) {
 
     std::deque<std::string> var1 = {};
     std::deque<std::string> var2 = {"a", "b"};
-    
+
     parsed.setElemWithVar(0, "Hello VAR world VAR", var1);
     parsed.setElemWithVar(1, "Hello VAR world VAR", var2);
     parsed.setElemWithVar(2, "Goodbye VAR", var2);

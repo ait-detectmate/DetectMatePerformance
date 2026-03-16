@@ -8,7 +8,7 @@ TEST(TreeTest, Initialization) {
 
     EXPECT_EQ(node->getData(), "hi");
     EXPECT_TRUE(node->isFullTemplate());
-    delete node; 
+    delete node;
 }
 
 TEST(TreeTest, AddChild) {
@@ -17,7 +17,7 @@ TEST(TreeTest, AddChild) {
 
     parent->addChild(child);
     EXPECT_EQ(parent->getChildren().size(), 1);
-    delete parent;  
+    delete parent;
 }
 
 TEST(TreeTest, SetTemplate) {
@@ -28,7 +28,7 @@ TEST(TreeTest, SetTemplate) {
     EXPECT_TRUE(parent->isFullTemplate());
     EXPECT_EQ(parent->getTemplate(), "ciaoo");
 
-    delete parent;  
+    delete parent;
 }
 
 TEST(TreeTest, GetChildrenValue) {
@@ -53,7 +53,7 @@ TEST(TreeTest, Contains) {
 
     parent->addChild(child1);
     parent->addChild(child2);
-    
+
     std::pair<bool, Tree*> result1 = parent->contains("hi");
     EXPECT_TRUE(result1.first);
 
@@ -70,7 +70,7 @@ TEST(TreeTest, ContainsVariable) {
 
     parent->addChild(child1);
     child1->addChild(grandchild1);
-    
+
     std::pair<bool, Tree*> result1 = parent->contains_variable();
     EXPECT_FALSE(result1.first);
 

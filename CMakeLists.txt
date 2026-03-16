@@ -28,7 +28,7 @@ FetchContent_MakeAvailable(googletest)
 enable_testing()
 
 add_test(
-  NAME memory_leak_test 
+  NAME memory_leak_test
   COMMAND valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes --verbose ./test_c
 )
 
@@ -95,7 +95,7 @@ add_executable(
 )
 
 pybind11_add_module(
-  bind_class 
+  bind_class
   src/detectmateperformance/_core/bind_class.cpp
   src/detectmateperformance/_core/aux.h
   src/detectmateperformance/_core/aux.cpp
@@ -118,7 +118,7 @@ target_link_libraries(
   GTest::gtest_main
   templates
   parsed
-  tree 
+  tree
   variable
   tree_op
   match_tree
@@ -136,7 +136,7 @@ target_link_libraries(
 target_link_libraries(
   test_matcher_tree
   GTest::gtest_main
-  tree 
+  tree
 )
 
 target_link_libraries(
@@ -144,7 +144,7 @@ target_link_libraries(
   GTest::gtest_main
   templates
   parsed
-  tree 
+  tree
   variable
   tree_op
   match_tree

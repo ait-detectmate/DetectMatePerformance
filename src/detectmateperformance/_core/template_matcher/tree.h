@@ -1,8 +1,8 @@
-#ifndef TREE_H  
+#ifndef TREE_H
 #define TREE_H
 
 #include <vector>
-#include <utility> 
+#include <utility>
 #include <string>
 
 
@@ -11,10 +11,10 @@ extern const std::string VARIABLE_SYMBOL;
 
 class Tree {
 private:
-    std::string data;     
+    std::string data;
     std::string full_template = "";
 
-    std::vector<Tree*> children;  
+    std::vector<Tree*> children;
 
 public:
     Tree(std::string value);

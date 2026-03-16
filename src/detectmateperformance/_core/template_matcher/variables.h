@@ -1,8 +1,8 @@
-#ifndef VAR_H  
+#ifndef VAR_H
 #define VAR_H
 
 #include <vector>
-#include <utility> 
+#include <utility>
 #include <string>
 #include <deque>
 
