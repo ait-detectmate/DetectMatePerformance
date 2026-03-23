@@ -13,6 +13,7 @@ dependencies = [
     "numpy>=2.4.3",
     "polars>=1.38.1",
     "pybind11>=3.0.2",
+    "setuptools>=82.0.1",
     "tqdm",
 ]
 
@@ -31,4 +32,4 @@ dev = [
 where = ["src"]
 
 [tool.setuptools.package-data]
-"*" = ["_core/bind_class.cpython-312-x86_64-linux-gnu.so"]
+"*" = ["lib/bind_class.*"]

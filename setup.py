@@ -1,5 +1,6 @@
 from setuptools import setup, find_packages
 import tomllib
+import os
 
 
 def gather_dependencies(toml_path: str = "pyproject.toml") -> list[str]:
@@ -14,6 +15,15 @@ def gather_dependencies(toml_path: str = "pyproject.toml") -> list[str]:
     # Fall back to PEP 621
     project_deps: list[str] = data.get("project", {}).get("dependencies", [])
     return project_deps
+
+
+def add_lib_path(path: str = "lib/") -> list[str]:
+    arch = os.uname().machine
+    files = [
+        f"{path}/{f}" for f in os.listdir(path)
+        if os.path.isfile(os.path.join(path, f)) and arch in f
+    ]
+    return files
 
 
 setup(

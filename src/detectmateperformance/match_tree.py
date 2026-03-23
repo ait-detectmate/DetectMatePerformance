@@ -1,5 +1,5 @@
 from detectmateperformance.pipeline_op import run_full_pipeline, run_batches
-from detectmateperformance._core.bind_class import MatchTree, Parsed
+from detectmateperformance.lib.bind_class import MatchTree, Parsed
 
 from detectmateperformance.types_ import LogTemplates, ParsedLogs
 
