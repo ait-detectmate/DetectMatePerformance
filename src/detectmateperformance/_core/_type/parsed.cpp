@@ -24,9 +24,14 @@ ParsedMessages::~ParsedMessages() {
     this->id_to_template.clear();
 }
 
+
+int ParsedMessages::getElemID(int n) {
+    return this->event_ids[n];
+}
+
 std::string ParsedMessages::getElem(int n) {
 
-    int event_idsf = event_ids[n];
+    int event_idsf = this->getElemID(n);
     if (event_idsf == -1) {
         return "template not found";
     }
@@ -56,6 +61,16 @@ void ParsedMessages::setElemWithVar(
     ParsedMessages::setElem(n, template_);
     this->variables[n] = vars;
 
+}
+
+std::vector<int> ParsedMessages::getAllIDs() {
+    std::vector<int> event_ids(this->size());
+
+    for (int i = 0; i < this->size(); i++) {
+        event_ids[i] = this->getElemID(i);
+    }
+
+    return event_ids;
 }
 
 std::vector<std::string> ParsedMessages::getAllElemts() {

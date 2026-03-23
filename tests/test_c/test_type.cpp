@@ -78,6 +78,14 @@ TEST(ParsedMessagesTest, GetNext) {
     EXPECT_EQ(parsed.getElem(3), temp3);
 }
 
+TEST(ParsedMessagesTest, GetAllIDs) {
+    std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
+    Templates* templates = new Templates(input);
+    ParsedMessages parsed(templates, 4);
+
+    EXPECT_EQ(parsed.getAllIDs().size(), 4);
+}
+
 TEST(ParsedMessagesTest, GetAllNext) {
     std::deque<std::string> input = {"Hello VAR, world=VAR:VAR VAR", "Goodbye VAR"};
     Templates* templates = new Templates(input);

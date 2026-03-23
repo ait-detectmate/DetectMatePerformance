@@ -17,10 +17,12 @@ PYBIND11_MODULE(bind_class, m) {
         .def("shape", &Templates::shape);
     py::class_<ParsedMessages>(m, "Parsed")
         .def(py::init<Templates*, int>())
+        .def("get_elem_id", &ParsedMessages::getElemID)
         .def("get_elem", &ParsedMessages::getElem)
         .def("set_elem", &ParsedMessages::setElem)
         .def("get_elem_with_var", &ParsedMessages::getElemWithVar)
         .def("set_elem_with_var", &ParsedMessages::setElemWithVar)
+        .def("get_all_ids", &ParsedMessages::getAllIDs)
         .def("get_all_elem", &ParsedMessages::getAllElemts)
         .def("get_all_var", &ParsedMessages::getAllVar)
         .def("size", &ParsedMessages::size)
