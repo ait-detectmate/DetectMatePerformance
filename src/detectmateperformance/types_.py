@@ -74,6 +74,9 @@ class ParsedLogs:
             return self.inst.set_elem_with_var(idx, values[0], values[1])  # type: ignore
         return self.inst.set_elem(idx, values)  # type: ignore
 
+    def get_all_events_ids(self) -> list[int]:
+        return self.inst.get_all_ids()  # type: ignore
+
     def get_all_templates(self) -> list[str]:
         return self.inst.get_all_elem()  # type: ignore
 

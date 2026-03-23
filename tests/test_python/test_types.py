@@ -50,6 +50,15 @@ class TestCaseParsed:
         assert parsed[0] == "Hello VAR world VAR"
         assert parsed[3] == "template not found"
 
+    def test_get_all_ids(self):
+        parsed = ParsedLogs(LogTemplates(templates), 3)
+        parsed[0] = "Hello VAR world VAR"
+        parsed[1] = "ciaoo bellaaa"
+        parsed[2] = "Hello VAR world VAR"
+
+        expected = [0, -1, 0]
+        assert parsed.get_all_events_ids() == expected
+
     def test_get_all_templates(self):
         parsed = ParsedLogs(LogTemplates(templates), 2)
         parsed[0] = "Hello VAR world VAR"
