@@ -88,6 +88,10 @@ def run_full_pipeline(
     print(">>> Preprocesing logs")
     table = preprocessing(logs, regex=regex)
 
+    if "Content" not in table.columns:
+        print("!Content not found")
+        return table
+
     return run_batches(
         func=func,
         table=table,
