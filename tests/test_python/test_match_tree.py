@@ -74,3 +74,22 @@ class TestCaseTreeMatcher:
 
         assert isinstance(results, pl.DataFrame)
         assert len(logs) == len(results)
+
+
+class TestCaseHardones:
+    def test_case_1(self):
+        temp = LogTemplates([
+            "<*> floating point alignment exceptions",
+            "floating pt ex mode <*> enable......<*>",
+            "floating point instr. enabled.....<*>",
+        ])
+        tree_macther = TreeMatcher(temp)
+        logs = [
+            "8 floating point alignment exceptions",
+            "8 9 hi floating point alignment exceptions"
+        ]
+
+        results = tree_macther(logs, get_var=False)
+
+        assert len(results["Templates"].unique()) == 1
+        assert results["Templates"].unique()[0] == "<*> floating point alignment exceptions"
