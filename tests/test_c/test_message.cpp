@@ -371,3 +371,19 @@ TEST(ParsedMessagesTest, HardCases2) {
     EXPECT_EQ(result1->getElem(0), "VAR Exception writing block VAR to mirror VAR");
 
 }
+
+TEST(ParsedMessagesTest, HardCases3) {
+    std::deque<std::string> input = {
+        "rts: kernel terminated for reason VAR",
+        "rts: kernel terminated for reason VAR: bad message header: invalid cpu, type=VAR, cpu=VAR, index=VAR, total=VAR",
+    };
+    std::string log = "rts: kernel terminated for reason 1001";
+
+    Templates* templates = new Templates(input);
+    MatchTree* matcher = new MatchTree(templates);
+
+    ParsedMessages* result1 = matcher->match_string(log);
+    EXPECT_EQ(result1->size(), 1);
+    EXPECT_EQ(result1->getElem(0), "rts kernel terminated for reason VAR");
+
+}

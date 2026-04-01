@@ -6,7 +6,6 @@
 #include <sstream>
 #include <deque>
 
-
 std::pair<bool, Tree*> __searchTree(
     Tree* node, std::deque<std::string>& sequence, Variables* variables, bool in_var
 ) {
@@ -29,7 +28,6 @@ std::pair<bool, Tree*> __searchTree(
             sequence.pop_front();
             return __searchTree(result.second, sequence, variables, false);
         }
-
     }
 
     // sequence element not found but the tree has <*>
@@ -42,7 +40,6 @@ std::pair<bool, Tree*> __searchTree(
         }
 
         std::pair<bool, Tree*> sub_result = result.second->contains(head);
-
         // The next element after <*> is found
         if (sub_result.first) {
             if (sequence.size() == 1) {
@@ -52,12 +49,16 @@ std::pair<bool, Tree*> __searchTree(
                 return __searchTree(sub_result.second, sequence, variables, false);
             }
         } else {
+        // No more elements in the sequence
+            if (sequence.size() == 1) {
+                variables->add_variables(sequence);
+                return std::make_pair(result.second->isFullTemplate(), result.second);
+            }
             // The next element after <*> was not found, keep going deeper in the sequence
             variables->add_variable(head);
             sequence.pop_front();
             return __searchTree(node, sequence, variables, true);
         }
-
     }
 
     return std::make_pair(false, nullptr);
