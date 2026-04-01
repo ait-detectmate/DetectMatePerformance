@@ -338,3 +338,36 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
 
     delete matcher;
 }
+
+TEST(ParsedMessagesTest, HardCases1) {
+    std::deque<std::string> input = {
+        "VAR floating point alignment exceptions",
+        "floating point instr. enabled.....VAR",
+        "floating pt ex mode <*> enable......VAR",
+    };
+    std::string log = "8 floating point alignment exceptions";
+
+    Templates* templates = new Templates(input);
+    MatchTree* matcher = new MatchTree(templates);
+
+    ParsedMessages* result1 = matcher->match_string(log);
+    EXPECT_EQ(result1->size(), 1);
+    EXPECT_EQ(result1->getElem(0), "VAR floating point alignment exceptions");
+
+}
+
+TEST(ParsedMessagesTest, HardCases2) {
+    std::deque<std::string> input = {
+        "Exception in receiveBlock for block VAR java.io.IOException: Broken pipe",
+        "VAR:Exception writing block VAR to mirror VAR",
+    };
+    std::string log = "10.250.14.196:50010:Exception writing block blk_-6994808880344424033 to mirror 10.251.107.50:50010";
+
+    Templates* templates = new Templates(input);
+    MatchTree* matcher = new MatchTree(templates);
+
+    ParsedMessages* result1 = matcher->match_string(log);
+    EXPECT_EQ(result1->size(), 1);
+    EXPECT_EQ(result1->getElem(0), "VAR Exception writing block VAR to mirror VAR");
+
+}
