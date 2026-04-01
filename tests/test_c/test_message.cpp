@@ -387,3 +387,19 @@ TEST(ParsedMessagesTest, HardCases3) {
     EXPECT_EQ(result1->getElem(0), "rts kernel terminated for reason VAR");
 
 }
+
+TEST(ParsedMessagesTest, HardCases4) {
+    std::deque<std::string> input = {
+        "data TLB error interrupt data address space................0",
+        "data TLB error interrupt",
+    };
+    std::string log = "data TLB error interrupt";
+
+    Templates* templates = new Templates(input);
+    MatchTree* matcher = new MatchTree(templates);
+
+    ParsedMessages* result1 = matcher->match_string(log);
+    EXPECT_EQ(result1->size(), 1);
+    EXPECT_EQ(result1->getElem(0), "data TLB error interrupt");
+
+}

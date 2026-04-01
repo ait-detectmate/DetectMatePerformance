@@ -6,6 +6,8 @@
 #include <sstream>
 #include <deque>
 
+#include <iostream>
+
 std::pair<bool, Tree*> __searchTree(
     Tree* node, std::deque<std::string>& sequence, Variables* variables, bool in_var
 ) {
@@ -19,10 +21,13 @@ std::pair<bool, Tree*> __searchTree(
     std::string head = sequence.front();
     std::pair<bool, Tree*> result = node->contains(head);
 
+    std::cout << head << " " << result.first << std::endl;
     // Next element in the sequence was found in the tree
     if (result.first && !in_var){
         // Sequence only have one more element
         if (sequence.size() == 1) {
+            std::cout << "Got here " << result.second->isFullTemplate() << std::endl;
+            std::cout << result.second->getData() << std::endl;
             return std::make_pair(result.second->isFullTemplate(), result.second);
         } else {
             sequence.pop_front();
@@ -96,8 +101,11 @@ void addSequence(
             node->addChild(child);
 
         } else {
-
             child = result.second;
+
+            if (sequence.size() - 1 == i) {
+                child->setTemplate(template_);
+            }
 
         }
     }
