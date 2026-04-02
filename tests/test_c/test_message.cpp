@@ -10,7 +10,7 @@
 #include "../../src/detectmateperformance/_core/template_matcher/tree_op.h"
 #include "../../src/detectmateperformance/_core/template_matcher/match_tree.h"
 
-/*
+
 TEST(TreeOpTest, SearchTree) {
     Tree* root = new Tree("");
     Tree* child1 = new Tree("hello");
@@ -26,15 +26,14 @@ TEST(TreeOpTest, SearchTree) {
     Variables* vars = new Variables();
 
     std::deque<std::string> sequence0 = {"hello", "there"};
-    auto result0 = searchTree(root, sequence0, vars);
-    //EXPECT_FALSE(result0.first);
-
+    std::pair<bool, Tree*> result0 = searchTree(root, sequence0, vars);
+    EXPECT_FALSE(result0.first);
 
     delete root;
     delete vars;
 }
-*/
-/*
+
+
 TEST(TreeOpTest, SearchTreeWithVariable) {
     Tree* root = new Tree("");
     Tree* child1 = new Tree("hello");
@@ -78,13 +77,13 @@ TEST(TreeOpTest, SearchTreeWithVariable) {
     auto result5 = searchTree(root, sequence5, vars5);
     EXPECT_FALSE(result5.first);
 
-    std::deque<std::string> expected1 = {"there", "mr."};
+    std::string expected1 = "there mr.";
     EXPECT_EQ(vars1->export_variables(), expected1);
 
-    std::deque<std::string> expected2 = {"there", "mr.", "nice", "to", "meet"};
+    std::string expected2 = "there mr. nice to meet";
     EXPECT_EQ(vars3->export_variables(), expected2);
 
-    std::deque<std::string> expected3 = {"there", "mr.", "asdads"};
+    std::string expected3 = "there mr. asdads";
     EXPECT_EQ(vars4->export_variables(), expected3);
 
     delete root;
@@ -94,6 +93,7 @@ TEST(TreeOpTest, SearchTreeWithVariable) {
     delete vars4;
     delete vars5;
 }
+
 
 TEST(TreeOpTest, AddSequence) {
     Tree* root = new Tree("");
@@ -249,14 +249,14 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     MatchTree* matcher = new MatchTree(temp);
 
     auto result1 = matcher->match_string_with_var("hi there")->getElemWithVar(0);
-    std::deque<std::string> expected1 = {};
+    std::string expected1 = "";
     EXPECT_EQ(result1.first, "hi there");
     EXPECT_EQ(result1.second, expected1);
 
     auto result2 = matcher->match_string_with_var(
         "hi general mr. and mrs. kenobi"
     )->getElemWithVar(0);
-    std::deque<std::string> expected2 = {"mr", "and", "mrs"};
+    std::string expected2 = "mr and mrs";
     EXPECT_EQ(result2.first, "hi general VAR kenobi");
     EXPECT_EQ(result2.second, expected2);
 
@@ -266,12 +266,13 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     auto result4 = matcher->match_string_with_var(
         "load 1213 asd from 112 bye"
     )->getElemWithVar(0);
-    std::deque<std::string> expected4 = {"1213", "asd", "112", "bye"};
+    std::string expected4 = "1213 asd 112 bye";
     EXPECT_EQ(result4.first, "load VAR from VAR");
     EXPECT_EQ(result4.second, expected4);
 
     delete matcher;
 }
+
 
 TEST(TreeMatchTest, MatchStringBatch) {
     std::deque<std::string> sequences = {
@@ -404,5 +405,3 @@ TEST(ParsedMessagesTest, HardCases4) {
     EXPECT_EQ(result1->getElem(0), "data TLB error interrupt");
 
 }
-
-*/

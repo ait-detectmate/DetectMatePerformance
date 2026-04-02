@@ -6,11 +6,7 @@
 
 #include "match_tree.h"
 #include "tree_op.h"
-#include "variables.h"
 #include "../aux.h"
-
-#include <iostream>
-
 
 std::string do_match(Tree* tree_, std::string sentence, Variables* vars) {
     std::deque<std::string> sequence = preprocessing(sentence);

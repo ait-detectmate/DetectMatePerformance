@@ -74,6 +74,17 @@ add_library(
   src/detectmateperformance/_core/template_matcher/match_tree.cpp
 )
 
+# match_tree depends on variable and tree_op; make those transitive so
+# consumers of match_tree (executables/tests) don't need to worry about
+# static library link ordering.
+target_link_libraries(
+  match_tree
+  PUBLIC
+  variable
+  tree_op
+  tree
+)
+
 add_executable(
   test_c
   tests/test_c/test_message.cpp
