@@ -39,9 +39,9 @@ std::string ParsedMessages::getElem(int n) {
     return id_to_template[event_idsf];
 }
 
-std::pair<std::string, std::deque<std::string>> ParsedMessages::getElemWithVar(int n) {
+std::pair<std::string, std::string> ParsedMessages::getElemWithVar(int n) {
     std::string temp = ParsedMessages::getElem(n);
-    std::deque<std::string> vars = this->variables[n];
+    std::string vars = this->variables[n];
 
     return std::make_pair(temp, vars);
 }
@@ -55,7 +55,7 @@ void ParsedMessages::setElem(int n, std::string template_) {
 }
 
 void ParsedMessages::setElemWithVar(
-    int n, std::string template_, std::deque<std::string> vars
+    int n, std::string template_, std::string vars
 ) {
 
     ParsedMessages::setElem(n, template_);
@@ -83,7 +83,7 @@ std::vector<std::string> ParsedMessages::getAllElemts() {
     return templates;
 }
 
-std::vector<std::deque<std::string>> ParsedMessages::getAllVar() {
+std::vector<std::string> ParsedMessages::getAllVar() {
     return this->variables;
 }
 

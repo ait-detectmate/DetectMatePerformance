@@ -9,7 +9,7 @@
 
 class Variables {
 private:
-    std::deque<std::string> list;
+    std::string list;
     bool capture_vars;
 public:
     Variables();
@@ -24,7 +24,7 @@ public:
 
     void init_list();
 
-    std::deque<std::string> export_variables() const;
+    std::string export_variables() const;
 
 };
 

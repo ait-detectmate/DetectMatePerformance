@@ -79,7 +79,7 @@ ParsedMessages* MatchTree::match_string_with_var(std::string sentence) {
     Variables* vars = new Variables();
     std::string template_ = do_match(tree, sentence, vars);
 
-    std::deque<std::string> variables = vars->export_variables();
+    std::string variables = vars->export_variables();
     delete vars;
 
     ParsedMessages* msg = new ParsedMessages(this->templates, 1);

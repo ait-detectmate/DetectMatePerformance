@@ -115,7 +115,7 @@ void addSequence(
 Tree* buildTree(Templates* sequences) {
     Tree* root = new Tree("");
 
-    auto temp = sequences->getNext();
+    std::vector<std::string> temp = sequences->getNext();
     std::string full_temp;
     while (temp.size() > 0) {
         full_temp = "";
