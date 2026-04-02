@@ -64,12 +64,12 @@ class ParsedLogs:
     def __str__(self) -> str:
         return f"ParsedLogs(shape={self.shape()}, vars={self.with_vars})"
 
-    def __getitem__(self, idx: int) -> str | tuple[str, list[str]]:
+    def __getitem__(self, idx: int) -> str | tuple[str, str]:
         if self.with_vars:
             return self.inst.get_elem_with_var(idx)  # type: ignore
         return self.inst.get_elem(idx)  # type: ignore
 
-    def __setitem__(self, idx: int, values: str | tuple[str, list[str]]) -> str:
+    def __setitem__(self, idx: int, values: str | tuple[str, str]) -> str:
         if self.with_vars:
             return self.inst.set_elem_with_var(idx, values[0], values[1])  # type: ignore
         return self.inst.set_elem(idx, values)  # type: ignore
@@ -80,7 +80,7 @@ class ParsedLogs:
     def get_all_templates(self) -> list[str]:
         return self.inst.get_all_elem()  # type: ignore
 
-    def get_all_vars(self) -> list[list[str]] | None:
+    def get_all_vars(self) -> list[str] | None:
         if self.with_vars:
             return self.inst.get_all_var()  # type: ignore
         return None
