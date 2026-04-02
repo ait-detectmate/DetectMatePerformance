@@ -43,6 +43,8 @@ def add_parsed(df: pl.DataFrame, results: ParsedLogs) -> pl.DataFrame:
 
 def postprocessing(df: pl.DataFrame) -> pl.DataFrame:
     df = df.with_columns(pl.col("Templates").str.replace_all("VAR", "<*>"))
+    if "ParamList" in df.columns:
+        df = df.with_columns(pl.col("ParamList").str.split(by=" "))
     return df
 
 
