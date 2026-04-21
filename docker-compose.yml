@@ -1,0 +1,25 @@
+services:
+  arm64_builder:
+    image: arm64v8/gcc:4.9
+    container_name: arm64_builder
+    platform: linux/arm64
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: >
+      sh -c "
+      apt-get update && apt-get install -y python3 curl cmake python3-dev &&
+      curl -LsSf https://astral.sh/uv/install.sh | sh &&
+      sh compile.sh"
+
+  x86_64_builder:
+    image: gcc:latest
+    container_name: x86_64_builder
+    volumes:
+      - ./:/app
+    working_dir: /app
+    command: >
+      sh -c "
+      apt-get update && apt-get install -y python3 curl cmake python3-dev &&
+      curl -LsSf https://astral.sh/uv/install.sh | sh &&
+      sh compile.sh"

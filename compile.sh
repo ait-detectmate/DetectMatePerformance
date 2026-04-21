@@ -1,10 +1,9 @@
 
 # Update python dependencies
-uv sync
+$HOME/.local/bin/uv sync
 
 # Remove old build
 rm -rf build
-rm src/detectmateperformance/_core/*.so
 mkdir build
 
 # Run cmake and build
@@ -18,8 +17,8 @@ mkdir lib
 cp build/bind_class* src/detectmateperformance/lib/
 
 # Install package
-uv pip uninstall detectmateperformance
-uv pip install --no-cache-dir .
+$HOME/.local/bin/uv pip uninstall detectmateperformance
+$HOME/.local/bin/uv pip install --no-cache-dir .
 
 # Run tests
-uv run pytest
+$HOME/.local/bin/uv run pytest
