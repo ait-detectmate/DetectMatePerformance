@@ -9,4 +9,5 @@ nav:
   - Methods:
       - TreeMatcher: tree_matcher.md
   - Auxiliar:
+      - Types: types.md
       - Metrics: metrics.md
