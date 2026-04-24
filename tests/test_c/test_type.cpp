@@ -4,6 +4,7 @@
 
 #include "../../src/detectmateperformance/_core/_type/templates.h"
 #include "../../src/detectmateperformance/_core/_type/parsed.h"
+#include "../../src/detectmateperformance/_core/_type/element.h"
 
 
 TEST(MessagesTest, Preprocessing) {
@@ -41,6 +42,16 @@ TEST(TemplatesTest, GetNextTemplate) {
 
     auto message3 = templates.getNext();
     EXPECT_TRUE(message3.empty());
+}
+
+TEST(ParsedMessagesTest, ParsedElementtest) {
+    ParsedElement* parsed = new ParsedElement(
+        0, "template", "variables"
+    );
+
+    EXPECT_EQ(parsed->event_id, 0);
+    EXPECT_EQ(parsed->log_template, "template");
+    EXPECT_EQ(parsed->variables, "variables");
 }
 
 TEST(ParsedMessagesTest, Initialization) {
