@@ -29,21 +29,22 @@ int ParsedMessages::getElemID(int n) {
     return this->event_ids[n];
 }
 
-std::string ParsedMessages::getElem(int n) {
+ParsedElement ParsedMessages::getElem(int n) {
 
     int event_idsf = this->getElemID(n);
     if (event_idsf == -1) {
-        return "template not found";
+        return ParsedElement(-1, "template not found");
     }
 
-    return id_to_template[event_idsf];
+    return ParsedElement(event_idsf, id_to_template[event_idsf]);
 }
 
-std::pair<std::string, std::string> ParsedMessages::getElemWithVar(int n) {
-    std::string temp = ParsedMessages::getElem(n);
-    std::string vars = this->variables[n];
+ParsedElement ParsedMessages::getElemWithVar(int n) {
+    int event_idsf = this->getElemID(n);
+    std::string template_ = id_to_template[event_idsf];
+    std::string variables = this->variables[n];
 
-    return std::make_pair(temp, vars);
+    return ParsedElement(event_idsf, template_, variables);
 }
 
 void ParsedMessages::setElem(int n, std::string template_) {
@@ -77,14 +78,20 @@ std::vector<std::string> ParsedMessages::getAllElemts() {
     std::vector<std::string> templates(this->size());
 
     for (int i = 0; i < this->size(); i++) {
-        templates[i] = this->getElem(i);
+        templates[i] = this->getElem(i).log_template;
     }
 
     return templates;
 }
 
-std::vector<std::string> ParsedMessages::getAllVar() {
-    return this->variables;
+std::vector<std::deque<std::string>> ParsedMessages::getAllVar() {
+    std::vector<std::deque<std::string>> vars(this->size());
+
+    for (int i = 0; i < this->size(); i++) {
+        vars[i] = this->getElem(i).variables;
+    }
+
+    return vars;
 }
 
 int ParsedMessages::size() {

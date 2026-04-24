@@ -7,6 +7,7 @@
 #include <deque>
 
 #include "templates.h"
+#include "element.h"
 
 #include <functional>
 
@@ -25,8 +26,8 @@ public:
     ~ParsedMessages();
 
     int getElemID(int n);
-    std::string getElem(int n);
-    std::pair<std::string, std::string> getElemWithVar(int n);
+    ParsedElement getElem(int n);
+    ParsedElement getElemWithVar(int n);
     void setElem(int n, std::string template_);
     void setElemWithVar(
         int n, std::string template_, std::string vars
@@ -34,7 +35,7 @@ public:
 
     std::vector<int> getAllIDs();
     std::vector<std::string> getAllElemts();
-    std::vector<std::string> getAllVar();
+    std::vector<std::deque<std::string>> getAllVar();
 
     int size();
     std::pair<int, int> shape();
