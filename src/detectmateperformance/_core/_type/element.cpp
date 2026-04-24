@@ -18,6 +18,14 @@ ParsedElement::ParsedElement(
     this->variables = preprocessing(variables);
 }
 
+ParsedElement::ParsedElement(
+    int event_id, std::string log_template
+) {
+    this->event_id = event_id;
+    this->log_template = postProcessTemp(log_template);
+    this->variables = {};
+}
+
 ParsedElement::~ParsedElement() {
 
 }

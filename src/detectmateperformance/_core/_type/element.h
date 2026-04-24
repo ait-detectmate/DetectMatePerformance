@@ -15,6 +15,7 @@ public:
     ParsedElement(
         int event_id, std::string log_template, std::string variables
     );
+    ParsedElement(int event_id, std::string log_template);
 
     ~ParsedElement();
 

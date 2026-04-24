@@ -53,6 +53,15 @@ TEST(ParsedMessagesTest, ParsedElementtest) {
     EXPECT_EQ(parsed->event_id, 0);
     EXPECT_EQ(parsed->log_template, "<*> template <*> <*>");
     EXPECT_EQ(parsed->variables, expected);
+
+    ParsedElement* parsed2 = new ParsedElement(
+        0, "VAR template VAR VAR"
+    );
+    std::deque<std::string> expected2 = {};
+
+    EXPECT_EQ(parsed2->event_id, 0);
+    EXPECT_EQ(parsed2->log_template, "<*> template <*> <*>");
+    EXPECT_EQ(parsed2->variables, expected2);
 }
 
 TEST(ParsedMessagesTest, Initialization) {
