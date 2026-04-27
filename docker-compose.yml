@@ -3,6 +3,9 @@ services:
     image: arm64v8/gcc:latest
     container_name: arm64_builder
     platform: linux/arm64
+    volumes:
+      - ./:/app
+    working_dir: /app
     command: ["sh", "install_compile.sh"]
 
   x86_64_builder:
