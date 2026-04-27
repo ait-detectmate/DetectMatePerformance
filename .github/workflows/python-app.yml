@@ -26,8 +26,5 @@ jobs:
       - name: Run pre-commit with prek
         run: uv run --dev prek run -a
 
-      - name: Compile
-        run: sh compile.sh
-
       - name: Test with pytest
         run: uv run --dev pytest -s
