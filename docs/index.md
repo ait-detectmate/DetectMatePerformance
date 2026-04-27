@@ -49,6 +49,12 @@ sh compile.sh
 
 Using `Docker` as a simulator simplifies the pipeline an allows compiling the code for multiple architecutres. For more information about Docker cross-compilation check [here](https://docs.docker.com/build/building/multi-platform/).
 
+Install:
+
+```
+docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+```
+
 To compile all the binaries:
 
 ```
