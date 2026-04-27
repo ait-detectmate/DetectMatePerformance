@@ -16,6 +16,7 @@ cd ..
 mkdir lib
 cp build/bind_class* src/detectmateperformance/lib/
 chmod 775 src/detectmateperformance/lib/*
+chmod 775 -R build/*
 
 # Install package
 $HOME/.local/bin/uv pip uninstall detectmateperformance

@@ -4,6 +4,7 @@
 
 #include "../../src/detectmateperformance/_core/_type/templates.h"
 #include "../../src/detectmateperformance/_core/_type/parsed.h"
+#include "../../src/detectmateperformance/_core/_type/element.h"
 
 #include "../../src/detectmateperformance/_core/template_matcher/tree.h"
 #include "../../src/detectmateperformance/_core/template_matcher/variables.h"
@@ -228,15 +229,15 @@ TEST(TreeMatchTest, MatchString) {
 
     ParsedMessages* result1 = matcher->match_string("hi there");
     EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0), "hi there");
+    EXPECT_EQ(result1->getElem(0).log_template, "hi there");
 
     ParsedMessages* result2 = matcher->match_string("hi general mr. and mrs. kenobi");
     EXPECT_EQ(result2->size(), 1);
-    EXPECT_EQ(result2->getElem(0), "hi general VAR kenobi");
+    EXPECT_EQ(result2->getElem(0).log_template, "hi general <*> kenobi");
 
     ParsedMessages* result3 = matcher->match_string("hi random guy");
     EXPECT_EQ(result3->size(), 1);
-    EXPECT_EQ(result3->getElem(0), "template not found");
+    EXPECT_EQ(result3->getElem(0).log_template, "template not found");
 
     delete matcher;
 }
@@ -248,27 +249,29 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     Templates* temp = new Templates(sequences);
     MatchTree* matcher = new MatchTree(temp);
 
-    auto result1 = matcher->match_string_with_var("hi there")->getElemWithVar(0);
-    std::string expected1 = "";
-    EXPECT_EQ(result1.first, "hi there");
-    EXPECT_EQ(result1.second, expected1);
+    ParsedElement result1 = matcher->match_string_with_var("hi there")->getElemWithVar(0);
+    std::deque<std::string> expected1 = {};
+    EXPECT_EQ(result1.log_template, "hi there");
+    EXPECT_EQ(result1.variables, expected1);
 
-    auto result2 = matcher->match_string_with_var(
+    ParsedElement result2 = matcher->match_string_with_var(
         "hi general mr. and mrs. kenobi"
     )->getElemWithVar(0);
-    std::string expected2 = "mr and mrs";
-    EXPECT_EQ(result2.first, "hi general VAR kenobi");
-    EXPECT_EQ(result2.second, expected2);
+    std::deque<std::string> expected2 = {"mr", "and", "mrs"};
+    EXPECT_EQ(result2.log_template, "hi general <*> kenobi");
+    EXPECT_EQ(result2.variables, expected2);
 
-    auto result3 = matcher->match_string_with_var("hi random guy")->getElemWithVar(0);
-    EXPECT_EQ(result3.first, "template not found");
+    ParsedElement result3 = matcher->match_string_with_var(
+        "hi random guy"
+    )->getElemWithVar(0);
+    EXPECT_EQ(result3.log_template, "template not found");
 
-    auto result4 = matcher->match_string_with_var(
+    ParsedElement result4 = matcher->match_string_with_var(
         "load 1213 asd from 112 bye"
     )->getElemWithVar(0);
-    std::string expected4 = "1213 asd 112 bye";
-    EXPECT_EQ(result4.first, "load VAR from VAR");
-    EXPECT_EQ(result4.second, expected4);
+    std::deque<std::string> expected4 = {"1213", "asd", "112", "bye"};
+    EXPECT_EQ(result4.log_template, "load <*> from <*>");
+    EXPECT_EQ(result4.variables, expected4);
 
     delete matcher;
 }
@@ -298,8 +301,8 @@ TEST(TreeMatchTest, MatchStringBatch) {
 
     EXPECT_EQ(4, msg.size());
     for (int i = 0; i < msg.size(); i++) {
-        EXPECT_EQ(expected->getElem(i), results->getElem(i));
-        EXPECT_EQ(results_threats->getElem(i), results->getElem(i));
+        EXPECT_EQ(expected->getElem(i).log_template, results->getElem(i).log_template);
+        EXPECT_EQ(results_threats->getElem(i).log_template, results->getElem(i).log_template);
     }
 
     delete matcher;
@@ -315,8 +318,14 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
     std::vector<std::string> msg = {
         "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
     };
+    std::vector<std::string> msg_ex = {
+        "hi there", "hi general <*> kenobi", "template not found", "load <*> from <*>"
+    };
     std::vector<std::string> vector_vars = {
         "", "mr and mrs", "",  "1213 asd 112 bye"
+    };
+    std::vector<std::deque<std::string>> ex_vector_vars = {
+        {}, {"mr", "and", "mrs"}, {},  {"1213", "asd", "112", "bye"}
     };
 
     Templates* temp2 = new Templates(sequences);
@@ -332,10 +341,14 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
 
     EXPECT_EQ(4, msg.size());
     for (int i = 0; i < msg.size(); i++) {
-        EXPECT_EQ(results_threats->getElemWithVar(i), results->getElemWithVar(i));
-        auto aux = results->getElemWithVar(i);
-        EXPECT_EQ(aux.first, msg[i]);
-        EXPECT_EQ(aux.second, vector_vars[i]);
+        EXPECT_EQ(results_threats->getElemWithVar(i).variables, results->getElemWithVar(i).variables);
+        ParsedElement aux = results->getElemWithVar(i);
+
+        if (msg_ex[i] == "template not found")
+            EXPECT_EQ(-1, aux.event_id);
+
+        EXPECT_EQ(msg_ex[i], aux.log_template);
+        EXPECT_EQ(aux.variables, ex_vector_vars[i]);
     }
 
     delete matcher;
@@ -354,7 +367,7 @@ TEST(ParsedMessagesTest, HardCases1) {
 
     ParsedMessages* result1 = matcher->match_string(log);
     EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0), "VAR floating point alignment exceptions");
+    EXPECT_EQ(result1->getElem(0).log_template, "<*> floating point alignment exceptions");
 
 }
 
@@ -370,7 +383,7 @@ TEST(ParsedMessagesTest, HardCases2) {
 
     ParsedMessages* result1 = matcher->match_string(log);
     EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0), "VAR Exception writing block VAR to mirror VAR");
+    EXPECT_EQ(result1->getElem(0).log_template, "<*> Exception writing block <*> to mirror <*>");
 
 }
 
@@ -386,7 +399,7 @@ TEST(ParsedMessagesTest, HardCases3) {
 
     ParsedMessages* result1 = matcher->match_string(log);
     EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0), "rts kernel terminated for reason VAR");
+    EXPECT_EQ(result1->getElem(0).log_template, "rts kernel terminated for reason <*>");
 
 }
 
@@ -402,6 +415,6 @@ TEST(ParsedMessagesTest, HardCases4) {
 
     ParsedMessages* result1 = matcher->match_string(log);
     EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0), "data TLB error interrupt");
+    EXPECT_EQ(result1->getElem(0).log_template, "data TLB error interrupt");
 
 }

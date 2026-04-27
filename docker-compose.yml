@@ -6,11 +6,7 @@ services:
     volumes:
       - ./:/app
     working_dir: /app
-    command: >
-      sh -c "
-      apt-get update && apt-get install -y python3 curl cmake python3-dev &&
-      curl -LsSf https://astral.sh/uv/install.sh | sh &&
-      sh compile.sh"
+    command: ["sh", "install_compile.sh"]
 
   x86_64_builder:
     image: gcc:latest
@@ -18,8 +14,4 @@ services:
     volumes:
       - ./:/app
     working_dir: /app
-    command: >
-      sh -c "
-      apt-get update && apt-get install -y python3 curl cmake python3-dev &&
-      curl -LsSf https://astral.sh/uv/install.sh | sh &&
-      sh compile.sh"
+    command: ["sh", "install_compile.sh"]
