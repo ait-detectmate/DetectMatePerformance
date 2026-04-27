@@ -44,6 +44,16 @@
                 <li class="toctree-l1 current"><a class="reference internal current" href="#">Home</a>
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#compilation">Compilation</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#witout-docker">Witout Docker</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#with-docker">With Docker</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#run-unit-tests">Run unit tests</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#to-do-a-local-instalation-in-a-different-venv">To do a local instalation in a different venv</a>
     </li>
@@ -59,6 +69,8 @@
               </ul>
               <p class="caption"><span class="caption-text">Auxiliar</span></p>
               <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="types/">Types</a>
+                  </li>
                   <li class="toctree-l1"><a class="reference internal" href="metrics/">Metrics</a>
                   </li>
               </ul>
@@ -87,21 +99,66 @@
               
                 <h1 id="detectmate-performance">DetectMate Performance</h1>
 <p><code>DetectMate Performance</code> is a library that performs high-performance operations in DetectMate. While the <code>DetectMate Library</code> runs everything in a streaming manner, <code>DetectMate Performance</code> allows you to process data in batches as well.</p>
-<p>It combines C++ functionality with <a href="https://pola.rs/"><code>Polars</code></a> DataFrames.</p>
+<p>It combines C++ functionality with <a href="https://pola.rs/"><code>Polars</code></a> DataFrames. Currently the library supports:</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>Python 3.12</th>
+<th>Python 3.13</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>x86_64</strong></td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>arch64</strong></td>
+<td>No</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td><strong>amd64</strong></td>
+<td>No</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
 <h2 id="installation">Installation</h2>
-<p><a href="https://cmake.org/"><code>CMake</code></a> allows to build the C++ code:</p>
-<pre><code class="language-bash">sudo apt-get install cmake
-</code></pre>
 <p>Intall python dependencies:</p>
 <pre><code class="language-bash">pip install uv
 uv sync
 prek install
+
 </code></pre>
-<p>Compile the code, make sure that all unit tests are green:</p>
+<h2 id="compilation">Compilation</h2>
+<p>Only need it if the library does not have binaries to your setup. The code can be compiled directly in your machine or with a Docker simulator.</p>
+<p>The binaries can be found in <code>src/detectmateperformance/lib</code> and they follow the next format:</p>
+<pre><code>bind_class.cpython-&lt;PYTHON_VERSION&gt;-&lt;ARCHITECTURE&gt;-&lt;OS&gt;.so
+</code></pre>
+<h3 id="witout-docker">Witout Docker</h3>
+<p>Install <a href="https://cmake.org/"><code>CMake</code></a> allows to build the C++ code:</p>
+<pre><code class="language-bash">sudo apt-get install cmake
+</code></pre>
+<p>Compile the code to run in your machine, make sure that all unit tests pass:</p>
 <pre><code class="language-bash">sh compile.sh
 </code></pre>
+<h3 id="with-docker">With Docker</h3>
+<p>Using <code>Docker</code> as a simulator simplifies the pipeline an allows compiling the code for multiple architecutres. For more information about Docker cross-compilation check <a href="https://docs.docker.com/build/building/multi-platform/">here</a>.</p>
+<p>Install:</p>
+<pre><code>docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+</code></pre>
+<p>To compile all the binaries:</p>
+<pre><code>docker compose up
+</code></pre>
+<p>To compile a single type of binary select one from the docker compose file:</p>
+<pre><code>docker compose up arm64_builder
+</code></pre>
+<h2 id="run-unit-tests">Run unit tests</h2>
 <p>To run the C++ and Python unit tests:</p>
-<pre><code class="language-bash">pytest
+<pre><code class="language-bash">uv run pytest
 </code></pre>
 <h3 id="to-do-a-local-instalation-in-a-different-venv">To do a local instalation in a different venv</h3>
 <pre><code class="language-bash">uv pip install --no-cache-dir &lt;directory_detectmateperformance&gt;
@@ -155,5 +212,5 @@ prek install
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-04-16 09:00:52.386665+00:00
+Build Date UTC : 2026-04-27 12:23:22.195850+00:00
 -->
