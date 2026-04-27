@@ -12,7 +12,6 @@ FetchContent_Declare(
   URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
 )
 
-# Current not working, figure it out why! TODO: Fix pybind11
 FetchContent_Declare(
   pybind11
   GIT_REPOSITORY https://github.com/pybind/pybind11.git
@@ -42,6 +41,12 @@ add_library(
   templates
   src/detectmateperformance/_core/_type/templates.h
   src/detectmateperformance/_core/_type/templates.cpp
+)
+
+add_library(
+  parsedelement
+  src/detectmateperformance/_core/_type/element.h
+  src/detectmateperformance/_core/_type/element.cpp
 )
 
 add_library(
@@ -112,6 +117,8 @@ pybind11_add_module(
   src/detectmateperformance/_core/aux.cpp
   src/detectmateperformance/_core/_type/templates.h
   src/detectmateperformance/_core/_type/templates.cpp
+  src/detectmateperformance/_core/_type/element.h
+  src/detectmateperformance/_core/_type/element.cpp
   src/detectmateperformance/_core/_type/parsed.h
   src/detectmateperformance/_core/_type/parsed.cpp
   src/detectmateperformance/_core/template_matcher/tree.h
@@ -128,6 +135,7 @@ target_link_libraries(
   test_c
   GTest::gtest_main
   templates
+  parsedelement
   parsed
   tree
   variable
@@ -140,6 +148,7 @@ target_link_libraries(
   test_type
   GTest::gtest_main
   templates
+  parsedelement
   parsed
   aux
 )
@@ -154,6 +163,7 @@ target_link_libraries(
   test_matcher_vars
   GTest::gtest_main
   templates
+  parsedelement
   parsed
   tree
   variable
