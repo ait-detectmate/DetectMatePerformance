@@ -41,6 +41,13 @@ def add_parsed(df: pl.DataFrame, results: ParsedLogs) -> pl.DataFrame:
     return df
 
 
+def postprocessing(df: pl.DataFrame) -> pl.DataFrame:
+    df = df.with_columns(pl.col("Templates").str.replace_all("VAR", "<*>"))
+    if "ParamList" in df.columns:
+        df = df.with_columns(pl.col("ParamList").str.split(by=" "))
+    return df
+
+
 def run_batches(
     func: Callable[[list[str], bool, int], ParsedLogs],
     table: pl.DataFrame,
@@ -62,7 +69,8 @@ def run_batches(
             df = pl.concat([df, add_parsed(df=table[i-batch: i], results=results)])
         del results
 
-    return df
+    print(">>> Postprocessing results")
+    return postprocessing(df)
 
 
 def run_full_pipeline(

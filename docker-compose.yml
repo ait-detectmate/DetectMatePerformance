@@ -6,7 +6,7 @@ services:
     volumes:
       - ./:/app
     working_dir: /app
-    command: ["sh", "install_compile.sh"]
+    command: ["sh", "install_compile.sh", "12"]
 
   x86_64_builder:
     image: gcc:latest
@@ -14,4 +14,4 @@ services:
     volumes:
       - ./:/app
     working_dir: /app
-    command: ["sh", "install_compile.sh"]
+    command: ["sh", "install_compile.sh", "12"]

@@ -88,8 +88,8 @@ std::vector<std::string> ParsedMessages::getAllElemts() {
     return templates;
 }
 
-std::vector<std::deque<std::string>> ParsedMessages::getAllVar() {
-    std::vector<std::deque<std::string>> vars(this->size());
+std::vector<std::string> ParsedMessages::getAllVar() {
+    std::vector<std::string> vars(this->size());
 
     for (int i = 0; i < this->size(); i++) {
         vars[i] = this->getElemWithVar(i).variables;
