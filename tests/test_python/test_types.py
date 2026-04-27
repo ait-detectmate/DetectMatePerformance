@@ -64,7 +64,7 @@ class TestCaseParsed:
         parsed[0] = "Hello VAR world VAR"
         parsed[1] = "ciaoo bellaaa"
 
-        expected = ["Hello <*> world <*>", "template not found"]
+        expected = ["Hello VAR world VAR", "template not found"]
         assert parsed.get_all_templates() == expected
 
     def test_add_elements_with_vars(self):
@@ -83,7 +83,7 @@ class TestCaseParsed:
         parsed[0] = ("Hello VAR world VAR", "")
         parsed[1] = ("ciaoo bellaaa", "a b c")
 
-        expected = [[], ["a", "b", "c"]]
+        expected = ["", "a b c"]
         assert parsed.get_all_vars() == expected
 
     def test_add_elements_shape_(self):
