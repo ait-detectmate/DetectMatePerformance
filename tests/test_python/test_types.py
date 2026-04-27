@@ -47,8 +47,8 @@ class TestCaseParsed:
         parsed[0] = "Hello VAR world VAR"
         parsed[3] = "ciaoo bellaaa"
 
-        assert parsed[0] == "Hello VAR world VAR"
-        assert parsed[3] == "template not found"
+        assert parsed[0]["Template"] == "Hello <*> world <*>"
+        assert parsed[3]["Template"] == "template not found"
 
     def test_get_all_ids(self):
         parsed = ParsedLogs(LogTemplates(templates), 3)
@@ -64,7 +64,7 @@ class TestCaseParsed:
         parsed[0] = "Hello VAR world VAR"
         parsed[1] = "ciaoo bellaaa"
 
-        expected = ["Hello VAR world VAR", "template not found"]
+        expected = ["Hello <*> world <*>", "template not found"]
         assert parsed.get_all_templates() == expected
 
     def test_add_elements_with_vars(self):
@@ -73,15 +73,17 @@ class TestCaseParsed:
         parsed[0] = ("Hello VAR world VAR", "")
         parsed[3] = ("ciaoo bellaaa", "a b c")
 
-        assert parsed[0] == ("Hello VAR world VAR", "")
-        assert parsed[3] == ("template not found", "a b c")
+        assert parsed[0]["Template"] == "Hello <*> world <*>"
+        assert parsed[0]["ParamList"] == []
+        assert parsed[3]["Template"] == "template not found"
+        assert parsed[3]["ParamList"] == ["a", "b", "c"]
 
     def test_get_all_variables(self):
         parsed = ParsedLogs(LogTemplates(templates), 2, with_vars=True)
         parsed[0] = ("Hello VAR world VAR", "")
         parsed[1] = ("ciaoo bellaaa", "a b c")
 
-        expected = ["", "a b c"]
+        expected = [[], ["a", "b", "c"]]
         assert parsed.get_all_vars() == expected
 
     def test_add_elements_shape_(self):

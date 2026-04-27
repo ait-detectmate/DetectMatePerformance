@@ -26,30 +26,33 @@ class TestCaseTreeMatcher:
         tree_matcher = TreeMatcher(LogTemplates(["Hello`=<*> kenobi"]))
         log = "Hello`=there general kenobi"
 
-        assert tree_matcher.match_log(log, False)[0] == "Hello VAR kenobi"
+        assert tree_matcher.match_log(log, False)[0]["Template"] == "Hello <*> kenobi"
 
     def test_match_log_with_var(self):
         tree_matcher = TreeMatcher(LogTemplates(["Hello`=<*> kenobi"]))
         log = "Hello`=there general kenobi"
 
         result = tree_matcher.match_log(log, True)
-        assert result[0] == ("Hello VAR kenobi", "there general")
+        assert result[0]["Template"] == "Hello <*> kenobi"
+        assert result[0]["ParamList"] == ["there", "general"]
 
     def test_match_batch(self):
         tree_matcher = TreeMatcher(LogTemplates(["Hello`=<*> kenobi"]))
         logs = ["Hello`=there general kenobi", "roger roger"]
         results = tree_matcher.match_batch(logs, False)
 
-        assert results[0] == "Hello VAR kenobi"
-        assert results[1] == "template not found"
+        assert results[0]["Template"] == "Hello <*> kenobi"
+        assert results[1]["Template"] == "template not found"
 
     def test_match_batch_with_var(self):
         tree_matcher = TreeMatcher(LogTemplates(["Hello`=<*> kenobi"]))
         logs = ["Hello`=there general kenobi", "roger roger"]
         results = tree_matcher.match_batch(logs, True)
 
-        assert results[0] == ("Hello VAR kenobi", "there general")
-        assert results[1] == ("template not found", "")
+        assert results[0]["Template"] == "Hello <*> kenobi"
+        assert results[1]["Template"] == "template not found"
+        assert results[0]["ParamList"] == ["there", "general"]
+        assert results[1]["ParamList"] == []
 
     def test_big_batch(self):
         logs = load_logs()
@@ -57,7 +60,7 @@ class TestCaseTreeMatcher:
         results = tree_matcher.match_batch(logs, False, n_workers=3)
 
         for i in range(len(results)):
-            assert "template not found" != results[i]
+            assert "template not found" != results[i]["Template"]
 
     def test_big_batch_with_var(self):
         logs = load_logs()
@@ -65,7 +68,7 @@ class TestCaseTreeMatcher:
         results = tree_matcher.match_batch(logs, True, n_workers=3)
 
         for i in range(len(results)):
-            assert "template not found" != results[i][0]
+            assert "template not found" != results[i]["Template"]
 
     def test_call(self):
         logs = load_logs()

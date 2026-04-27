@@ -16,7 +16,10 @@ PYBIND11_MODULE(bind_class, m) {
         .def("get_next_template", &Templates::getNext)
         .def("size", &Templates::size)
         .def("shape", &Templates::shape);
-    py::class_<ParsedElement>(m, "ParsedElement");
+    py::class_<ParsedElement>(m, "ParsedElement")
+        .def_readonly("event_id", &ParsedElement::event_id)
+        .def_readonly("log_template", &ParsedElement::log_template)
+        .def_readonly("variables", &ParsedElement::variables);
     py::class_<ParsedMessages>(m, "Parsed")
         .def(py::init<Templates*, int>())
         .def("get_elem_id", &ParsedMessages::getElemID)
