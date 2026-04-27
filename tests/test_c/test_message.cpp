@@ -233,7 +233,7 @@ TEST(TreeMatchTest, MatchString) {
 
     ParsedMessages* result2 = matcher->match_string("hi general mr. and mrs. kenobi");
     EXPECT_EQ(result2->size(), 1);
-    EXPECT_EQ(result2->getElem(0).log_template, "hi general <*> kenobi");
+    EXPECT_EQ(result2->getElem(0).log_template, "hi general VAR kenobi");
 
     ParsedMessages* result3 = matcher->match_string("hi random guy");
     EXPECT_EQ(result3->size(), 1);
@@ -250,15 +250,15 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     MatchTree* matcher = new MatchTree(temp);
 
     ParsedElement result1 = matcher->match_string_with_var("hi there")->getElemWithVar(0);
-    std::deque<std::string> expected1 = {};
+    std::string expected1 = "";
     EXPECT_EQ(result1.log_template, "hi there");
     EXPECT_EQ(result1.variables, expected1);
 
     ParsedElement result2 = matcher->match_string_with_var(
         "hi general mr. and mrs. kenobi"
     )->getElemWithVar(0);
-    std::deque<std::string> expected2 = {"mr", "and", "mrs"};
-    EXPECT_EQ(result2.log_template, "hi general <*> kenobi");
+    std::string expected2 = "mr and mrs";
+    EXPECT_EQ(result2.log_template, "hi general VAR kenobi");
     EXPECT_EQ(result2.variables, expected2);
 
     ParsedElement result3 = matcher->match_string_with_var(
@@ -269,8 +269,8 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     ParsedElement result4 = matcher->match_string_with_var(
         "load 1213 asd from 112 bye"
     )->getElemWithVar(0);
-    std::deque<std::string> expected4 = {"1213", "asd", "112", "bye"};
-    EXPECT_EQ(result4.log_template, "load <*> from <*>");
+    std::string expected4 = "1213 asd 112 bye";
+    EXPECT_EQ(result4.log_template, "load VAR from VAR");
     EXPECT_EQ(result4.variables, expected4);
 
     delete matcher;
@@ -321,11 +321,11 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
     std::vector<std::string> msg_ex = {
         "hi there", "hi general <*> kenobi", "template not found", "load <*> from <*>"
     };
+    std::vector<std::string> ex_msg_ex = {
+        "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
+    };
     std::vector<std::string> vector_vars = {
         "", "mr and mrs", "",  "1213 asd 112 bye"
-    };
-    std::vector<std::deque<std::string>> ex_vector_vars = {
-        {}, {"mr", "and", "mrs"}, {},  {"1213", "asd", "112", "bye"}
     };
 
     Templates* temp2 = new Templates(sequences);
@@ -347,8 +347,8 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
         if (msg_ex[i] == "template not found")
             EXPECT_EQ(-1, aux.event_id);
 
-        EXPECT_EQ(msg_ex[i], aux.log_template);
-        EXPECT_EQ(aux.variables, ex_vector_vars[i]);
+        EXPECT_EQ(ex_msg_ex[i], aux.log_template);
+        EXPECT_EQ(aux.variables, vector_vars[i]);
     }
 
     delete matcher;
@@ -367,7 +367,7 @@ TEST(ParsedMessagesTest, HardCases1) {
 
     ParsedMessages* result1 = matcher->match_string(log);
     EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0).log_template, "<*> floating point alignment exceptions");
+    EXPECT_EQ(result1->getElem(0).log_template, "VAR floating point alignment exceptions");
 
 }
 
@@ -383,7 +383,7 @@ TEST(ParsedMessagesTest, HardCases2) {
 
     ParsedMessages* result1 = matcher->match_string(log);
     EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0).log_template, "<*> Exception writing block <*> to mirror <*>");
+    EXPECT_EQ(result1->getElem(0).log_template, "VAR Exception writing block VAR to mirror VAR");
 
 }
 
@@ -399,7 +399,7 @@ TEST(ParsedMessagesTest, HardCases3) {
 
     ParsedMessages* result1 = matcher->match_string(log);
     EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0).log_template, "rts kernel terminated for reason <*>");
+    EXPECT_EQ(result1->getElem(0).log_template, "rts kernel terminated for reason VAR");
 
 }
 

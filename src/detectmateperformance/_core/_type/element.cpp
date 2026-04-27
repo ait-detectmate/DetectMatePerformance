@@ -3,14 +3,11 @@
 
 
 std::string postProcessTemp(const std::string& input){
-    std::string pattern = "\\bVAR\\b";
-    std::regex re(pattern);
-    std::string result = std::regex_replace(input, re, "<*>");
-    return result;
+    return input;  // For now it will be save like this
 }
 
-std::deque<std::string> postProcessVars(const std::string& input_vars) {
-    return preprocessing(input_vars);
+std::string postProcessVars(const std::string& input_vars) {
+    return input_vars;  // For now it will be save like this
 }
 
 ParsedElement::ParsedElement(

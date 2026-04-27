@@ -11,14 +11,14 @@
 
 std::string postProcessTemp(const std::string& input);
 
-std::deque<std::string> postProcessVars(const std::string& input_vars);
+std::string postProcessVars(const std::string& input_vars);
 
 class ParsedElement {
 
 public:
     int event_id;
     std::string log_template;
-    std::deque<std::string> variables;
+    std::string variables;
 
     ParsedElement(
         int event_id, std::string log_template, std::string variables

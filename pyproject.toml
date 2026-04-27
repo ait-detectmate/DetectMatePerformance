@@ -7,7 +7,7 @@ build-backend = "setuptools.build_meta"
 name = "detectmateperformance"
 version = "0.1.0"
 description = "A Python package for DetectMate performance evaluation."
-requires-python = ">=3.13"
+requires-python = ">=3.12"
 dependencies = [
     "levenshtein>=0.27.3",
     "numpy>=2.4.3",
