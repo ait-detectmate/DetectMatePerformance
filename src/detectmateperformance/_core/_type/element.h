@@ -3,7 +3,15 @@
 
 #include <string>
 #include <deque>
+#include "../aux.h"
+#include <regex>
 
+
+
+
+std::string postProcessTemp(const std::string& input);
+
+std::deque<std::string> postProcessVars(const std::string& input_vars);
 
 class ParsedElement {
 

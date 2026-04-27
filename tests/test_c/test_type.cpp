@@ -3,8 +3,8 @@
 #include "../../src/detectmateperformance/_core/aux.h"
 
 #include "../../src/detectmateperformance/_core/_type/templates.h"
-#include "../../src/detectmateperformance/_core/_type/parsed.h"
 #include "../../src/detectmateperformance/_core/_type/element.h"
+#include "../../src/detectmateperformance/_core/_type/parsed.h"
 
 
 TEST(MessagesTest, Preprocessing) {
@@ -64,13 +64,22 @@ TEST(ParsedMessagesTest, ParsedElementtest) {
     EXPECT_EQ(parsed2->variables, expected2);
 
     ParsedElement* parsed3 = new ParsedElement(
-        0, "template not found", "5 1 2"
+        -1, "template not found", "5 1 2"
     );
     std::deque<std::string> expected3 = {"5", "1", "2"};
 
-    EXPECT_EQ(parsed3->event_id, 0);
+    EXPECT_EQ(parsed3->event_id, -1);
     EXPECT_EQ(parsed3->log_template, "template not found");
     EXPECT_EQ(parsed3->variables, expected3);
+
+    ParsedElement* parsed4 = new ParsedElement(
+        -1, "template not found"
+    );
+    std::deque<std::string> expected4 = {};
+
+    EXPECT_EQ(parsed4->event_id, -1);
+    EXPECT_EQ(parsed4->log_template, "template not found");
+    EXPECT_EQ(parsed4->variables, expected4);
 }
 
 TEST(ParsedMessagesTest, Initialization) {

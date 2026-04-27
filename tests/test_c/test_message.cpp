@@ -270,7 +270,7 @@ TEST(TreeMatchTest, MatchStringWithVar) {
         "load 1213 asd from 112 bye"
     )->getElemWithVar(0);
     std::deque<std::string> expected4 = {"1213", "asd", "112", "bye"};
-    EXPECT_EQ(result4.log_template, "load <*> from <*>>");
+    EXPECT_EQ(result4.log_template, "load <*> from <*>");
     EXPECT_EQ(result4.variables, expected4);
 
     delete matcher;
@@ -343,6 +343,10 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
     for (int i = 0; i < msg.size(); i++) {
         EXPECT_EQ(results_threats->getElemWithVar(i).variables, results->getElemWithVar(i).variables);
         ParsedElement aux = results->getElemWithVar(i);
+
+        if (msg_ex[i] == "template not found")
+            EXPECT_EQ(-1, aux.event_id);
+
         EXPECT_EQ(msg_ex[i], aux.log_template);
         EXPECT_EQ(aux.variables, ex_vector_vars[i]);
     }

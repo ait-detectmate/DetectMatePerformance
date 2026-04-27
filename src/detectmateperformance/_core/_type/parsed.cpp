@@ -40,9 +40,13 @@ ParsedElement ParsedMessages::getElem(int n) {
 }
 
 ParsedElement ParsedMessages::getElemWithVar(int n) {
-    int event_idsf = this->getElemID(n);
-    std::string template_ = id_to_template[event_idsf];
     std::string variables = this->variables[n];
+    int event_idsf = this->getElemID(n);
+
+    if (event_idsf == -1) {
+        return ParsedElement(-1, "template not found", variables);
+    }
+    std::string template_ = id_to_template[event_idsf];
 
     return ParsedElement(event_idsf, template_, variables);
 }
@@ -88,7 +92,7 @@ std::vector<std::deque<std::string>> ParsedMessages::getAllVar() {
     std::vector<std::deque<std::string>> vars(this->size());
 
     for (int i = 0; i < this->size(); i++) {
-        vars[i] = this->getElem(i).variables;
+        vars[i] = this->getElemWithVar(i).variables;
     }
 
     return vars;

@@ -1,13 +1,16 @@
 
 #include "element.h"
-#include "../aux.h"
-#include <regex>
 
 
 std::string postProcessTemp(const std::string& input){
     std::string pattern = "\\bVAR\\b";
     std::regex re(pattern);
-    return std::regex_replace(input, re, "<*>");
+    std::string result = std::regex_replace(input, re, "<*>");
+    return result;
+}
+
+std::deque<std::string> postProcessVars(const std::string& input_vars) {
+    return preprocessing(input_vars);
 }
 
 ParsedElement::ParsedElement(
@@ -15,7 +18,7 @@ ParsedElement::ParsedElement(
 ) {
     this->event_id = event_id;
     this->log_template = postProcessTemp(log_template);
-    this->variables = preprocessing(variables);
+    this->variables = postProcessVars(variables);
 }
 
 ParsedElement::ParsedElement(
