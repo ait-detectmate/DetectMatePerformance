@@ -8,15 +8,20 @@ import polars as pl
 import gc
 
 
-def preprocessing(logs: list[str], regex: str) -> pl.DataFrame:
+def load_logs(path: str) -> pl.DataFrame:
+    return pl.read_csv(
+        path,
+        has_header=False,
+        new_columns=['Message'],
+        separator='\n',
+        null_values=None,
+    )
+
+
+def preprocessing(logs: list[str] | str, regex: str) -> pl.DataFrame:
+    df = load_logs(logs) if isinstance(logs, str) else pl.DataFrame({"Message": logs})
     df = (
-        pl.DataFrame({"Message": logs})
-        .with_columns(
-            pl.col("Message")
-            .str.extract_groups(regex)
-            .alias("parts")
-        )
-        .unnest("parts")
+        df.with_columns(pl.col("Message").str.extract_groups(regex).alias("parts")).unnest("parts")
     ).drop("Message")
     df = df.drop_nulls()
 
@@ -75,7 +80,7 @@ def run_batches(
 
 def run_full_pipeline(
     func: Callable[[list[str], bool, int], ParsedLogs],
-    logs: list[str],
+    logs: list[str] | str,
     get_var: bool = False,
     n_workers: int = 1,
     batch: int = int(3e+6),

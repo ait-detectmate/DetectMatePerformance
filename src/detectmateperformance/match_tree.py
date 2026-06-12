@@ -42,7 +42,7 @@ class TreeMatcher:
 
     def __call__(
         self,
-        logs: list[str] | pl.DataFrame,
+        logs: list[str] | pl.DataFrame | str,
         get_var: bool = False,
         n_workers: int = 1,
         batch: int = int(3e+6),

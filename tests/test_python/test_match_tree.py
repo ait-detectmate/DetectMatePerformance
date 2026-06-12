@@ -73,7 +73,8 @@ class TestCaseTreeMatcher:
     def test_call(self):
         logs = load_logs()
         tree_matcher = TreeMatcher.from_file(path_temp)
-        results = tree_matcher(logs, True, n_workers=3)
+        results = tree_matcher(path_logs, True, n_workers=3)
+        print(results)
 
         assert isinstance(results, pl.DataFrame)
         assert len(logs) == len(results)
