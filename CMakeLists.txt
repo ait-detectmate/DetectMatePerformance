@@ -79,6 +79,12 @@ add_library(
   src/detectmateperformance/_core/template_matcher/match_tree.cpp
 )
 
+add_library(
+  drain_op
+  src/detectmateperformance/_core/parsers/drain.h
+  src/detectmateperformance/_core/parsers/drain.cpp
+)
+
 # match_tree depends on variable and tree_op; make those transitive so
 # consumers of match_tree (executables/tests) don't need to worry about
 # static library link ordering.
@@ -108,6 +114,11 @@ add_executable(
 add_executable(
   test_matcher_vars
   tests/test_c/test_matcher_vars.cpp
+)
+
+add_executable(
+  test_drain_op
+  tests/test_c/test_drain_op.cpp
 )
 
 pybind11_add_module(
@@ -177,3 +188,4 @@ gtest_discover_tests(test_c)
 gtest_discover_tests(test_type)
 gtest_discover_tests(test_matcher_tree)
 gtest_discover_tests(test_matcher_vars)
+gtest_discover_tests(test_drain_op)

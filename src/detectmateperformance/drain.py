@@ -1,4 +1,3 @@
-
 import polars as pl
 import re
 
@@ -38,3 +37,8 @@ def cluster_logs_stream(log: str, depth: int = 2, max_child: int = 10) -> dict[s
     for i in range(depth):
         key += f"_{'None' if i >= n else log_split[i]}"
     return {key: [log]}
+
+
+class Drain:
+    def __init__(self, templates: list[str] | None = None) -> None:
+        self.templates: list[str] = [] if templates is None else templates
