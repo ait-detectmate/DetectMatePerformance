@@ -73,3 +73,19 @@ TEST(DrainTest, GenerateMultipleTemplate) {
     EXPECT_EQ(result[2], "ciao bella");
 
 }
+
+
+TEST(DrainTest, CleanTemplates) {
+    std::deque<std::string> templates = {
+        "Hello there <*> <*> kenobi",
+        "Hello there <*> <*>",
+        "Hello there <*> <*> kenobi",
+        "<*>"
+    };
+    std::deque<std::string> expected = {
+        "Hello there <*> kenobi",
+        "Hello there <*> ",
+    };
+
+    EXPECT_EQ(clean_templates(templates), expected);
+}

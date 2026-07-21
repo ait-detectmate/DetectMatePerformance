@@ -5,8 +5,9 @@
 #include <vector>
 #include <sstream>
 #include <algorithm>
+#include <regex>
+#include <unordered_set>
 
-#include <iostream>
 
 /////// Support methods
 
@@ -124,3 +125,40 @@ std::deque<std::string> generate_templates(
 
     return templates;
 }
+
+
+std::deque<std::string> clean_templates(std::deque<std::string> templates) {
+
+    auto it = std::find(templates.begin(), templates.end(), "<*>");
+    if (it != templates.end()) {
+        templates.erase(it);
+    }
+
+    std::regex pattern("\\s*<\\*>\\s*<\\*>\\s*");
+    for (size_t i = 0; i < templates.size(); i++) {
+        templates[i] = std::regex_replace(templates[i], pattern, " <*> ");
+    }
+
+    std::unordered_set<std::string> seen;
+    std::deque<std::string> uniqueTemplates;
+
+    for (const auto& word : templates) {
+        if (seen.find(word) == seen.end()) {
+            seen.insert(word);
+            uniqueTemplates.push_back(word);
+        }
+    }
+
+    return uniqueTemplates;
+}
+
+/*
+Templates process_log_clusters(
+    std::vector<std::deque<std::string>> sentences, float SimSeq
+) {
+
+    std::deque<std::string> templates = generate_templates(sentences, SimSeq);
+
+
+    return Templates(templates);
+}*/
