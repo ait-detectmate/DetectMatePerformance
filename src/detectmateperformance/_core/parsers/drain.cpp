@@ -56,21 +56,21 @@ float calculate_sim(std::string sentence_1, std::string sentence_2) {
 std::string generate_template(std::deque<std::string> sentences) {
     if (sentences.empty()) return "";
 
-    std::vector<std::vector<std::string>> split_sentences;
+    std::vector<std::vector<std::string>> splitSentences;
     int m = 0;
     for (size_t i = 0; i < sentences.size(); i++) {
-        split_sentences.push_back(split_sentence(sentences[i]));
+        splitSentences.push_back(split_sentence(sentences[i]));
 
-        if (i == 0 || split_sentences[i].size() < m){
-            m = split_sentences[i].size();
+        if (i == 0 || splitSentences[i].size() < m){
+            m = splitSentences[i].size();
         }
     }
 
     std::vector<std::string> words;
     for (size_t j = 0; j < m; ++j) {
-        std::string aux = split_sentences[0][j];
-        for (size_t i = 1; i < split_sentences.size(); ++i) {
-            if (split_sentences[i][j] != aux) {
+        std::string aux = splitSentences[0][j];
+        for (size_t i = 1; i < splitSentences.size(); ++i) {
+            if (splitSentences[i][j] != aux) {
                 aux = "<*>";
                 break;
             }
@@ -86,38 +86,38 @@ std::deque<std::string> generate_templates(
     std::vector<std::deque<std::string>> sentences, float simSeq
 ) {
 
-    std::deque<std::string> queue_sent;
-    std::deque<std::string> queue_sent_copy;
+    std::deque<std::string> queueSent;
+    std::deque<std::string> queueSentCopy;
 
     std::deque<std::string> templates;
     std::deque<std::string> similar;
     std::string template_ = "";
 
     for (size_t i = 0; i < sentences.size(); i++) {
-        queue_sent = sentences[i];
+        queueSent = sentences[i];
 
-        while (queue_sent.size() > 0) {
-            template_ = queue_sent[0];
-            queue_sent.pop_front();
+        while (queueSent.size() > 0) {
+            template_ = queueSent[0];
+            queueSent.pop_front();
 
-            if (queue_sent.size() == 0) {
+            if (queueSent.size() == 0) {
                 templates.push_back(template_);
 
             } else {
 
                 similar = {template_};
-                queue_sent_copy = {};
+                queueSentCopy = {};
 
-                for (size_t j = 0; j < queue_sent.size(); j++) {
-                    if (calculate_sim(template_, queue_sent[j]) > simSeq) {
-                        similar.push_back(queue_sent[j]);
+                for (size_t j = 0; j < queueSent.size(); j++) {
+                    if (calculate_sim(template_, queueSent[j]) > simSeq) {
+                        similar.push_back(queueSent[j]);
                     } else {
-                        queue_sent_copy.push_back(queue_sent[j]);
+                        queueSentCopy.push_back(queueSent[j]);
                     }
 
                 }
 
-                queue_sent = queue_sent_copy;
+                queueSent = queueSentCopy;
                 templates.push_back(generate_template(similar));
             }
         }
@@ -129,16 +129,20 @@ std::deque<std::string> generate_templates(
 
 std::deque<std::string> clean_templates(std::deque<std::string> templates) {
 
-    auto it = std::find(templates.begin(), templates.end(), "<*>");
-    if (it != templates.end()) {
-        templates.erase(it);
-    }
-
+    // Change "Hello <*> <*>" to "Hello <*>"
     std::regex pattern("\\s*<\\*>\\s*<\\*>\\s*");
     for (size_t i = 0; i < templates.size(); i++) {
         templates[i] = std::regex_replace(templates[i], pattern, " <*> ");
     }
 
+    // Erase templates "<*>"
+    auto it = std::find(templates.begin(), templates.end(), "<*>");
+    if (it != templates.end()) {
+        templates.erase(it);
+    }
+
+
+    // Remove duplicate templates
     std::unordered_set<std::string> seen;
     std::deque<std::string> uniqueTemplates;
 
