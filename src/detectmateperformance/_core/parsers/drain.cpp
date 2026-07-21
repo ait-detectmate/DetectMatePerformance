@@ -156,13 +156,15 @@ std::deque<std::string> clean_templates(std::deque<std::string> templates) {
     return uniqueTemplates;
 }
 
-/*
-Templates process_log_clusters(
+
+Templates* drain_generator(
     std::vector<std::deque<std::string>> sentences, float SimSeq
 ) {
 
     std::deque<std::string> templates = generate_templates(sentences, SimSeq);
+    templates = clean_templates(templates);
 
+    Templates* temp_instance = new Templates(templates);
 
-    return Templates(templates);
-}*/
+    return temp_instance;
+}

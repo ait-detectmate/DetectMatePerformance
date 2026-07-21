@@ -94,6 +94,7 @@ target_link_libraries(
   variable
   tree_op
   tree
+  drain_op
 )
 
 add_executable(
@@ -187,6 +188,14 @@ target_link_libraries(
   test_drain_op
   GTest::gtest_main
   drain_op
+  templates
+  parsedelement
+  parsed
+  tree
+  variable
+  tree_op
+  match_tree
+  aux
 )
 
 include(GoogleTest)

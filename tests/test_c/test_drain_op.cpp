@@ -89,3 +89,24 @@ TEST(DrainTest, CleanTemplates) {
 
     EXPECT_EQ(clean_templates(templates), expected);
 }
+
+
+TEST(DrainTest, DrainGenerator) {
+
+    std::vector<std::deque<std::string>> inp = {
+        {
+            "Hello tobias my man",
+            "Hello guillermo my man",
+            "Hello julie my woman",
+            "Mamma mia here again",
+            "Mamma tia here again"
+        },
+        {
+            "ciao bella"
+        }
+    };
+
+    // should not break
+    auto result = drain_generator(inp, 0.2);
+
+}
