@@ -183,6 +183,12 @@ target_link_libraries(
   aux
 )
 
+target_link_libraries(
+  test_drain_op
+  GTest::gtest_main
+  drain_op
+)
+
 include(GoogleTest)
 gtest_discover_tests(test_c)
 gtest_discover_tests(test_type)
