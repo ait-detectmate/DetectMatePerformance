@@ -4,7 +4,9 @@
 #include <string>
 #include <vector>
 #include <sstream>
+#include <algorithm>
 
+#include <iostream>
 
 /////// Support methods
 
@@ -50,7 +52,7 @@ float calculate_sim(std::string sentence_1, std::string sentence_2) {
 }
 
 
-std::string generate_template(std::vector<std::string> sentences) {
+std::string generate_template(std::deque<std::string> sentences) {
     if (sentences.empty()) return "";
 
     std::vector<std::vector<std::string>> split_sentences;
@@ -76,4 +78,49 @@ std::string generate_template(std::vector<std::string> sentences) {
     }
 
     return join_sentence(words);
+}
+
+
+std::deque<std::string> generate_templates(
+    std::vector<std::deque<std::string>> sentences, float simSeq
+) {
+
+    std::deque<std::string> queue_sent;
+    std::deque<std::string> queue_sent_copy;
+
+    std::deque<std::string> templates;
+    std::deque<std::string> similar;
+    std::string template_ = "";
+
+    for (size_t i = 0; i < sentences.size(); i++) {
+        queue_sent = sentences[i];
+
+        while (queue_sent.size() > 0) {
+            template_ = queue_sent[0];
+            queue_sent.pop_front();
+
+            if (queue_sent.size() == 0) {
+                templates.push_back(template_);
+
+            } else {
+
+                similar = {template_};
+                queue_sent_copy = {};
+
+                for (size_t j = 0; j < queue_sent.size(); j++) {
+                    if (calculate_sim(template_, queue_sent[j]) > simSeq) {
+                        similar.push_back(queue_sent[j]);
+                    } else {
+                        queue_sent_copy.push_back(queue_sent[j]);
+                    }
+
+                }
+
+                queue_sent = queue_sent_copy;
+                templates.push_back(generate_template(similar));
+            }
+        }
+    }
+
+    return templates;
 }

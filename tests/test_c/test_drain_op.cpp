@@ -28,7 +28,7 @@ TEST(DrainTest, Similarity) {
 
 TEST(DrainTest, GenerateTemplate) {
 
-    std::vector<std::string> inp = {
+    std::deque<std::string> inp = {
         "Hello tobias my man",
         "Hello guillermo my man",
         "Hello julie my woman",
@@ -37,7 +37,7 @@ TEST(DrainTest, GenerateTemplate) {
 
     EXPECT_EQ(generate_template(inp), expected);
 
-    std::vector<std::string> inp2 = {
+    std::deque<std::string> inp2 = {
         "Hello tobias my man my bro",
         "Hello guillermo my man",
         "Hello julie my woman a",
@@ -45,5 +45,31 @@ TEST(DrainTest, GenerateTemplate) {
     std::string expected2 = "Hello <*> my <*>";
 
     EXPECT_EQ(generate_template(inp2), expected2);
+
+}
+
+
+TEST(DrainTest, GenerateMultipleTemplate) {
+
+    std::vector<std::deque<std::string>> inp = {
+        {
+            "Hello tobias my man",
+            "Hello guillermo my man",
+            "Hello julie my woman",
+            "Mamma mia here again",
+            "Mamma tia here again"
+        },
+        {
+            "ciao bella"
+        }
+    };
+    std::deque<std::string> expected = {"Hello <*> my <*>"};
+
+    std::deque<std::string> result = generate_templates(inp, 0.2);
+
+    EXPECT_EQ(result.size(), 3);
+    EXPECT_EQ(result[0], "Hello <*> my <*>");
+    EXPECT_EQ(result[1], "Mamma <*> here again");
+    EXPECT_EQ(result[2], "ciao bella");
 
 }
