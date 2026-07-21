@@ -141,6 +141,8 @@ pybind11_add_module(
   src/detectmateperformance/_core/template_matcher/tree_op.cpp
   src/detectmateperformance/_core/template_matcher/match_tree.h
   src/detectmateperformance/_core/template_matcher/match_tree.cpp
+  src/detectmateperformance/_core/parsers/drain.h
+  src/detectmateperformance/_core/parsers/drain.cpp
 )
 
 target_link_libraries(
