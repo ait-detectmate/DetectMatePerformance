@@ -30,8 +30,9 @@ class LogTemplates:
         return self.inst.size()  # type: ignore
 
     def get_templates(self, do_print: bool = True) -> list[str]:
-        for temp in self.temp_list:
-            print(" -> ", temp)
+        if do_print:
+            for temp in self.temp_list:
+                print(" -> ", temp)
 
         return self.temp_list
 

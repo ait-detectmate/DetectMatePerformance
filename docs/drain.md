@@ -21,6 +21,9 @@ class Drain:
 
     def generate(self) -> TreeMatcher:
         """Generate Tree matcher"""
+
+    def generate_from_df(self, df: pl.DataFrame) -> TreeMatcher:
+        """Generate Tree matcher from df"""
 ```
 
 

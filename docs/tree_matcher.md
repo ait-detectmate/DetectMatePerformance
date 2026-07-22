@@ -13,6 +13,9 @@ class TreeMatcher:
     def match_log(self, log: str, get_var: bool = False) -> ParsedLogs:
         """Match one preprocess log with the templates"""
 
+    def get_templates(self, do_print: bool = True) -> list[str]:
+        """Get the templates"""
+
     def match_batch(
         self, logs: list[str], get_var: bool = False, n_workers: int = 1
     ) -> ParsedLogs:
