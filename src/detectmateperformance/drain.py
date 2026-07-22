@@ -55,12 +55,23 @@ class Drain:
     def reset(self) -> None:
         self.buffer: list[str] = []
 
-    def __pipeline(self, df: pl.DataFrame) -> TreeMatcher:
-        set_groups = cluster_logs_df(df=df, depth=self.depth, max_child=self.max_child)
+    def generate_from_df(self, df: pl.DataFrame) -> TreeMatcher:
+
+        print("\033[46m >>>> Generating templates    \033[0m")
+        print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
+
+        print("\033[46m  \033[0m  ⚙️ Clustering logs")
+        set_groups = cluster_logs_df(df=df[["Content"]], depth=self.depth, max_child=self.max_child)
+
+        print("\033[46m  \033[0m  ⚙️ Generating templats")
         templates = LogTemplates(drain_generator(list(set_groups.values()), self.sim))
+
+        print("\033[46m  \033[0m  💻 Initializing tree matcher instance")
         tree_matcher = TreeMatcher(templates)
 
+        print("\033[46m  \033[0m  ✅ Process complete!")
+        print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
         return tree_matcher
 
     def generate(self) -> TreeMatcher:
-        return self.__pipeline(pl.DataFrame({"Content": self.buffer}))
+        return self.generate_from_df(pl.DataFrame({"Content": self.buffer}))
