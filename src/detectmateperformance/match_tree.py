@@ -51,6 +51,8 @@ class TreeMatcher:
         batch: int = int(3e+6),
         regex: str = r"(?P<Content>.*)"
     ) -> pl.DataFrame:
+        print("\033[46m >>>> Tree Matcher    \033[0m")
+        print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
 
         if isinstance(logs, pl.DataFrame):
             return run_batches(
