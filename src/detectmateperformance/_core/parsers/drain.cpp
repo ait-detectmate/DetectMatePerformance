@@ -162,7 +162,7 @@ Templates drain_generator(
 ) {
 
     std::deque<std::string> templates = generate_templates(sentences, SimSeq);
-    //templates = clean_templates(templates);
+    templates = clean_templates(templates);
 
     Templates temp_instance = Templates(templates);
 
