@@ -43,8 +43,11 @@ class Drain:
         self.reset()
 
     def __str__(self) -> str:
-        msg = f"Drain <Depth: {self.depth} Max child: {self.max_child} Sim: {self.sim}>"
-        return msg + f"\n  -> (N. logs in buffer {len(self)})"
+        msg = "\033[46m >>>> Generating templates    \033[0m\n"
+        msg += "\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m\n"
+        msg += f"\033[46m  \033[0mDrain <Depth: {self.depth} Max child: {self.max_child} Sim: {self.sim}>"
+        msg += f"\n\033[46m  \033[0m  -> (N. logs in buffer {len(self)})\n"
+        return msg + "\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m\n"
 
     def __len__(self) -> int:
         return len(self.buffer)
@@ -63,10 +66,10 @@ class Drain:
         print("\033[46m  \033[0m  ⚙️ Clustering logs")
         set_groups = cluster_logs_df(df=df[["Content"]], depth=self.depth, max_child=self.max_child)
 
-        print("\033[46m  \033[0m  ⚙️ Generating templats")
+        print("\033[46m  \033[0m  ⚙️  Generating templates")
         templates = LogTemplates(drain_generator(list(set_groups.values()), self.sim))
 
-        print("\033[46m  \033[0m  💻 Initializing tree matcher instance")
+        print("\033[46m  \033[0m  💻  Initializing tree matcher instance")
         tree_matcher = TreeMatcher(templates)
 
         print("\033[46m  \033[0m  ✅ Process complete!")
