@@ -62,8 +62,13 @@ def run_batches(
 ) -> pl.DataFrame:
 
     first = True
-    print(">>> Matching data")
-    for i in tqdm(range(batch, len(table) + batch, batch)):
+    print("\033[46m  \033[0m  🛠️  Matching data")
+    for i in tqdm(
+        range(batch, len(table) + batch, batch),
+        desc="\033[46m  \033[0m  Matching logs ⏳",
+        unit="logs",
+        bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}'
+    ):
         results = func(  # type: ignore
             table["Content"][i-batch: i].to_list(), get_var=get_var, n_workers=n_workers
         )
@@ -74,8 +79,11 @@ def run_batches(
             df = pl.concat([df, add_parsed(df=table[i-batch: i], results=results)])
         del results
 
-    print(">>> Postprocessing results")
-    return postprocessing(df)
+    print("\033[46m  \033[0m  🛠️  Postprocessing results")
+    df = postprocessing(df)
+    print("\033[46m  \033[0m  ✅   Finish")
+    print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
+    return df
 
 
 def run_full_pipeline(
@@ -87,11 +95,11 @@ def run_full_pipeline(
     regex: str = r"(?P<Content>.*)"
 ) -> pl.DataFrame:
 
-    print(">>> Preprocesing logs")
+    print("\033[46m  \033[0m  🛠️  Preprocesing logs")
     table = preprocessing(logs, regex=regex)
 
     if "Content" not in table.columns:
-        print("!Content not found")
+        print("\033[46m  \033[0m   ⚠️  Content not found")
         return table
 
     return run_batches(

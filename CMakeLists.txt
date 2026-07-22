@@ -79,6 +79,12 @@ add_library(
   src/detectmateperformance/_core/template_matcher/match_tree.cpp
 )
 
+add_library(
+  drain_op
+  src/detectmateperformance/_core/parsers/drain.h
+  src/detectmateperformance/_core/parsers/drain.cpp
+)
+
 # match_tree depends on variable and tree_op; make those transitive so
 # consumers of match_tree (executables/tests) don't need to worry about
 # static library link ordering.
@@ -88,6 +94,7 @@ target_link_libraries(
   variable
   tree_op
   tree
+  drain_op
 )
 
 add_executable(
@@ -110,6 +117,11 @@ add_executable(
   tests/test_c/test_matcher_vars.cpp
 )
 
+add_executable(
+  test_drain_op
+  tests/test_c/test_drain_op.cpp
+)
+
 pybind11_add_module(
   bind_class
   src/detectmateperformance/_core/bind_class.cpp
@@ -129,6 +141,8 @@ pybind11_add_module(
   src/detectmateperformance/_core/template_matcher/tree_op.cpp
   src/detectmateperformance/_core/template_matcher/match_tree.h
   src/detectmateperformance/_core/template_matcher/match_tree.cpp
+  src/detectmateperformance/_core/parsers/drain.h
+  src/detectmateperformance/_core/parsers/drain.cpp
 )
 
 target_link_libraries(
@@ -172,8 +186,23 @@ target_link_libraries(
   aux
 )
 
+target_link_libraries(
+  test_drain_op
+  GTest::gtest_main
+  drain_op
+  templates
+  parsedelement
+  parsed
+  tree
+  variable
+  tree_op
+  match_tree
+  aux
+)
+
 include(GoogleTest)
 gtest_discover_tests(test_c)
 gtest_discover_tests(test_type)
 gtest_discover_tests(test_matcher_tree)
 gtest_discover_tests(test_matcher_vars)
+gtest_discover_tests(test_drain_op)
