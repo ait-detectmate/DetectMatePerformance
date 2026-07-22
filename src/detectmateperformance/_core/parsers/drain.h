@@ -20,7 +20,7 @@ std::deque<std::string> generate_templates(
 std::deque<std::string> clean_templates(std::deque<std::string> templates);
 
 
-Templates* drain_generator(
+Templates drain_generator(
     std::vector<std::deque<std::string>> sentences, float SimSeq
 );
 

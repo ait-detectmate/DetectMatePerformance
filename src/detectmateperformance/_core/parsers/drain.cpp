@@ -71,7 +71,7 @@ std::string generate_template(std::deque<std::string> sentences) {
         std::string aux = splitSentences[0][j];
         for (size_t i = 1; i < splitSentences.size(); ++i) {
             if (splitSentences[i][j] != aux) {
-                aux = "<*>";
+                aux = "VAR";
                 break;
             }
         }
@@ -129,14 +129,14 @@ std::deque<std::string> generate_templates(
 
 std::deque<std::string> clean_templates(std::deque<std::string> templates) {
 
-    // Change "Hello <*> <*>" to "Hello <*>"
-    std::regex pattern("\\s*<\\*>\\s*<\\*>\\s*");
+    // Change "Hello VAR VAR" to "Hello VAR"
+    std::regex pattern("\\s*VAR\\s*VAR\\s*");
     for (size_t i = 0; i < templates.size(); i++) {
-        templates[i] = std::regex_replace(templates[i], pattern, " <*> ");
+        templates[i] = std::regex_replace(templates[i], pattern, " VAR ");
     }
 
-    // Erase templates "<*>"
-    auto it = std::find(templates.begin(), templates.end(), "<*>");
+    // Erase templates "VAR"
+    auto it = std::find(templates.begin(), templates.end(), "VAR");
     if (it != templates.end()) {
         templates.erase(it);
     }
@@ -157,14 +157,14 @@ std::deque<std::string> clean_templates(std::deque<std::string> templates) {
 }
 
 
-Templates* drain_generator(
+Templates drain_generator(
     std::vector<std::deque<std::string>> sentences, float SimSeq
 ) {
 
     std::deque<std::string> templates = generate_templates(sentences, SimSeq);
-    templates = clean_templates(templates);
+    //templates = clean_templates(templates);
 
-    Templates* temp_instance = new Templates(templates);
+    Templates temp_instance = Templates(templates);
 
     return temp_instance;
 }

@@ -33,7 +33,7 @@ TEST(DrainTest, GenerateTemplate) {
         "Hello guillermo my man",
         "Hello julie my woman",
     };
-    std::string expected = "Hello <*> my <*>";
+    std::string expected = "Hello VAR my VAR";
 
     EXPECT_EQ(generate_template(inp), expected);
 
@@ -42,7 +42,7 @@ TEST(DrainTest, GenerateTemplate) {
         "Hello guillermo my man",
         "Hello julie my woman a",
     };
-    std::string expected2 = "Hello <*> my <*>";
+    std::string expected2 = "Hello VAR my VAR";
 
     EXPECT_EQ(generate_template(inp2), expected2);
 
@@ -63,13 +63,13 @@ TEST(DrainTest, GenerateMultipleTemplate) {
             "ciao bella"
         }
     };
-    std::deque<std::string> expected = {"Hello <*> my <*>"};
+    std::deque<std::string> expected = {"Hello VAR my VAR"};
 
     std::deque<std::string> result = generate_templates(inp, 0.2);
 
     EXPECT_EQ(result.size(), 3);
-    EXPECT_EQ(result[0], "Hello <*> my <*>");
-    EXPECT_EQ(result[1], "Mamma <*> here again");
+    EXPECT_EQ(result[0], "Hello VAR my VAR");
+    EXPECT_EQ(result[1], "Mamma VAR here again");
     EXPECT_EQ(result[2], "ciao bella");
 
 }
@@ -77,14 +77,14 @@ TEST(DrainTest, GenerateMultipleTemplate) {
 
 TEST(DrainTest, CleanTemplates) {
     std::deque<std::string> templates = {
-        "Hello there <*> <*> kenobi",
-        "Hello there <*> <*>",
-        "Hello there <*> <*> kenobi",
-        "<*>"
+        "Hello there VAR VAR kenobi",
+        "Hello there VAR VAR",
+        "Hello there VAR VAR kenobi",
+        "VAR"
     };
     std::deque<std::string> expected = {
-        "Hello there <*> kenobi",
-        "Hello there <*> ",
+        "Hello there VAR kenobi",
+        "Hello there VAR ",
     };
 
     EXPECT_EQ(clean_templates(templates), expected);
@@ -95,18 +95,22 @@ TEST(DrainTest, DrainGenerator) {
 
     std::vector<std::deque<std::string>> inp = {
         {
-            "Hello tobias my man",
-            "Hello guillermo my man",
-            "Hello julie my woman",
-            "Mamma mia here again",
-            "Mamma tia here again"
+            "hello tobias my man",
+            "hello guillermo my man",
+            "hello julie my woman,"
         },
-        {
-            "ciao bella"
-        }
     };
 
-    // should not break
-    auto result = drain_generator(inp, 0.2);
+    Templates result = drain_generator(inp, 0.2);
+    auto message1 = result.getNext();
+
+    for (size_t i= 0; i < message1.size(); i++)
+        std::cout << message1[i] << std::endl;
+
+    EXPECT_EQ(message1.size(), 4);
+    EXPECT_EQ(message1[0], "hello");
+    EXPECT_EQ(message1[1], "VAR");
+    EXPECT_EQ(message1[2], "my");
+    EXPECT_EQ(message1[3], "VAR");
 
 }

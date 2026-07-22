@@ -9,10 +9,13 @@ def _load_file(path: str) -> list[str]:
 
 
 class LogTemplates:
-    def __init__(self, templates: list[str]):
-        self.inst = Templates(list(
-            map(lambda x: x.replace("<*>", "VAR"), templates)
-        ))
+    def __init__(self, templates: list[str] | Templates):
+        if isinstance(templates, list):
+            self.inst = Templates(list(
+                map(lambda x: x.replace("<*>", "VAR"), templates)
+            ))
+        else:
+            self.inst = templates
 
     def __len__(self) -> int:
         return self.inst.size()  # type: ignore

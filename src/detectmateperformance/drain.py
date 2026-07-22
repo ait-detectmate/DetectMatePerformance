@@ -1,3 +1,8 @@
+from detectmateperformance.match_tree import TreeMatcher
+from detectmateperformance.types_ import LogTemplates
+
+from detectmateperformance.lib.bind_class import drain_generator
+
 import polars as pl
 
 
@@ -27,5 +32,34 @@ def cluster_logs_df(df: pl.DataFrame, depth: int = 2, max_child: int = 10) -> di
 
 
 class Drain:
-    def __init__(self, templates: list[str] | None = None) -> None:
-        self.templates: list[str] = [] if templates is None else templates
+    def __init__(
+        self, depth: int = 2, max_child: int = 10, sim: float = 0.5
+    ) -> None:
+
+        self.depth = depth
+        self.max_child = max_child
+        self.sim = sim
+
+        self.reset()
+
+    def __str__(self) -> str:
+        msg = f"Drain <Depth: {self.depth} Max child: {self.max_child} Sim: {self.sim}>"
+        return msg + f"\n  -> (N. logs in buffer {len(self)})"
+
+    def __len__(self) -> int:
+        return len(self.buffer)
+
+    def add(self, log: str) -> None:
+        self.buffer.append(log)
+
+    def reset(self) -> None:
+        self.buffer: list[str] = []
+
+    def generate(self) -> TreeMatcher:
+        set_groups = cluster_logs_df(
+            df=pl.DataFrame({"Content": self.buffer}),
+            depth=self.depth,
+            max_child=self.max_child
+        )
+
+        return TreeMatcher(LogTemplates(drain_generator(list(set_groups.values()), self.sim)))
