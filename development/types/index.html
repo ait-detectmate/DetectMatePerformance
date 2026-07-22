@@ -48,6 +48,8 @@
               <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../tree_matcher/">TreeMatcher</a>
                   </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../drain/">Drain</a>
+                  </li>
               </ul>
               <p class="caption"><span class="caption-text">Auxiliar</span></p>
               <ul class="current">
@@ -98,6 +100,8 @@
     def shape(self) -&gt; tuple[int, int]: pass
 
     def get_next(self) -&gt; list[str]: pass
+
+    def get_templates(self, do_print: bool = True) -&gt; list[str]: pass
 
     def __eq__(self, other: object) -&gt; bool: pass
 
@@ -170,7 +174,7 @@ assert parsed[3] == (&quot;template not found&quot;, &quot;a b c&quot;)
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../tree_matcher/" class="btn btn-neutral float-left" title="TreeMatcher"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../drain/" class="btn btn-neutral float-left" title="Drain"><span class="icon icon-circle-arrow-left"></span> Previous</a>
         <a href="../metrics/" class="btn btn-neutral float-right" title="Metrics">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
@@ -194,7 +198,7 @@ assert parsed[3] == (&quot;template not found&quot;, &quot;a b c&quot;)
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../tree_matcher/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../drain/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
     
       <span><a href="../metrics/" style="color: #fcfcfc">Next &raquo;</a></span>
