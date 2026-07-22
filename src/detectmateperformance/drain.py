@@ -4,11 +4,12 @@ from detectmateperformance.types_ import LogTemplates
 from detectmateperformance.lib.bind_class import drain_generator
 
 import polars as pl
+import warnings
 
 
 def cluster_logs_df(df: pl.DataFrame, depth: int = 2, max_child: int = 10) -> dict[str, list[str]]:
     df = df.with_columns(pl.col("Content").str.replace_all(r"[^a-zA-Z0-9\s]", " "))
-    df = df.with_columns(pl.col("Content").str.replace_all(r"\d+", "<*>").str.replace_all(r"\s+", " "))
+    df = df.with_columns(pl.col("Content").str.replace_all(r"\d+", "VAR").str.replace_all(r"\s+", " "))
     df = df.unique()
 
     df = df.insert_column(-1, pl.col("Content").str.split(by=" ").list.len().alias("L"))
@@ -39,6 +40,7 @@ class Drain:
         self.depth = depth
         self.max_child = max_child
         self.sim = sim
+        warnings.warn("This method is still a prototype!!")
 
         self.reset()
 

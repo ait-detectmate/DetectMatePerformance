@@ -95,9 +95,9 @@ TEST(DrainTest, DrainGenerator) {
 
     std::vector<std::deque<std::string>> inp = {
         {
-            "hello tobias my man",
-            "hello guillermo my man",
-            "hello julie my woman,"
+            "hello tobias my man number 2",
+            "hello guillermo my man number 2",
+            "hello julie my woman number 2,"
         },
     };
 
@@ -107,10 +107,12 @@ TEST(DrainTest, DrainGenerator) {
     for (size_t i= 0; i < message1.size(); i++)
         std::cout << message1[i] << std::endl;
 
-    EXPECT_EQ(message1.size(), 4);
+    EXPECT_EQ(message1.size(), 6);
     EXPECT_EQ(message1[0], "hello");
     EXPECT_EQ(message1[1], "VAR");
     EXPECT_EQ(message1[2], "my");
     EXPECT_EQ(message1[3], "VAR");
+    EXPECT_EQ(message1[4], "number");
+    EXPECT_EQ(message1[5], "VAR");
 
 }
