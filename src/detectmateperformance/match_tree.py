@@ -24,6 +24,9 @@ class TreeMatcher:
     def __len__(self) -> int:
         return len(self.templates)
 
+    def get_templates(self, do_print: bool = True) -> list[str]:
+        return self.templates.get_templates(do_print=do_print)
+
     def match_log(self, log: str, get_var: bool = False) -> ParsedLogs:
         if get_var:
             result = self.inst.match_string_with_var(log)

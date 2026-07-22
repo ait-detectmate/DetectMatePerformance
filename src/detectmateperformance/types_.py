@@ -8,14 +8,33 @@ def _load_file(path: str) -> list[str]:
         return [line.strip() for line in f if line.strip()]
 
 
+def _templates_to_list(templates: Templates) -> list[str]:
+    temp_list: list[str] = []
+    while (x := templates.get_next_template()) != []:
+        temp_list.append(" ".join(x).replace("VAR", "<*>"))
+
+    return temp_list
+
+
 class LogTemplates:
-    def __init__(self, templates: list[str]):
+    def __init__(self, templates: list[str] | Templates):
+        if isinstance(templates, Templates):
+            templates = _templates_to_list(templates)
+
+        self.temp_list = templates.copy()
         self.inst = Templates(list(
             map(lambda x: x.replace("<*>", "VAR"), templates)
         ))
 
     def __len__(self) -> int:
         return self.inst.size()  # type: ignore
+
+    def get_templates(self, do_print: bool = True) -> list[str]:
+        if do_print:
+            for temp in self.temp_list:
+                print(" -> ", temp)
+
+        return self.temp_list
 
     def shape(self) -> tuple[int, int]:
         return self.inst.shape()  # type: ignore

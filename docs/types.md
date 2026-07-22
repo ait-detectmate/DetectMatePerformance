@@ -17,6 +17,8 @@ class LogTemplates:
 
     def get_next(self) -> list[str]: pass
 
+    def get_templates(self, do_print: bool = True) -> list[str]: pass
+
     def __eq__(self, other: object) -> bool: pass
 
     def __str__(self) -> str: pass

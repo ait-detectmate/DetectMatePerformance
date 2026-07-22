@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "parsers/drain.h"
 #include "template_matcher/match_tree.h"
 #include "_type/element.h"
 #include "_type/templates.h"
@@ -11,15 +12,19 @@ namespace py = pybind11;
 
 
 PYBIND11_MODULE(bind_class, m) {
+    m.def("drain_generator", &drain_generator);
+
     py::class_<Templates>(m, "Templates")
         .def(py::init<std::deque<std::string>>())
         .def("get_next_template", &Templates::getNext)
         .def("size", &Templates::size)
         .def("shape", &Templates::shape);
+
     py::class_<ParsedElement>(m, "ParsedElement")
         .def_readonly("event_id", &ParsedElement::event_id)
         .def_readonly("log_template", &ParsedElement::log_template)
         .def_readonly("variables", &ParsedElement::variables);
+
     py::class_<ParsedMessages>(m, "Parsed")
         .def(py::init<Templates*, int>())
         .def("get_elem_id", &ParsedMessages::getElemID)
@@ -32,6 +37,7 @@ PYBIND11_MODULE(bind_class, m) {
         .def("get_all_var", &ParsedMessages::getAllVar)
         .def("size", &ParsedMessages::size)
         .def("shape", &ParsedMessages::shape);
+
     py::class_<MatchTree>(m, "MatchTree")
         .def(py::init<Templates*>())
         .def("match_string", &MatchTree::match_string)
