@@ -6,12 +6,14 @@ import polars as pl
 
 class TestCommonMethods:
     def test_cluster_logs_df(self):
-        df = pl.DataFrame({"Content": ["hello world, 12 ciao", "Ciao! ? bella bella"]})
+        df = pl.DataFrame({"Content": ["hello world, 12 1cia2o1", "Ciao! ? bella bella"]})
 
-        expected = {'3_Ciao_bella': ['Ciao bella bella'], '4_hello_world': ['hello world VAR ciao']}
+        expected = {'3_Ciao_bella': ['Ciao bella bella'], '4_hello_world': ['hello world VAR 1cia2o1']}
         assert drain.cluster_logs_df(df, depth=2) == expected
 
-        expected = {'3_Ciao_bella_bella': ['Ciao bella bella'], '4_hello_world_VAR': ['hello world VAR ciao']}
+        expected = {
+            '3_Ciao_bella_bella': ['Ciao bella bella'], '4_hello_world_VAR': ['hello world VAR 1cia2o1']
+        }
         assert drain.cluster_logs_df(df, depth=3) == expected
 
     def test_cluster_logs_df_special_cases(self):
@@ -56,3 +58,12 @@ class TestDrain:
         tree_match = drain_.generate()
         template = tree_match.match_log("hello tobias my man").get_all_templates()[0]
         assert "hello VAR my VAR" == template
+
+    def test_num_cases(self):
+        drain_ = drain.Drain(depth=1)
+        drain_.add("Hello 1ad231b1")
+        drain_.add("Hello 2a2sss1")
+
+        tree_match = drain_.generate()
+        template = tree_match.match_log("Hello world").get_all_templates()[0]
+        assert "Hello VAR" == template
