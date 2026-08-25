@@ -4,7 +4,7 @@
 #include <utility>
 #include <string>
 #include <unordered_map>
-#include <deque>
+#include <vector>
 
 #include "templates.h"
 #include "element.h"
@@ -14,7 +14,7 @@
 
 class ParsedMessages {
 protected:
-    std::vector<std::string> variables;
+    std::vector<std::vector<std::string>> variables;
     std::vector<int> event_ids;
 
     std::unordered_map<std::string, int> event_ids_map;
@@ -30,12 +30,12 @@ public:
     ParsedElement getElemWithVar(int n);
     void setElem(int n, std::string template_);
     void setElemWithVar(
-        int n, std::string template_, std::string vars
+        int n, std::string template_, std::vector<std::string> vars
     );
 
     std::vector<int> getAllIDs();
     std::vector<std::string> getAllElemts();
-    std::vector<std::string> getAllVar();
+    std::vector<std::vector<std::string>> getAllVar();
 
     int size();
     std::pair<int, int> shape();

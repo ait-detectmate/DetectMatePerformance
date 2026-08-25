@@ -2,7 +2,8 @@
 #define M_PARSEDELEM_H
 
 #include <string>
-#include <deque>
+#include <vector>
+#include <utility>
 #include "../aux.h"
 #include <regex>
 
@@ -11,17 +12,17 @@
 
 std::string postProcessTemp(const std::string& input);
 
-std::string postProcessVars(const std::string& input_vars);
+std::vector<std::string> postProcessVars(std::vector<std::string> input_vars);
 
 class ParsedElement {
 
 public:
     int event_id;
     std::string log_template;
-    std::string variables;
+    std::vector<std::string> variables;
 
     ParsedElement(
-        int event_id, std::string log_template, std::string variables
+        int event_id, std::string log_template, std::vector<std::string> variables
     );
     ParsedElement(int event_id, std::string log_template);
 

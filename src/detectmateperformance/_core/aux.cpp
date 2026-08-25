@@ -1,36 +1,39 @@
 #include "aux.h"
 
+#include <cctype>
 
-bool do_split(const char* str) {
-    return *str == ' ';
-}
-
-void remove_empty(std::deque<std::string>& words) {
-    words.erase(std::remove_if(words.begin(), words.end(), [](const std::string& word) {
-        return word.empty();
-    }), words.end());
+std::deque<Token> tokenize(const std::string& message) {
+    // Same splitting rule as the old preprocessing(): every punctuation char acts as
+    // a separator (it used to be overwritten with ' ' in place, then split on ' ').
+    // std::ispunct receives the raw (possibly signed) char exactly like before, so
+    // byte-level behavior -- including for non-ASCII bytes -- is identical.
+    // Also mirrors the old C-string scan: stops at the first embedded NUL byte,
+    // dropping everything after it (like `while (*end)` did).
+    std::deque<Token> tokens;
+    size_t start = 0;
+    for (size_t i = 0; i <= message.size(); ++i) {
+        // Stop scanning at first NUL, mirroring the old C-string walk
+        if (i < message.size() && message[i] == '\0') {
+            if (i > start) {
+                tokens.push_back({message.substr(start, i - start), start, i});
+            }
+            return tokens;
+        }
+        bool sep = i == message.size() || message[i] == ' ' || std::ispunct(message[i]);
+        if (sep) {
+            if (i > start) {
+                tokens.push_back({message.substr(start, i - start), start, i});
+            }
+            start = i + 1;
+        }
+    }
+    return tokens;
 }
 
 std::deque<std::string> preprocessing(std::string message) {
     std::deque<std::string> words;
-
-    const char* start = message.data();
-    const char* end = start;
-
-    while (*end) {
-        if (std::ispunct(*end)) {
-            *const_cast<char*>(end) = ' ';
-        }
-
-        if (do_split(end)) {
-            words.emplace_back(start, end);
-            start = end + 1;
-        }
-        end++;
-
+    for (const Token& token : tokenize(message)) {
+        words.push_back(token.word);
     }
-    words.emplace_back(start, end);
-    remove_empty(words);
-
     return words;
 }

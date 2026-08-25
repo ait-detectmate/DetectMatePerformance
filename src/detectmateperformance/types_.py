@@ -67,7 +67,7 @@ class ParsedLogElement:
     def __init__(self, parsed_ele: ParsedElement) -> None:
         self.event_id: int = parsed_ele.event_id
         self.log_template: str = parsed_ele.log_template
-        self.variables: str = parsed_ele.variables
+        self.variables: list[str] = list(parsed_ele.variables)
 
     def to_dict(self) -> dict[str, Any]:
         return {
@@ -80,7 +80,7 @@ class ParsedLogElement:
         return {
             "EventID": self.event_id,
             "Template": self.log_template.replace("VAR", "<*>"),
-            "ParamList": self.variables.split(" ") if self.variables != "" else [],
+            "ParamList": self.variables,
         }
 
 
@@ -113,7 +113,7 @@ class ParsedLogs:
             result = ParsedLogElement(self.inst.get_elem(idx))
         return result.postprocess_to_dict()
 
-    def __setitem__(self, idx: int, values: str | tuple[str, str]) -> str:
+    def __setitem__(self, idx: int, values: str | tuple[str, list[str]]) -> str:
         if self.with_vars:
             return self.inst.set_elem_with_var(idx, values[0], values[1])  # type: ignore
         return self.inst.set_elem(idx, values)  # type: ignore

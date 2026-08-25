@@ -34,7 +34,7 @@ class TestCaseTreeMatcher:
 
         result = tree_matcher.match_log(log, True)
         assert result[0]["Template"] == "Hello <*> kenobi"
-        assert result[0]["ParamList"] == ["there", "general"]
+        assert result[0]["ParamList"] == ["there general"]
 
     def test_match_batch(self):
         tree_matcher = TreeMatcher(LogTemplates(["Hello`=<*> kenobi"]))
@@ -51,7 +51,7 @@ class TestCaseTreeMatcher:
 
         assert results[0]["Template"] == "Hello <*> kenobi"
         assert results[1]["Template"] == "template not found"
-        assert results[0]["ParamList"] == ["there", "general"]
+        assert results[0]["ParamList"] == ["there general"]
         assert results[1]["ParamList"] == []
 
     def test_big_batch(self):

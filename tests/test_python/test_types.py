@@ -70,8 +70,8 @@ class TestCaseParsed:
     def test_add_elements_with_vars(self):
         parsed = ParsedLogs(LogTemplates(templates), 5, with_vars=True)
         assert parsed.shape() == (5, 0)
-        parsed[0] = ("Hello VAR world VAR", "")
-        parsed[3] = ("ciaoo bellaaa", "a b c")
+        parsed[0] = ("Hello VAR world VAR", [])
+        parsed[3] = ("ciaoo bellaaa", ["a", "b", "c"])
 
         assert parsed[0]["Template"] == "Hello <*> world <*>"
         assert parsed[0]["ParamList"] == []
@@ -80,10 +80,10 @@ class TestCaseParsed:
 
     def test_get_all_variables(self):
         parsed = ParsedLogs(LogTemplates(templates), 2, with_vars=True)
-        parsed[0] = ("Hello VAR world VAR", "")
-        parsed[1] = ("ciaoo bellaaa", "a b c")
+        parsed[0] = ("Hello VAR world VAR", [])
+        parsed[1] = ("ciaoo bellaaa", ["a", "b", "c"])
 
-        expected = ["", "a b c"]
+        expected = [[], ["a", "b", "c"]]
         assert parsed.get_all_vars() == expected
 
     def test_add_elements_shape_(self):

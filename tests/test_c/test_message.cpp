@@ -26,7 +26,7 @@ TEST(TreeOpTest, SearchTree) {
 
     Variables* vars = new Variables();
 
-    std::deque<std::string> sequence0 = {"hello", "there"};
+    std::deque<Token> sequence0 = tokenize("hello there");
     std::pair<bool, Tree*> result0 = searchTree(root, sequence0, vars);
     EXPECT_FALSE(result0.first);
 
@@ -53,39 +53,47 @@ TEST(TreeOpTest, SearchTreeWithVariable) {
     grandchild2->addChild(grandchild3);
     grandchild3->addChild(grandchild4);
 
+    std::string line1 = "hello there mr. kenobi";
+    std::string line2 = "hello there mr. jonathan";
+    std::string line3 = "hello there mr. kenobi nice to meet you";
+    std::string line4 = "hi there mr. asdads";
+    std::string line5 = "hello there mr. kenobi nice to meet";
+
     Variables* vars1 = new Variables();
-    std::deque<std::string> sequence1 = {"hello", "there", "mr.", "kenobi"};
+    std::deque<Token> sequence1 = tokenize(line1);
     auto result1 = searchTree(root, sequence1, vars1);
     EXPECT_TRUE(result1.first);
 
     Variables* vars2 = new Variables();
-    std::deque<std::string> sequence2 = {"hello", "there", "mr.", "jonathan"};
+    std::deque<Token> sequence2 = tokenize(line2);
     auto result2 = searchTree(root, sequence2, vars2);
     EXPECT_FALSE(result2.first);
 
     Variables* vars3 = new Variables();
-    std::deque<std::string> sequence3 = {"hello", "there", "mr.", "kenobi", "nice", "to", "meet", "you"};
+    std::deque<Token> sequence3 = tokenize(line3);
     auto result3 = searchTree(root, sequence3, vars3);
     EXPECT_TRUE(result3.first);
 
     Variables* vars4 = new Variables();
-    std::deque<std::string> sequence4 = {"hi", "there", "mr.", "asdads"};
+    std::deque<Token> sequence4 = tokenize(line4);
     auto result4 = searchTree(root, sequence4, vars4);
     EXPECT_TRUE(result4.first);
 
     Variables* vars5 = new Variables();
-    std::deque<std::string> sequence5 = {"hello", "there", "mr.", "kenobi", "nice", "to", "meet"};
+    std::deque<Token> sequence5 = tokenize(line5);
     auto result5 = searchTree(root, sequence5, vars5);
     EXPECT_FALSE(result5.first);
 
-    std::string expected1 = "there mr.";
-    EXPECT_EQ(vars1->export_variables(), expected1);
+    std::vector<std::string> expected1 = {"there mr"};
+    EXPECT_EQ(vars1->export_variables(line1), expected1);
 
-    std::string expected2 = "there mr. nice to meet";
-    EXPECT_EQ(vars3->export_variables(), expected2);
+    // two wildcards -> two slots now (was one joined string)
+    std::vector<std::string> expected2 = {"there mr", "nice to meet"};
+    EXPECT_EQ(vars3->export_variables(line3), expected2);
 
-    std::string expected3 = "there mr. asdads";
-    EXPECT_EQ(vars4->export_variables(), expected3);
+    // tail wildcard: one verbatim slot, interior '.' preserved
+    std::vector<std::string> expected3 = {"there mr. asdads"};
+    EXPECT_EQ(vars4->export_variables(line4), expected3);
 
     delete root;
     delete vars1;
@@ -250,14 +258,17 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     MatchTree* matcher = new MatchTree(temp);
 
     ParsedElement result1 = matcher->match_string_with_var("hi there")->getElemWithVar(0);
-    std::string expected1 = "";
+    std::vector<std::string> expected1 = {};
     EXPECT_EQ(result1.log_template, "hi there");
     EXPECT_EQ(result1.variables, expected1);
 
     ParsedElement result2 = matcher->match_string_with_var(
         "hi general mr. and mrs. kenobi"
     )->getElemWithVar(0);
-    std::string expected2 = "mr and mrs";
+    // single wildcard, one slot; mid-slot punctuation ("mr." "and" "mrs.") is
+    // preserved verbatim except the trailing '.' after the last captured word,
+    // which sits beyond the slot's closing token boundary
+    std::vector<std::string> expected2 = {"mr. and mrs"};
     EXPECT_EQ(result2.log_template, "hi general VAR kenobi");
     EXPECT_EQ(result2.variables, expected2);
 
@@ -269,7 +280,8 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     ParsedElement result4 = matcher->match_string_with_var(
         "load 1213 asd from 112 bye"
     )->getElemWithVar(0);
-    std::string expected4 = "1213 asd 112 bye";
+    // two separate wildcards -> two slots now (was one joined string)
+    std::vector<std::string> expected4 = {"1213 asd", "112 bye"};
     EXPECT_EQ(result4.log_template, "load VAR from VAR");
     EXPECT_EQ(result4.variables, expected4);
 
@@ -324,8 +336,8 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
     std::vector<std::string> ex_msg_ex = {
         "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
     };
-    std::vector<std::string> vector_vars = {
-        "", "mr and mrs", "",  "1213 asd 112 bye"
+    std::vector<std::vector<std::string>> vector_vars = {
+        {}, {"mr. and mrs"}, {}, {"1213 asd", "112 bye"}
     };
 
     Templates* temp2 = new Templates(sequences);
@@ -417,4 +429,43 @@ TEST(ParsedMessagesTest, HardCases4) {
     EXPECT_EQ(result1->size(), 1);
     EXPECT_EQ(result1->getElem(0).log_template, "data TLB error interrupt");
 
+}
+
+TEST(TokenizeTest, SpansSliceOriginalVerbatim) {
+    std::string line = "Receiving block blk_-42 src: /10.0.0.1:80";
+    std::deque<Token> tokens = tokenize(line);
+    std::deque<std::string> words;
+    for (const Token& t : tokens) {
+        EXPECT_EQ(line.substr(t.begin, t.end - t.begin), t.word);
+        words.push_back(t.word);
+    }
+    // words byte-identical to the existing tokenizer -- the walk-invariance contract
+    EXPECT_EQ(words, preprocessing(line));
+    EXPECT_EQ(tokens.front().word, "Receiving");
+    EXPECT_EQ(tokens.back().word, "80");
+}
+
+TEST(TokenizeTest, PunctuationActsAsSeparator) {
+    std::deque<Token> tokens = tokenize("a=b,,c  d");
+    ASSERT_EQ(tokens.size(), 4u);
+    EXPECT_EQ(tokens[0].word, "a");
+    EXPECT_EQ(tokens[1].word, "b");
+    EXPECT_EQ(tokens[2].word, "c");
+    EXPECT_EQ(tokens[3].word, "d");
+    EXPECT_EQ(tokens[3].begin, 8u);
+    EXPECT_EQ(tokens[3].end, 9u);
+}
+
+TEST(TokenizeTest, EmptyAndAllPunct) {
+    EXPECT_TRUE(tokenize("").empty());
+    EXPECT_TRUE(tokenize(" .:,;- ").empty());
+}
+
+TEST(TokenizeTest, StopsAtEmbeddedNul) {
+    std::string line("ab\0cd", 5);
+    std::deque<Token> tokens = tokenize(line);
+    ASSERT_EQ(tokens.size(), 1u);
+    EXPECT_EQ(tokens[0].word, "ab");
+    EXPECT_EQ(tokens[0].begin, 0u);
+    EXPECT_EQ(tokens[0].end, 2u);
 }

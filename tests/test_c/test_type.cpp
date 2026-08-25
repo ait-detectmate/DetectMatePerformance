@@ -46,9 +46,9 @@ TEST(TemplatesTest, GetNextTemplate) {
 
 TEST(ParsedMessagesTest, ParsedElementtest) {
     ParsedElement* parsed = new ParsedElement(
-        0, "VAR template VAR VAR", "var1 var2 var3"
+        0, "VAR template VAR VAR", std::vector<std::string>{"var1", "var2", "var3"}
     );
-    std::string expected = "var1 var2 var3";
+    std::vector<std::string> expected = {"var1", "var2", "var3"};
 
     EXPECT_EQ(parsed->event_id, 0);
     EXPECT_EQ(parsed->log_template, "VAR template VAR VAR");
@@ -57,16 +57,16 @@ TEST(ParsedMessagesTest, ParsedElementtest) {
     ParsedElement* parsed2 = new ParsedElement(
         0, "VAR template VAR VAR"
     );
-    std::string expected2 = "";
+    std::vector<std::string> expected2 = std::vector<std::string>{};
 
     EXPECT_EQ(parsed2->event_id, 0);
     EXPECT_EQ(parsed2->log_template, "VAR template VAR VAR");
     EXPECT_EQ(parsed2->variables, expected2);
 
     ParsedElement* parsed3 = new ParsedElement(
-        -1, "template not found", "5 1 2"
+        -1, "template not found", std::vector<std::string>{"5", "1", "2"}
     );
-    std::string expected3 = "5 1 2";
+    std::vector<std::string> expected3 = {"5", "1", "2"};
 
     EXPECT_EQ(parsed3->event_id, -1);
     EXPECT_EQ(parsed3->log_template, "template not found");
@@ -75,7 +75,7 @@ TEST(ParsedMessagesTest, ParsedElementtest) {
     ParsedElement* parsed4 = new ParsedElement(
         -1, "template not found"
     );
-    std::string expected4 = "";
+    std::vector<std::string> expected4 = std::vector<std::string>{};
 
     EXPECT_EQ(parsed4->event_id, -1);
     EXPECT_EQ(parsed4->log_template, "template not found");
@@ -147,8 +147,8 @@ TEST(ParsedMessagesTest, GetNextWithVar) {
     Templates* templates = new Templates(input);
     ParsedMessages parsed(templates, 4);
 
-    std::string var1 = "";
-    std::string var2 = "a b";
+    std::vector<std::string> var1 = {};
+    std::vector<std::string> var2 = {"a", "b"};
 
     parsed.setElemWithVar(0, "Hello VAR world VAR", var1);
     parsed.setElemWithVar(1, "Hello VAR world VAR", var2);
@@ -158,8 +158,8 @@ TEST(ParsedMessagesTest, GetNextWithVar) {
     std::string temp1 = "Hello VAR world VAR";
     std::string temp2 = "Goodbye VAR";
     std::string temp3 = "template not found";
-    std::string evar1 = "";
-    std::string evar2 = "a b";
+    std::vector<std::string> evar1 = {};
+    std::vector<std::string> evar2 = {"a", "b"};
 
     EXPECT_EQ(parsed.getElemWithVar(0).log_template, temp1);
     EXPECT_EQ(parsed.getElemWithVar(0).variables, evar1);
@@ -176,15 +176,15 @@ TEST(ParsedMessagesTest, GetAllVar) {
     Templates* templates = new Templates(input);
     ParsedMessages parsed(templates, 4);
 
-    std::string var1 = "";
-    std::string var2 = "a b";
+    std::vector<std::string> var1 = {};
+    std::vector<std::string> var2 = {"a", "b"};
 
     parsed.setElemWithVar(0, "Hello VAR world VAR", var1);
     parsed.setElemWithVar(1, "Hello VAR world VAR", var2);
     parsed.setElemWithVar(2, "Goodbye VAR", var2);
     parsed.setElemWithVar(3, "random thing", var1);
 
-    std::vector<std::string> result = parsed.getAllVar();
+    std::vector<std::vector<std::string>> result = parsed.getAllVar();
 
     for (int i = 0; i < result.size(); i++) {
         EXPECT_EQ(parsed.getElemWithVar(i).variables, result[i]);

@@ -2,52 +2,52 @@
 
 #include "../../src/detectmateperformance/_core/template_matcher/variables.h"
 
-
-TEST(VariableTest, VariableClass) {
-    Variables* variables1 = new Variables();
-    variables1->add_variable("hello");
-    variables1->add_variable("there");
-
-    Variables* variables2 = new Variables();
-    variables2->add_variable("General kenobi!");
-
-    Variables* variables3 = new Variables();
-
-    std::string results = variables1->export_variables();
-    std::string results2 = variables2->export_variables();
-    std::string results3 = variables3->export_variables();
-
-    std::string expected1 = "hello there";
-    EXPECT_EQ(results, expected1);
-
-    std::string expected2 = "General kenobi!";
-    EXPECT_EQ(results2, expected2);
-
-    std::string expected3 = "";
-    EXPECT_EQ(results3, expected3);
-
-    delete variables1;
-    delete variables2;
-    delete variables3;
+static Token tok(const std::string& s, size_t begin) {
+    return Token{s, begin, begin + s.size()};
 }
 
-TEST(VariableTest, VariableNotCapture) {
-    Variables* variables1 = new Variables(false);
-    variables1->add_variable("hello");
-    variables1->add_variable("there");
+TEST(VariableTest, SlotsSliceVerbatim) {
+    std::string line = "blk_-42 rest";
+    Variables vars;
+    vars.extend(tok("blk", 0));
+    vars.extend(tok("42", 5));   // grows the open slot across the "_-"
+    vars.close();
+    vars.extend(tok("rest", 8));
+    vars.close();
 
-    Variables* variables2 = new Variables(true);
-    variables2->add_variable("General kenobi!");
+    std::vector<std::string> expected = {"blk_-42", "rest"};
+    EXPECT_EQ(vars.export_variables(line), expected);
+}
 
-    std::string results = variables1->export_variables();
-    std::string results2 = variables2->export_variables();
+TEST(VariableTest, CloseOrEmptyRecordsZeroWidthSlot) {
+    Variables vars;
+    vars.close_or_empty();               // wildcard matched zero tokens
+    vars.extend(tok("x", 2));
+    vars.close_or_empty();               // open slot -> behaves like close()
+    std::vector<std::string> expected = {"", "x"};
+    EXPECT_EQ(vars.export_variables("a x"), expected);
+}
 
-    std::string expected1 = "";
-    EXPECT_EQ(results, expected1);
+TEST(VariableTest, ExtendSpanCoversRestOfLine) {
+    std::string line = "cmd rm -rf /tmp/x";
+    Variables vars;
+    vars.extend_span(tok("rm", 4), tok("x", 16));
+    vars.close();
+    std::vector<std::string> expected = {"rm -rf /tmp/x"};
+    EXPECT_EQ(vars.export_variables(line), expected);
+}
 
-    std::string expected2 = "General kenobi!";
-    EXPECT_EQ(results2, expected2);
+TEST(VariableTest, InitListResets) {
+    Variables vars;
+    vars.extend(tok("x", 0));
+    vars.close();
+    vars.init_list();
+    EXPECT_TRUE(vars.export_variables("x").empty());
+}
 
-    delete variables1;
-    delete variables2;
+TEST(VariableTest, NotCaptureIsNoOp) {
+    Variables vars(false);
+    vars.extend(tok("x", 0));
+    vars.close_or_empty();
+    EXPECT_TRUE(vars.export_variables("x").empty());
 }

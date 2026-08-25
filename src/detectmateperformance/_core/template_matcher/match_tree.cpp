@@ -9,7 +9,7 @@
 #include "../aux.h"
 
 std::string do_match(Tree* tree_, std::string sentence, Variables* vars) {
-    std::deque<std::string> sequence = preprocessing(sentence);
+    std::deque<Token> sequence = tokenize(sentence);
     std::pair<bool, Tree*> result = searchTree(tree_, sequence, vars);
 
     if (result.first) {
@@ -45,7 +45,7 @@ void do_matches_with_var(
     Variables* vars = new Variables();
     for (int i = startIdx; i < stopIdx; ++i) {
         auto aux = do_match(tree_, sentences[i], vars);
-        results->setElemWithVar(i, aux, vars->export_variables());
+        results->setElemWithVar(i, aux, vars->export_variables(sentences[i]));
         vars->init_list();
     }
     delete vars;
@@ -75,11 +75,11 @@ ParsedMessages* MatchTree::match_string_with_var(std::string sentence) {
     Variables* vars = new Variables();
     std::string template_ = do_match(tree, sentence, vars);
 
-    std::string variables = vars->export_variables();
+    std::vector<std::string> variables = vars->export_variables(sentence);
     delete vars;
 
     ParsedMessages* msg = new ParsedMessages(this->templates, 1);
-    msg->setElemWithVar(0, template_, variables);
+    msg->setElemWithVar(0, template_, std::move(variables));
 
     return msg;
 }

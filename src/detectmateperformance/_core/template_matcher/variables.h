@@ -1,15 +1,18 @@
 #ifndef VAR_H
 #define VAR_H
 
-#include <vector>
-#include <utility>
 #include <string>
 #include <deque>
+#include <vector>
+#include <utility>
 
+#include "../aux.h"
 
 class Variables {
 private:
-    std::string list;
+    std::deque<std::pair<size_t, size_t>> slots;  // finalized [begin,end) spans; (0,0) = zero-width
+    std::pair<size_t, size_t> current;
+    bool open;
     bool capture_vars;
 public:
     Variables();
@@ -18,16 +21,17 @@ public:
 
     ~Variables();
 
-    void add_variable(std::string variable);
+    void extend(const Token& token);
 
-    void add_variables(std::deque<std::string> variables);
+    void extend_span(const Token& first, const Token& last);
+
+    void close();
+
+    void close_or_empty();
 
     void init_list();
 
-    std::string export_variables() const;
-
+    std::vector<std::string> export_variables(const std::string& original) const;
 };
-
-
 
 #endif

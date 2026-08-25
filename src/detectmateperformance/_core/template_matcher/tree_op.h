@@ -10,8 +10,9 @@
 #include <deque>
 
 #include "../_type/templates.h"
+#include "../aux.h"
 
-std::pair<bool, Tree*> searchTree(Tree* root, std::deque<std::string>& sequence, Variables* variables);
+std::pair<bool, Tree*> searchTree(Tree* root, std::deque<Token>& sequence, Variables* variables);
 
 void addSequence(
     Tree* root, std::vector<std::string>& sequence, const std::string& full_template, int i

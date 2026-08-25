@@ -7,7 +7,7 @@
 #include <deque>
 
 std::pair<bool, Tree*> __searchTree(
-    Tree* node, std::deque<std::string>& sequence, Variables* variables, bool in_var
+    Tree* node, std::deque<Token>& sequence, Variables* variables, bool in_var
 ) {
     // in_var: it is inside the special variable
 
@@ -16,8 +16,8 @@ std::pair<bool, Tree*> __searchTree(
         return std::make_pair(false, nullptr);
     }
 
-    std::string head = sequence.front();
-    std::pair<bool, Tree*> result = node->contains(head);
+    Token head = sequence.front();
+    std::pair<bool, Tree*> result = node->contains(head.word);
 
     // Next element in the sequence was found in the tree
     if (result.first && !in_var){
@@ -33,15 +33,19 @@ std::pair<bool, Tree*> __searchTree(
     // sequence element not found but the tree has <*>
     result = node->contains_variable();
     if (result.first) {
-        // The tree finish in <*> and that is ok because is the last element
+        // The tree finish in <*> and that is ok because is the last element:
+        // one slot covering the rest of the line, verbatim
         if (result.second->getChildren().size() == 0 && result.second->isFullTemplate()) {
-            variables->add_variables(sequence);
+            variables->extend_span(sequence.front(), sequence.back());
+            variables->close();
             return std::make_pair(result.second->isFullTemplate(), result.second);
         }
 
-        std::pair<bool, Tree*> sub_result = result.second->contains(head);
-        // The next element after <*> is found
+        std::pair<bool, Tree*> sub_result = result.second->contains(head.word);
+        // The next element after <*> is found: finalize the wildcard's slot
+        // ("" if it matched zero tokens)
         if (sub_result.first) {
+            variables->close_or_empty();
             if (sequence.size() == 1) {
                 return std::make_pair(sub_result.second->isFullTemplate(), sub_result.second);
             } else {
@@ -49,13 +53,14 @@ std::pair<bool, Tree*> __searchTree(
                 return __searchTree(sub_result.second, sequence, variables, false);
             }
         } else {
-        // No more elements in the sequence
+        // No more elements in the sequence: the last token belongs to the wildcard
             if (sequence.size() == 1) {
-                variables->add_variables(sequence);
+                variables->extend(head);
+                variables->close();
                 return std::make_pair(result.second->isFullTemplate(), result.second);
             }
             // The next element after <*> was not found, keep going deeper in the sequence
-            variables->add_variable(head);
+            variables->extend(head);
             sequence.pop_front();
             return __searchTree(node, sequence, variables, true);
         }
@@ -65,7 +70,7 @@ std::pair<bool, Tree*> __searchTree(
 }
 
 std::pair<bool, Tree*> searchTree(
-    Tree* node, std::deque<std::string>& sequence, Variables* variables
+    Tree* node, std::deque<Token>& sequence, Variables* variables
 ) {
     return __searchTree(node, sequence, variables, false);
 }

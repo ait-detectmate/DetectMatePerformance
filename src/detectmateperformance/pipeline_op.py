@@ -4,6 +4,7 @@ from typing import Callable
 
 from detectmateperformance.types_ import ParsedLogs
 
+import numpy as np
 import polars as pl
 import gc
 
@@ -31,10 +32,51 @@ def preprocessing(logs: list[str] | str, regex: str) -> pl.DataFrame:
     return df
 
 
+def _param_list_series(vars: list[list[str]]) -> pl.Series:
+    """Build the ParamList column from a list of per-row variable lists.
+
+    `pl.Series(vars, dtype=pl.List(pl.String))` walks the nested python
+    object and costs ~4.9 KB per row of transient memory. Flattening the
+    values into a single string column plus a row index, then grouping
+    back, keeps the peak an order of magnitude lower. The result is
+    element-for-element identical, including the empty list (never null)
+    for rows that captured no variable.
+    """
+    n = len(vars)
+    if n == 0:
+        return pl.Series("ParamList", [], dtype=pl.List(pl.String))
+
+    lengths = np.fromiter(map(len, vars), dtype=np.int64, count=n)
+    flat = [value for row_vars in vars for value in row_vars]
+
+    grouped = (
+        pl.DataFrame({
+            "row": np.repeat(np.arange(n, dtype=np.int64), lengths),
+            # dtype pinned: an all-empty batch would otherwise infer Null
+            "v": pl.Series("v", flat, dtype=pl.String),
+        })
+        .group_by("row", maintain_order=True)
+        .agg(pl.col("v"))
+    )
+
+    out = (
+        pl.DataFrame({"row": np.arange(n, dtype=np.int64)})
+        .join(grouped, on="row", how="left", maintain_order="left")
+        .with_columns(pl.col("v").fill_null([]))
+        .get_column("v")
+        .rename("ParamList")
+    )
+
+    if out.dtype != pl.List(pl.String):
+        out = out.cast(pl.List(pl.String))
+
+    return out
+
+
 def add_parsed(df: pl.DataFrame, results: ParsedLogs) -> pl.DataFrame:
     vars = results.get_all_vars()
     if vars is not None:
-        df.insert_column(df.shape[1], pl.Series("ParamList", vars))
+        df.insert_column(df.shape[1], _param_list_series(vars))
 
     if "Templates" in df:
         df = df.with_columns(pl.Series("Templates", results.get_all_templates()))
@@ -47,10 +89,7 @@ def add_parsed(df: pl.DataFrame, results: ParsedLogs) -> pl.DataFrame:
 
 
 def postprocessing(df: pl.DataFrame) -> pl.DataFrame:
-    df = df.with_columns(pl.col("Templates").str.replace_all("VAR", "<*>"))
-    if "ParamList" in df.columns:
-        df = df.with_columns(pl.col("ParamList").str.split(by=" "))
-    return df
+    return df.with_columns(pl.col("Templates").str.replace_all("VAR", "<*>"))
 
 
 def run_batches(

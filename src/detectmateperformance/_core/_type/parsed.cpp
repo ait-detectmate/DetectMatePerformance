@@ -40,15 +40,15 @@ ParsedElement ParsedMessages::getElem(int n) {
 }
 
 ParsedElement ParsedMessages::getElemWithVar(int n) {
-    std::string variables = this->variables[n];
+    std::vector<std::string> variables = this->variables[n];
     int event_idsf = this->getElemID(n);
 
     if (event_idsf == -1) {
-        return ParsedElement(-1, "template not found", variables);
+        return ParsedElement(-1, "template not found", std::move(variables));
     }
     std::string template_ = id_to_template[event_idsf];
 
-    return ParsedElement(event_idsf, template_, variables);
+    return ParsedElement(event_idsf, template_, std::move(variables));
 }
 
 void ParsedMessages::setElem(int n, std::string template_) {
@@ -60,11 +60,11 @@ void ParsedMessages::setElem(int n, std::string template_) {
 }
 
 void ParsedMessages::setElemWithVar(
-    int n, std::string template_, std::string vars
+    int n, std::string template_, std::vector<std::string> vars
 ) {
 
     ParsedMessages::setElem(n, template_);
-    this->variables[n] = vars;
+    this->variables[n] = std::move(vars);
 
 }
 
@@ -88,11 +88,11 @@ std::vector<std::string> ParsedMessages::getAllElemts() {
     return templates;
 }
 
-std::vector<std::string> ParsedMessages::getAllVar() {
-    std::vector<std::string> vars(this->size());
+std::vector<std::vector<std::string>> ParsedMessages::getAllVar() {
+    std::vector<std::vector<std::string>> vars(this->size());
 
     for (int i = 0; i < this->size(); i++) {
-        vars[i] = this->getElemWithVar(i).variables;
+        vars[i] = std::move(this->getElemWithVar(i).variables);
     }
 
     return vars;

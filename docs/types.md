@@ -58,16 +58,18 @@ class ParsedLogs:
 
     def __str__(self) -> str: pass
 
-    def __getitem__(self, idx: int) -> str | tuple[str, str]: pass
+    def __getitem__(self, idx: int) -> dict[str, Any]: pass
 
-    def __setitem__(self, idx: int, values: str | tuple[str, str]) -> str:
+    def __setitem__(
+        self, idx: int, values: str | tuple[str, list[str]]
+    ) -> str:
         pass
 
     def get_all_events_ids(self) -> list[int]: pass
 
     def get_all_templates(self) -> list[str]: pass
 
-    def get_all_vars(self) -> list[str] | None: pass
+    def get_all_vars(self) -> list[list[str]] | None: pass
 ```
 
 Usage example without variables:
@@ -81,8 +83,8 @@ assert parsed.shape() == (5, 0)
 parsed[0] = "Hello VAR world VAR"
 parsed[3] = "ciaoo bellaaa"
 
-assert parsed[0] == "Hello VAR world VAR"
-assert parsed[3] == "template not found"
+assert parsed[0]["Template"] == "Hello <*> world <*>"
+assert parsed[3]["Template"] == "template not found"
 ```
 
 Usage example with variables:
@@ -93,9 +95,11 @@ from detectmateperformance.types_ import ParsedLogs
 parsed = ParsedLogs(LogTemplates(templates), 5, with_vars=True)
 assert parsed.shape() == (5, 0)
 
-parsed[0] = ("Hello VAR world VAR", "")
-parsed[3] = ("ciaoo bellaaa", "a b c")
+parsed[0] = ("Hello VAR world VAR", [])
+parsed[3] = ("ciaoo bellaaa", ["a", "b", "c"])
 
-assert parsed[0] == ("Hello VAR world VAR", "")
-assert parsed[3] == ("template not found", "a b c")
+assert parsed[0]["Template"] == "Hello <*> world <*>"
+assert parsed[0]["ParamList"] == []
+assert parsed[3]["Template"] == "template not found"
+assert parsed[3]["ParamList"] == ["a", "b", "c"]
 ```
