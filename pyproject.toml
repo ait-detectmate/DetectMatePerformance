@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "detectmateperformance"
-version = "0.1.0"
+dynamic = ["version"]
 description = "A Python package for DetectMate performance evaluation."
 requires-python = ">=3.12"
 dependencies = [
