@@ -1,13 +1,9 @@
-# add cmake to build requirements
-[build-system]
-requires = ["setuptools", "wheel", "cmake"]
-build-backend = "setuptools.build_meta"
-
 [project]
 name = "detectmateperformance"
-dynamic = ["version"]
 description = "A Python package for DetectMate performance evaluation."
 requires-python = ">=3.12"
+license = "EUPL-1.2"
+version="0.1.5"
 dependencies = [
     "levenshtein>=0.27.3",
     "numpy>=2.4.4",
@@ -28,8 +24,21 @@ dev = [
     "pytest-cpp",
 ]
 
+[project.urls]
+Homepage = "https://ait-detectmate.github.io/DetectMatePerformance/latest"
+Repository = "https://github.com/ait-detectmate/DetectMatePerformance"
+
+[build-system]
+requires = ["setuptools>=82.0.1", "wheel", "cmake"]
+build-backend = "setuptools.build_meta"
+
+
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.setuptools]
+include-package-data = true
+license-files = ["LICENSE.md"]
 
 [tool.setuptools.package-data]
 "*" = ["lib/bind_class.*"]
