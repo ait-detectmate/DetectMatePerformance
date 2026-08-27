@@ -1,5 +1,16 @@
+#include <regex>
+
 #include "aux.h"
 
+
+std::string clean_string(const std::string& input) {
+    std::regex pattern(
+        "[!\"#$%&'()*+,/:;<=>?@\\[\\]^`{|}~\\s]|\\.(?![a-zA-Z0-9])|-(?![a-zA-Z0-9])"
+    );
+    std::string result = std::regex_replace(input, pattern, " ");
+
+    return result;
+}
 
 bool do_split(const char* str) {
     return *str == ' ';
@@ -14,14 +25,11 @@ void remove_empty(std::deque<std::string>& words) {
 std::deque<std::string> preprocessing(std::string message) {
     std::deque<std::string> words;
 
+    message = clean_string(message);
     const char* start = message.data();
     const char* end = start;
 
     while (*end) {
-        if (std::ispunct(*end)) {
-            *const_cast<char*>(end) = ' ';
-        }
-
         if (do_split(end)) {
             words.emplace_back(start, end);
             start = end + 1;

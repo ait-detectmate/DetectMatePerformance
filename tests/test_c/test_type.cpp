@@ -14,6 +14,21 @@ TEST(MessagesTest, Preprocessing) {
     EXPECT_EQ(result.size(), 2);
     EXPECT_EQ(result[0], "Hello");
     EXPECT_EQ(result[1], "world");
+
+    std::string input2 = "Hello. world";
+    auto result2 = preprocessing(input2);
+
+    EXPECT_EQ(result2.size(), 2);
+    EXPECT_EQ(result2[0], "Hello");
+    EXPECT_EQ(result2[1], "world");
+
+    std::string input3 = "Hello. world 129.131.12.12";
+    auto result3 = preprocessing(input3);
+
+    EXPECT_EQ(result3.size(), 3);
+    EXPECT_EQ(result3[0], "Hello");
+    EXPECT_EQ(result3[1], "world");
+    EXPECT_EQ(result3[2], "129.131.12.12");
 }
 
 TEST(TemplatesTest, SizeShape) {
