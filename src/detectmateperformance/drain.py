@@ -7,9 +7,23 @@ import polars as pl
 import warnings
 
 
+def clean_strings(df: pl.DataFrame) -> pl.DataFrame:
+    return df.with_columns(
+        pl.col("Content")
+        .str.replace_all(r'[!"#$%&\'()*+,:;<=>?@\[\\\]^`{|}~\s]', " ")
+        .str.replace_all(r'\.\s|\s\.', " ")
+        .str.replace_all(r'-\s|\s-', " ")
+        .str.replace_all(
+            r'\b(?:\d{1,3}\.){3}\d{1,3}\b|(?:[a-zA-Z]:\\[^\\]*|/[^\\]*|\.\.[^\\]*|\.\/[^\\]*)\b|(?:\d+\s)+\d+',  # noqa: E501
+            "VAR"
+        )
+        .str.replace_all(r"\b\d+\b", "VAR")
+        .str.replace_all(r"\s+", " ")
+    )
+
+
 def cluster_logs_df(df: pl.DataFrame, depth: int = 2, max_child: int = 10) -> dict[str, list[str]]:
-    df = df.with_columns(pl.col("Content").str.replace_all(r"[^a-zA-Z0-9\s]", " "))
-    df = df.with_columns(pl.col("Content").str.replace_all(r"\b\d+\b", "VAR").str.replace_all(r"\s+", " "))
+    df = clean_strings(df)
     df = df.unique()
 
     df = df.insert_column(-1, pl.col("Content").str.split(by=" ").list.len().alias("L"))
