@@ -29,6 +29,22 @@ TEST(MessagesTest, Preprocessing) {
     EXPECT_EQ(result3[0], "Hello");
     EXPECT_EQ(result3[1], "world");
     EXPECT_EQ(result3[2], "129.131.12.12");
+
+    std::string input4 = "Receiving block blk_-1608999687919862906";
+    auto result4 = preprocessing(input4);
+
+    EXPECT_EQ(result4.size(), 3);
+    EXPECT_EQ(result4[0], "Receiving");
+    EXPECT_EQ(result4[1], "block");
+    EXPECT_EQ(result4[2], "blk_-1608999687919862906");
+
+    std::string input5 = "Receiving block /home/linux/home/windows";
+    auto result5 = preprocessing(input5);
+
+    EXPECT_EQ(result5.size(), 3);
+    EXPECT_EQ(result5[0], "Receiving");
+    EXPECT_EQ(result5[1], "block");
+    EXPECT_EQ(result5[2], "/home/linux/home/windows");
 }
 
 TEST(TemplatesTest, SizeShape) {

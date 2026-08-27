@@ -5,7 +5,7 @@
 
 std::string clean_string(const std::string& input) {
     std::regex pattern(
-        "[!\"#$%&'()*+,/:;<=>?@\\[\\]^`{|}~\\s]|\\.(?![a-zA-Z0-9])|-(?![a-zA-Z0-9])"
+        "[!\"#$%&'()*+,:;<=>?@\\[\\]^`{|}~\\s]|\\.(?![a-zA-Z0-9])|-(?![a-zA-Z0-9])"
     );
     std::string result = std::regex_replace(input, pattern, " ");
 
