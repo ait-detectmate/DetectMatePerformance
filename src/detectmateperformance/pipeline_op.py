@@ -6,6 +6,7 @@ from detectmateperformance.types_ import ParsedLogs
 
 import polars as pl
 import gc
+import os
 
 
 # %% Generic one
@@ -21,11 +22,30 @@ def load_logs(path: str) -> pl.DataFrame:
     except pl.exceptions.ComputeError:
         print("⚠️  Load logs failed, trying a slower method")
         with open(path, "r") as f:
-            return pl.DataFrame({"Messag": f.readlines()})
+            return pl.DataFrame({"Message": f.readlines()})
+
+
+def are_multiple_paths(paths: list[str]) -> bool:
+    count = 0
+    for path in paths:
+        if os.path.exists(path):
+            count += 1
+
+    return count > 0
+
+
+def load_multiple_paths(paths: list[str]) -> pl.DataFrame:
+    return pl.concat([load_logs(path) for path in paths])
 
 
 def preprocessing(logs: list[str] | str, regex: str = r"(?P<Content>.*)") -> pl.DataFrame:
-    df = load_logs(logs) if isinstance(logs, str) else pl.DataFrame({"Message": logs})
+    if isinstance(logs, str):
+        df = load_logs(logs)
+    elif are_multiple_paths(logs):
+        df = load_multiple_paths(logs)
+    else:
+        df = pl.DataFrame({"Message": logs})
+
     df = (
         df.with_columns(pl.col("Message").str.extract_groups(regex).alias("parts")).unnest("parts")
     ).drop("Message")

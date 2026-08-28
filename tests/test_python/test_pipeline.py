@@ -17,3 +17,10 @@ class TestCasePreprocessingPipeline:
     def test_read_log_file(self):
         df = preprocessing("tests/test_data/audit.log")
         assert len(df) == 2316
+
+    def test_read_multiple_log_files(self):
+        df = preprocessing(
+            ["tests/test_data/sys.log1", "tests/test_data/sys.log2"]
+        )
+        print(df)
+        assert len(df) == 4
