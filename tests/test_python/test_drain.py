@@ -5,6 +5,29 @@ import polars as pl
 
 
 class TestCommonMethods:
+    def test_clean_strings(self):
+        result = drain.clean_strings(pl.DataFrame({"Content": [
+            "Hello, world",
+            "Hello. world 123 21",
+            "Hello. world 129.131.12.12",
+            "Receiving block blk_-1608999687919862906",
+            "Receiving block /home/linux/home/windows",
+            "Receiving src: /123.1 asdasd aas ",
+        ]}))["Content"].to_list()
+
+        print(result)
+        expected = [
+            "Hello world",
+            "Hello world VAR",
+            "Hello world VAR",
+            "Receiving block blk_-1608999687919862906",
+            "Receiving block VAR",
+            "Receiving src VAR asdasd aas",
+        ]
+        print(expected)
+
+        assert result == expected
+
     def test_cluster_logs_df(self):
         df = pl.DataFrame({"Content": ["hello world, 12 1cia2o1", "Ciao! ? bella bella"]})
 
