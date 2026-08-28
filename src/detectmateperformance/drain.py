@@ -10,7 +10,7 @@ import re
 
 def replace_patterns(text: str) -> str:
     text = re.sub(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', "VAR", text)
-    text = re.sub(r'(?:[a-zA-Z]:\\.[^\\\-]*|/[^\\\-]*|\.\.[^\\\-]*|\.\/[^\\\-]*)\b', "VAR", text)
+    text = re.sub(r'(?:[a-zA-Z]:\\.[^\\\-]*|/[^\\\-\s]*|\.\.[^\\\-]*|\.\/[^\\\-]*)\b', "VAR", text)
     text = re.sub(r'(?<!\w)(?:-\d+|\d+-\d+|\d+\s\d+)(?!\w)', "VAR", text)
     return text
 
