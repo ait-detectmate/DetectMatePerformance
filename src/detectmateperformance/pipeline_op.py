@@ -8,17 +8,23 @@ import polars as pl
 import gc
 
 
+# %% Generic one
 def load_logs(path: str) -> pl.DataFrame:
-    return pl.read_csv(
-        path,
-        has_header=False,
-        new_columns=['Message'],
-        separator='\n',
-        null_values=None,
-    )
+    try:
+        return pl.read_csv(
+            path,
+            has_header=False,
+            new_columns=['Message'],
+            separator='\n',
+            null_values=None,
+        )
+    except pl.exceptions.ComputeError:
+        print("⚠️  Load logs failed, trying a slower method")
+        with open(path, "r") as f:
+            return pl.DataFrame({"Messag": f.readlines()})
 
 
-def preprocessing(logs: list[str] | str, regex: str) -> pl.DataFrame:
+def preprocessing(logs: list[str] | str, regex: str = r"(?P<Content>.*)") -> pl.DataFrame:
     df = load_logs(logs) if isinstance(logs, str) else pl.DataFrame({"Message": logs})
     df = (
         df.with_columns(pl.col("Message").str.extract_groups(regex).alias("parts")).unnest("parts")
@@ -31,6 +37,7 @@ def preprocessing(logs: list[str] | str, regex: str) -> pl.DataFrame:
     return df
 
 
+# %% Pipeline of Tree Matcher
 def add_parsed(df: pl.DataFrame, results: ParsedLogs) -> pl.DataFrame:
     vars = results.get_all_vars()
     if vars is not None:
