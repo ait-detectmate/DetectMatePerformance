@@ -1,0 +1,6 @@
+nameserver <*> refused to do a recursive query
+query[<*>] <*> from <*>
+cached <*> is <*>
+forwarded <*> to <*>
+reply <*> is <*>
+failed to <*>: No such file or directory
