@@ -8,6 +8,6 @@
 #include "../template_matcher/match_tree.h"
 
 
-Templates auto_parser_generator(std::vector<std::string> sentences);
+Templates auto_parser_generator(std::vector<std::string> sentences, std::vector<std::string> templatePaths,std::vector<std::string> regexs);
 
 #endif
