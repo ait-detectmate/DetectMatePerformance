@@ -6,7 +6,7 @@
 #include "templates.h"
 
 #include "../aux.h"
-#include <iostream>
+
 
 std::vector<std::string> te_preprocess(std::deque<std::string> message) {
     // remove multiple VARs in a row
@@ -34,8 +34,6 @@ Templates::Templates(std::string filename) {
     std::regex pattern("<[^>]*>");
     std::deque<std::string> templates = readFileToLines(filename);
 
-
-    std::cout << "Hello " << templates.size() << std::endl;
     for (const auto& message : templates) {
         this->messages.push_back(te_preprocess(preprocessing(
             std::regex_replace(message, pattern, "VAR")
