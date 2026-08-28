@@ -1,6 +1,8 @@
 from detectmateperformance.match_tree import TreeMatcher
 from detectmateperformance.types_ import LogTemplates
 
+from detectmateperformance.pipeline_op import preprocessing
+
 from detectmateperformance.lib.bind_class import drain_generator
 
 import polars as pl
@@ -103,3 +105,11 @@ class Drain:
 
     def generate(self) -> TreeMatcher:
         return self.generate_from_df(pl.DataFrame({"Content": self.buffer}))
+
+    def __call__(
+        self, logs: list[str] | pl.DataFrame | str, regex: str = r"(?P<Content>.*)"
+    ) -> TreeMatcher:
+        if not isinstance(logs, pl.DataFrame):
+            logs = preprocessing(logs=logs, regex=regex)
+
+        return self.generate_from_df(logs)

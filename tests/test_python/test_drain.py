@@ -90,3 +90,10 @@ class TestDrain:
         tree_match = drain_.generate()
         template = tree_match.match_log("Hello world").get_all_templates()[0]
         assert "Hello VAR" == template
+
+    def test_drain_pipeline(self):
+        drain_ = drain.Drain(sim=0.3, max_child=1000, depth=2)
+        regex = r"type=(?P<Type>\w+) msg=audit\((?P<Time>[^:]+):(?P<Serial>\d+)\): (?P<Content>.*)"
+
+        templates = drain_(logs="tests/test_data/audit.log", regex=regex).get_templates(False)
+        assert len(templates) == 10
