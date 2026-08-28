@@ -75,6 +75,19 @@ TEST(TemplatesTest, GetNextTemplate) {
     EXPECT_TRUE(message3.empty());
 }
 
+TEST(TemplatesTest, GetTempalteFile) {
+    Templates templates("../tests/test_data/audit_templates.txt");
+
+    EXPECT_EQ(templates.size(), 9);
+
+    auto message1 = templates.getNext();
+    EXPECT_EQ(message1.size(), 23);
+    EXPECT_EQ(message1[0], "pid");
+    EXPECT_EQ(message1[1], "VAR");
+    EXPECT_EQ(message1[2], "uid");
+    EXPECT_EQ(message1[3], "VAR");
+}
+
 TEST(ParsedMessagesTest, ParsedElementtest) {
     ParsedElement* parsed = new ParsedElement(
         0, "VAR template VAR VAR", "var1 var2 var3"
