@@ -128,6 +128,11 @@ add_executable(
   tests/test_c/test_drain_op.cpp
 )
 
+add_executable(
+  test_auto_parser
+  tests/test_c/test_auto_parser.cpp
+)
+
 pybind11_add_module(
   bind_class
   src/detectmateperformance/_core/bind_class.cpp
@@ -208,9 +213,24 @@ target_link_libraries(
   aux
 )
 
+target_link_libraries(
+  test_auto_parser
+  GTest::gtest_main
+  auto_parser_op
+  templates
+  parsedelement
+  parsed
+  tree
+  variable
+  tree_op
+  match_tree
+  aux
+)
+
 include(GoogleTest)
 gtest_discover_tests(test_c)
 gtest_discover_tests(test_type)
 gtest_discover_tests(test_matcher_tree)
 gtest_discover_tests(test_matcher_vars)
 gtest_discover_tests(test_drain_op)
+gtest_discover_tests(test_auto_parser)
