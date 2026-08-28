@@ -8,7 +8,7 @@ class TestCommonMethods:
     def test_clean_strings(self):
         result = drain.clean_strings(pl.DataFrame({"Content": [
             "Hello, world",
-            "Hello. world",
+            "Hello. world 123",
             "Hello. world 129.131.12.12",
             "Receiving block blk_-1608999687919862906",
             "Receiving block /home/linux/home/windows",
@@ -17,7 +17,7 @@ class TestCommonMethods:
         print(result)
         expected = [
             "Hello world",
-            "Hello world",
+            "Hello world VAR",
             "Hello world VAR",
             "Receiving block blk_-1608999687919862906",
             "Receiving block VAR",

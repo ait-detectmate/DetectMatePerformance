@@ -5,20 +5,29 @@ from detectmateperformance.lib.bind_class import drain_generator
 
 import polars as pl
 import warnings
+import re
+
+
+def replace_patterns(text: str) -> str:
+    text = re.sub(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', "VAR", text)
+    text = re.sub(r'(?:[a-zA-Z]:\\.[^\\\-]*|/[^\\\-]*|\.\.[^\\\-]*|\.\/[^\\\-]*)\b', "VAR", text)
+    text = re.sub(r'(?<!\w)(?:-\d+|\d+-\d+|\d+\s\d+)(?!\w)', "VAR", text)
+    return text
 
 
 def clean_strings(df: pl.DataFrame) -> pl.DataFrame:
+    df = df.with_columns(
+        pl.concat_str([pl.lit(" "), pl.col("Content"), pl.lit(" ")]).alias("Content")
+    )
     return df.with_columns(
         pl.col("Content")
         .str.replace_all(r'[!"#$%&\'()*+,:;<=>?@\[\\\]^`{|}~\s]', " ")
         .str.replace_all(r'\.\s|\s\.', " ")
         .str.replace_all(r'-\s|\s-', " ")
-        .str.replace_all(
-            r'\b(?:\d{1,3}\.){3}\d{1,3}\b|(?:[a-zA-Z]:\\[^\\]*|/[^\\]*|\.\.[^\\]*|\.\/[^\\]*)\b|(?:\d+\s)+\d+',  # noqa: E501
-            "VAR"
-        )
-        .str.replace_all(r"\b\d+\b", "VAR")
+        .map_elements(replace_patterns)
+        .str.replace_all(r' \d+ ', " VAR ")
         .str.replace_all(r"\s+", " ")
+        .str.strip_chars()
     )
 
 
