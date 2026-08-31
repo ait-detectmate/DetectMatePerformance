@@ -3,9 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://ait-detectmate.github.io/DetectMatePerformance/development/metrics/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><link rel="canonical" href="https://ait-detectmate.github.io/DetectMatePerformance/development/auto_parser/" />
       <link rel="shortcut icon" href="../img/favicon.ico" />
-    <title>Metrics - DetectMate Performance</title>
+    <title>AutoParser - DetectMate Performance</title>
     <link rel="stylesheet" href="../css/theme.css" />
     <link rel="stylesheet" href="../css/theme_extra.css" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" />
@@ -13,9 +13,9 @@
     
       <script>
         // Current page data
-        var mkdocs_page_name = "Metrics";
-        var mkdocs_page_input_path = "metrics.md";
-        var mkdocs_page_url = "/DetectMatePerformance/development/metrics/";
+        var mkdocs_page_name = "AutoParser";
+        var mkdocs_page_input_path = "auto_parser.md";
+        var mkdocs_page_url = "/DetectMatePerformance/development/auto_parser/";
       </script>
     
     <!--[if lt IE 9]>
@@ -45,29 +45,23 @@
                 </li>
               </ul>
               <p class="caption"><span class="caption-text">Methods</span></p>
-              <ul>
+              <ul class="current">
                   <li class="toctree-l1"><a class="reference internal" href="../tree_matcher/">TreeMatcher</a>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../drain/">Drain</a>
                   </li>
-                  <li class="toctree-l1"><a class="reference internal" href="../auto_parser/">AutoParser</a>
+                  <li class="toctree-l1 current"><a class="reference internal current" href="#">AutoParser</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#usage">Usage</a>
+    </li>
+    </ul>
                   </li>
               </ul>
               <p class="caption"><span class="caption-text">Auxiliar</span></p>
-              <ul class="current">
+              <ul>
                   <li class="toctree-l1"><a class="reference internal" href="../types/">Types</a>
                   </li>
-                  <li class="toctree-l1 current"><a class="reference internal current" href="#">Metrics</a>
-    <ul class="current">
-    <li class="toctree-l2"><a class="reference internal" href="#evaluation">Evaluation</a>
-        <ul>
-    <li class="toctree-l3"><a class="reference internal" href="#usage">Usage</a>
-    </li>
-        </ul>
-    </li>
-    <li class="toctree-l2"><a class="reference internal" href="#multiple-evaluation">Multiple evaluation</a>
-    </li>
-    </ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../metrics/">Metrics</a>
                   </li>
               </ul>
       </div>
@@ -84,8 +78,8 @@
         <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
   <ul class="wy-breadcrumbs">
     <li><a href=".." class="icon icon-home" aria-label="Docs"></a></li>
-          <li class="breadcrumb-item">Auxiliar</li>
-      <li class="breadcrumb-item active">Metrics</li>
+          <li class="breadcrumb-item">Methods</li>
+      <li class="breadcrumb-item active">AutoParser</li>
     <li class="wy-breadcrumbs-aside">
     </li>
   </ul>
@@ -94,66 +88,40 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
             <div class="section" itemprop="articleBody">
               
-                <h1 id="metrics">Metrics</h1>
-<p>Parse metrics use to benchmark parsers:</p>
-<ul>
-<li><code>Parsed Accuracy (PA)</code></li>
-<li><code>Normalize Edit Distance (NED)</code></li>
-<li><code>Template Set (TS)</code></li>
-<li><code>Group Accuracy (GA)</code></li>
-<li><code>Found Ratio (FR)</code></li>
-</ul>
-<h2 id="evaluation">Evaluation</h2>
-<p>Evaluation method to compare ground truth templates against parsed templates using a test dataset of logs.</p>
-<pre><code class="language-python">def evaluate(
-    logs: list[str],
-    ground_templates: list[str] | LogTemplates | str,
-    templates: list[str] | LogTemplates | str,
-    n_workers: int = 1,
-    batch: int = int(3e+6),
-    regex: str = r&quot;(?P&lt;Content&gt;.*)&quot;,
-    metrics: list[str] = list(methods.keys()),
-) -&gt; pl.DataFrame:
-    pass
+                <h1 id="auto-parser">Auto Parser</h1>
+<p>Check all the templates in the dataset and select the most fitting one.</p>
+<pre><code class="language-python">class AutoParse:
+    def __init__(self, num_use: int = 10) -&gt; None:
+        pass
+
+    def __len__(self) -&gt; int:
+       &quot;&quot;&quot;Buffer size&quot;&quot;&quot;
+
+    def add(self, log: str) -&gt; None:
+        &quot;&quot;&quot;Add log to buffer&quot;&quot;&quot;
+
+    def reset(self) -&gt; None:
+        &quot;&quot;&quot;Reset train buffer&quot;&quot;&quot;
+
+    def generate(self) -&gt; tuple[TreeMatcher, str]:
+        &quot;&quot;&quot;Generate Tree matcher and a regex pattern&quot;&quot;&quot;
+
+    def __call__(self, logs: list[str] | pl.DataFrame | str) -&gt; tuple[TreeMatcher, str]:
+        &quot;&quot;&quot;Generate Tree matcher and a regex pattern from df&quot;&quot;&quot;
 </code></pre>
-<h3 id="usage">Usage</h3>
-<pre><code class="language-python">from detectmateperformance.metrics import evaluate
+<h2 id="usage">Usage</h2>
+<pre><code class="language-python">from detectmateperformance.auto_parser import AutoParse
 
 
-evaluation = evaluate(
-    logs=load_file(dataset[&quot;path_logs&quot;]),
-    ground_templates=dataset[&quot;path_temp&quot;],
-    templates=dataset[&quot;path_temp&quot;],
-    regex=dataset[&quot;regex&quot;]
-)
-
-for k in evaluation:
-    assert evaluation[k] == 1.0
-</code></pre>
-<h2 id="multiple-evaluation">Multiple evaluation</h2>
-<p>Evaluation class to allow multiple parsed templates to be compare against the same grounth truth (without the need of recalculate the preprocessing or the ground truth).</p>
-<pre><code class="language-python">from detectmateperformance.metrics import MultipleEvaluation
-
-
-m_evaluation = MultipleEvaluation(
-    logs=load_file(dataset[&quot;path_logs&quot;]),
-    ground_templates=dataset[&quot;path_temp&quot;],
-    regex=dataset[&quot;regex&quot;],
-)
-
-valuation = m_evaluation(dataset[&quot;path_temp&quot;])
-for k in evaluation:
-    assert evaluation[k] == 1.0
-
-evaluation = m_evaluation(dataset[&quot;path_temp_incomplete&quot;])
-for k in evaluation:
-    assert evaluation[k] != 1.0
+auto_parser = AutoParse(10)
+tree_matcher, regex = auto_parser(&quot;tests/test_data/audit.log&quot;)
 </code></pre>
               
             </div>
           </div><footer>
     <div class="rst-footer-buttons" role="navigation" aria-label="Footer Navigation">
-        <a href="../types/" class="btn btn-neutral float-left" title="Types"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../drain/" class="btn btn-neutral float-left" title="Drain"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+        <a href="../types/" class="btn btn-neutral float-right" title="Types">Next <span class="icon icon-circle-arrow-right"></span></a>
     </div>
 
   <hr/>
@@ -176,8 +144,10 @@ for k in evaluation:
   <span class="rst-current-version" data-toggle="rst-current-version">
     
     
-      <span><a href="../types/" style="color: #fcfcfc">&laquo; Previous</a></span>
+      <span><a href="../drain/" style="color: #fcfcfc">&laquo; Previous</a></span>
     
+    
+      <span><a href="../types/" style="color: #fcfcfc">Next &raquo;</a></span>
     
   </span>
 </div>
