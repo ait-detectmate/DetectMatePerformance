@@ -26,12 +26,10 @@ def load_logs(path: str) -> pl.DataFrame:
 
 
 def are_multiple_paths(paths: list[str]) -> bool:
-    count = 0
     for path in paths:
         if os.path.exists(path):
-            count += 1
-
-    return count > 0
+            return True
+    return False
 
 
 def load_multiple_paths(paths: list[str]) -> pl.DataFrame:
