@@ -6,7 +6,6 @@ from detectmateperformance.pipeline_op import preprocessing
 from detectmateperformance.lib.bind_class import drain_generator
 
 import polars as pl
-import warnings
 import re
 
 
@@ -65,7 +64,6 @@ class Drain:
         self.depth = depth
         self.max_child = max_child
         self.sim = sim
-        warnings.warn("This method is still a prototype!!")
 
         self.reset()
 
