@@ -3,6 +3,7 @@ from detectmateperformance.match_tree import TreeMatcher
 from detectmateperformance.types_ import LogTemplates
 
 from detectmateperformance.lib.bind_class import auto_parser
+from pathlib import Path
 import polars as pl
 
 
@@ -19,7 +20,8 @@ python_regex: list[str] = [
 
 class AutoParse:
     def __init__(self, num_use: int = 10) -> None:
-        self.path = "src/detectmateperformance/_templates/"  # TODO: change so it works for pip
+        current_dir = Path(__file__).resolve().parent
+        self.path = f"{current_dir}/_templates"
         self.reset()
         self.num_use = num_use
 
