@@ -1,0 +1,32 @@
+saddr <*>
+pid=<*> uid=<*> auid=<*> ses=<*> msg='op=<*> acct=<*> exe=<*> hostname=<*> addr=<*> terminal=<*> res=<*>'
+pid=<*> uid=<*> auid=<*> ses=<*> msg='unit=<*> comm=<*> exe=<*> hostname=<*> addr=<*> terminal=<*> res=<*>'
+pid=<*> uid=<*> old-auid=<*> auid=<*> tty=<*> old-ses=<*> ses=<*> res=<*>
+apparmor=<*> operation=<*> info=<*> profile=<*> name=<*> pid=<*> comm=<*>
+arch=<*> syscall=<*> success=<*> exit=<*> a0=<*> a1=<*> a2=<*> a3=<*> items=<*> ppid=<*> pid=<*> auid=<*> uid=<*> gid=<*> euid=<*> suid=<*> fsuid=<*> egid=<*> sgid=<*> fsgid=<*> tty=<*> ses=<*> comm=<*> exe=<*> key=<*>
+proctitle=<*>
+pid=<*> uid=<*> auid=<*> ses=<*> msg='op=<*> id=<*> exe=<*> hostname=<*> addr=<*> terminal=<*> res=<*>'
+pid=<*> uid=<*> auid=<*> ses=<*> msg='cwd=<*> cmd=<*> terminal=<*> res=<*>'
+table=<*> family=<*> entries=<*>
+op=<*> ver=<*> format=<*> kernel=<*> auid=<*> pid=<*> uid=<*> ses=<*> res=<*> UID=<*>
+op=<*> audit_backlog_limit=<*> old=<*> auid=<*> ses=<*> res=<*>
+op=<*> audit_failure=<*> old=<*> auid=<*> ses=<*> res=<*>
+op=<*> audit_backlog_wait_time=<*> old=<*> auid=<*> ses=<*> res=<*>
+auid=<*> ses=<*> op=<*> key=<*> list=<*> res=<*>
+saddr=<*>
+item=<*> name=<*> inode=<*> dev=<*> mode=<*> ouid=<*> ogid=<*> rdev=<*> nametype=<*> cap_fp=<*> cap_fi=<*> cap_fe=<*> cap_fver=<*> cap_frootid=<*> OGID=<*>
+item=<*> name=<*>> nametype=<*> cap_fp=<*> cap_fi=<*> cap_fe=<*> cap_fver=<*> cap_frootid=<*>
+pid=<*> uid=<*> auid=<*> ses=<*> msg=<*> comm=<*> exe=<*> hostname=<*> addr=<*> terminal=<*> res=<*> AUID=<*>
+prog-id=<*> op=<*>
+fver=<*> fp=<*> fi=<*> fe=<*> old_pp=<*> old_pi=<*> old_pe=<*> old_pa=<*> pp=<*> pi=<*> pe=<*> pa=<*> frootid=<*>
+op=<*> auid=<*> uid=<*> ses=<*> pid=<*> res=<*> UID=<*>
+argc <*>
+cwd <*>
+cwd
+pid=<*> uid=<*> auid=<*> ses=<*> msg=\'op=<*> uuid=<*> name=<*>" args=<*> pid=<*> uid=<*> result=<*> exe=<*> hostname=<*> addr=<*> terminal=<*> res=<*> AUID=<*> UID=<*>
+pid=<*> uid=<*> auid=<*> ses=<*> msg=\'op=<*> uuid=<*> name=<*> pid=<*> uid=<*> result=<*> exe=<*> hostname=<*> addr=<*> terminal=<*> res=<*> AUID=<*> UID=<*>
+item=<*> name=<*> inode=<*> dev=<*> mode=<*> ouid=<*> ogid=<*> rdev=<*> nametype=<*> cap_fp=<*> cap_fi=<*> cap_fe=<*> cap_fver=<*> cap_frootid=<*>
+apparmor=<*> operation=<*> profile=<*> name=<*> pid=<*> comm=<*>
+pid=<*> uid=<*> auid=<*> ses=<*> subj=<*> msg='<*>'
+dev=<*> prom=<*> old_prom=<*> auid=<*> uid=<*> gid=<*> ses=<*>
+opid=<*> oauid=<*> ouid=<*> oses=<*> obj=<*> ocomm=<*>

@@ -2,6 +2,8 @@
 #include <pybind11/stl.h>
 
 #include "parsers/drain.h"
+#include "parsers/auto_parser.h"
+
 #include "template_matcher/match_tree.h"
 #include "_type/element.h"
 #include "_type/templates.h"
@@ -13,6 +15,7 @@ namespace py = pybind11;
 
 PYBIND11_MODULE(bind_class, m) {
     m.def("drain_generator", &drain_generator);
+    m.def("auto_parser", &doAutoParse);
 
     py::class_<Templates>(m, "Templates")
         .def(py::init<std::deque<std::string>>())

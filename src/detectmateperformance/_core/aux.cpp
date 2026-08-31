@@ -1,4 +1,7 @@
 #include <regex>
+#include <iostream>
+#include <fstream>
+#include <string>
 
 #include "aux.h"
 
@@ -41,4 +44,22 @@ std::deque<std::string> preprocessing(std::string message) {
     remove_empty(words);
 
     return words;
+}
+
+
+std::deque<std::string> readFileToLines(const std::string& filename) {
+    std::deque<std::string> lines;
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        std::cerr << "Error: Could not open file " << filename << std::endl;
+        return lines;
+    }
+
+    std::string line;
+    while (std::getline(file, line)) {
+        lines.push_back(line);
+    }
+
+    return lines;
 }
