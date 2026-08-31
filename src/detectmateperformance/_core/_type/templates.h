@@ -15,7 +15,7 @@ protected:
 
 public:
     Templates(std::deque<std::string> templates);
-    Templates(std::string message);
+    Templates(std::string filename);
 
     ~Templates();
 

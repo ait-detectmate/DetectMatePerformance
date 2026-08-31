@@ -1,0 +1,1241 @@
+tftp: client does not accept options
+warning: unable to look up <*>: No such file or directory
+Connection broken to AF_INET(<*>), reopening in <*> seconds
+My unqualified host name <*> unknown; sleeping for retry
+synchronized to <*> stratum <*>
+[<*>]: No topology change
+[<*>]: No configuration change required
+session opened for user <*> by <*>(uid=<*>)
+Accepted publickey for <*> from <*> port <*> ssh2
+START: rsync pid=<*> from=<*>
+Kickstart Install: <*>
+Kickstart: configure services
+Kickstart: setup firstboot
+Kickstart: setup firstboot for ganglia client software
+<*>: updated timestamp file <*>
+running <*> with <*> privileges on behalf of '<*>'
+[<*>]: ********************** NEW SWEEP ********************
+<*> startup succeeded
+<*> shutdown succeeded
+Kickstart: setup firstboot for tbird panasas env
+kernel time sync enabled <*>
+Installing all prepared tables
+succeeded
+Listening on interface <*>, <*>
+kernel time sync status <*>
+precision = <*> usec
+signal_no_reset: signal <*> had flags <*>
+step time server <*> offset <*> sec
+<*> -u <*> -h <*> password '<*>'
+Fill help tables
+Please report any problems with the <*> script!
+See the manual for more instructions.
+Support <*> by buying support/licenses at <*>
+The latest information about <*> is available on the web at
+To do so, start the server, then issue the following commands:
+To start <*> at boot time you have to copy <*>
+You can start the <*> daemon with:
+You can test the <*> daemon with the benchmarks in the <*> directory:
+cd <*> ; <*> &
+cd <*> ; perl <*>
+to the right place for your system
+Initializing MySQL database: <*>
+Copyright <*> Internet Systems Consortium.
+For info, please visit <*>
+Internet Systems Consortium DHCP Server <*>
+Listening on <*>
+Sending on <*>
+Wrote <*> deleted host decls to leases file.
+Wrote <*> leases to leases file.
+Wrote <*> new dynamic host decls to leases file.
+setup NTP client
+<*> shutdown failed
+configure: keyword <*> unknown, line ignored
+frequency initialized <*> PPM from <*>
+data_thread() got not answer from any [<*>] datasource
+unable to qualify my own domain name (<*>) -- using short name
+session closed for user <*>
+<*>: from=<*>, size=<*>, class=<*>, nrcpts=<*>, msgid=<*>, relay=<*>
+Kickstart: setup the cisco (topspin) ib stack
+Kickstart/Yast Install: Finished installation on <*>
+Local disconnected: Connection closed.
+connection lost: '<*>'
+RRD_update (<*>): illegal attempt to update using time <*> when last update time is <*> (minimum one second step)
+DHCPDISCOVER from <*> via <*>: network <*>: no free leases
+DHCPDISCOVER from <*> via <*>
+DHCPOFFER on <*> to <*> via <*>
+DHCPREQUEST for <*> from <*> via <*>: unknown lease <*>.
+DHCPACK on <*> to <*> via <*>
+DHCPREQUEST for <*> from <*> via <*>
+START: tftp pid=<*> from=<*>
+Lustre: <*>:(<*>) maximum lustre stack <*>
+Lustre: Echo OBD driver; <*>
+Lustre: OBD class driver Build Version: <*>, <*>
+Lustre: Routing socket NAL loaded (Routing disabled, initial mem <*>, incarnation <*>)
+started, listening on port <*>
+kernel time sync disabled <*>
+Switching to runlevel: <*>
+shutting down for system <*>
+Caught signal <*>, un-registering and exiting.
+Shutting down NFS services: succeeded
+last server has exited
+unexporting all filesystems
+<*> -TERM succeeded
+Received signal <*>; terminating.
+Stopping MySQL: <*>
+Unmounting <*> filesystems: <*>
+<*> exiting on signal <*>
+Exiting...
+Intel(R) Xeon(TM) CPU <*> stepping <*>
+DMA zone: <*> pages, LIFO batch:<*>
+<*> pages, LIFO batch:<*>
+Type: <*> ANSI SCSI revision: <*>
+Vendor: <*> Model: <*> Rev: <*>
+BIOS-<*>: <*> - <*> (usable)
+BIOS-<*>: <*> - <*> (ACPI data)
+BIOS-<*>: <*> - <*> (reserved)
+<*> kernel module initialized successfully
+<*>, Inc. (Kernel Module GPG key)
+ACPI wakeup devices:
+ACPI: (supports <*>)
+ACPI: <*> (<*>) @ <*>
+ACPI: HPET id: <*> base: <*>
+ACPI: INT_SRC_OVR (bus <*> bus_irq <*> global_irq <*> dfl dfl)
+ACPI: IOAPIC (id[<*>] address[<*>] gsi_base[<*>])
+ACPI: <*> used by override.
+ACPI: Interpreter enabled
+ACPI: LAPIC (acpi_id[<*>] lapic_id[<*>] enabled)
+ACPI: LAPIC (acpi_id[<*>] lapic_id[<*>] disabled)
+ACPI: LAPIC_NMI (acpi_id[<*>] high edge lint[<*>])
+ACPI: Local APIC address <*>
+ACPI: PCI Interrupt Link [LNKA] (IRQs <*>) <*>
+ACPI: PCI Interrupt Routing Table [<*>]
+ACPI: PCI Root Bridge [<*>] (<*>)
+ACPI: PCI interrupt <*> -> GSI <*> (level, <*>) -> IRQ <*>
+ACPI: Power Button (FF) [PWRF]
+ACPI: Processor [<*>] (supports <*>)
+ACPI: Subsystem revision <*>
+ACPI: Using IOAPIC for interrupt routing
+BIOS-provided physical RAM map:
+Booting processor <*> rip <*> rsp <*>
+Bootmem setup node <*> <*>
+Brought up <*> CPUs
+Built <*> zonelists
+CPU0: <*> stepping <*>
+CPU: Hyper-Threading is disabled
+CPU: L2 cache: <*>
+CPU: Trace cache: <*> uops, L1 D cache: <*>
+Calibrating delay loop... <*> BogoMIPS (lpj=<*>)
+Capability LSM initialized as secondary
+Checking aperture...
+Console: colour <*> <*>
+Copyright (c) <*>-<*> Intel Corporation.
+DMI <*> present.
+Dentry cache hash table entries: <*> (order: <*>, <*> bytes)
+Detected <*> MHz APIC timer.
+Dquot-cache hash table entries: <*> (order <*>, <*> bytes)
+EXT3 FS on <*>, internal journal
+EXT3-fs: INFO: recovery required on readonly filesystem.
+EXT3-fs: mounted filesystem with ordered data mode.
+EXT3-fs: recovery complete.
+EXT3-fs: write access <*> be enabled during recovery.
+Faking a node at <*>
+Freeing unused kernel memory: <*> freed
+IA32 emulation <*>
+IOAPIC[<*>]: apic_id <*>, version <*>, address <*>, GSI <*>
+IP: routing cache hash table of <*> buckets, <*>
+Initializing CPU#<*>
+Initializing Cryptographic API
+Initializing IPsec netlink socket
+Inode-cache hash table entries: <*> (order: <*>, <*> bytes)
+Intel <*> detected.<*>: PCI Hot Plug PCI Core version: <*>
+Intel(R) PRO/<*> Network Driver - version <*>
+Kernel command line: ro <*>=<*> tsc console=<*> console=<*>,<*> rhgb quiet
+Linux agpgart interface <*> (c) <*>
+Linux version <*> (<*>) (gcc version <*>) <*> SMP <*>
+Loading keyring
+Mellanox Tavor Device Driver is creating device <*> (domain=<*>, bus=<*>, devfn=<*>)
+Memory: <*> available (<*> kernel code, <*> reserved, <*> data, <*> init)
+Mount-cache hash table entries: <*> (order: <*>, <*> bytes)
+NET: Registered protocol family <*>
+No NUMA configuration found
+No mptable found.
+On node <*> totalpages: <*>
+PCI-DMA: Using software bounce buffering for IO (SWIOTLB)
+PCI0 PALO PBLO VPR0 PBHI PICH
+PCI: Probing PCI hardware (bus <*>)
+PCI: Setting latency timer of device <*> to <*>
+PCI: Transparent bridge - <*>
+PCI: Using ACPI for IRQ routing
+PCI: Using MMCONFIG at <*>
+PCI: Using configuration type <*>
+PCI: cache line size of <*> is not supported by device <*>
+PID hash table entries: <*> (order: <*>, <*> bytes)
+Placing software IO TLB between <*> - <*>
+Probing IDE interface <*>...
+Processor <*> <*> APIC version <*>
+RAMDISK driver initialized: <*> RAM disks of <*> size <*> blocksize
+Real Time Clock Driver <*>
+SCSI device <*>: <*> <*>-byte hdwr sectors (<*> MB)
+SCSI subsystem initialized
+SELinux: Disabled at runtime.
+SELinux: Initializing.
+SELinux: Registering netfilter hooks
+SELinux: Starting in permissive mode
+Security Scaffold <*> initialized
+Serial: <*> driver $Revision: <*> $ <*> ports, IRQ sharing enabled
+Setting APIC routing to flat
+TCP: Hash tables configured (established <*> bind <*>)
+There is already a security framework initialized, register_security failed.
+Total HugeTLB memory allocated, <*>
+Total of <*> processors activated (<*> BogoMIPS).
+USB Universal Host Controller Interface driver <*>
+Uniform Multi-Platform E-IDE driver Revision: <*>
+Using ACPI (MADT) for SMP configuration information
+Using IO APIC NMI watchdog
+Using cfq io scheduler
+Using local APIC timer interrupts.
+VFS: Disk quotas <*>
+Warning: acpi_table_parse(<*>) returned <*>!
+[KERNEL_IB][ib_mad_static_compute_base][<*>]Couldn't find a suitable network device; setting lid_base to <*>
+activating NMI Watchdog ... done.
+audit(<*>): initialized
+audit: initializing netlink socket (disabled)
+checking TSC synchronization across <*> CPUs: passed.
+checking if image is initramfs... it is
+device-mapper: <*> initialised: dm-<*>
+divert: allocating divert_blk for <*>
+divert: not allocating divert_blk for non-ethernet device <*>
+<*>: <*>:USB HID core driver
+<*>: <*>: <*>: <*> Network Connection
+<*>: <*>: <*>: NIC Link is Up <*> Mbps <*>
+<*> <*>: EHCI Host Controller
+ehci_hcd <*>: USB <*> enabled, EHCI <*>, driver <*>
+ehci_hcd <*>: irq <*>, pci mem <*>
+ehci_hcd <*>: new USB bus registered, assigned bus number <*>
+<*>: no floppy controllers found
+hub <*>: <*> ports detected
+hub <*>: USB hub found
+<*> hardware driver <*> loaded
+ide-floppy driver <*>
+ide: Assuming <*> system bus speed for PIO modes; override with idebus=xx
+inserting floppy driver for <*>
+ip_tables: <*> Netfilter core team
+<*> starting. Commit interval <*> seconds
+klogd <*>, log source = <*> started.
+ksign: Installing public key data
+md: ... autorun DONE.
+md: Autodetecting RAID arrays.
+md: autorun ...
+md: md driver <*> MAX_MD_DEVS=<*>, MD_SB_DISKS=<*>
+megaraid cmm: <*> (Release Date: <*>)
+megaraid: <*> (Release Date: <*>)
+megaraid: fw version:[<*>] bios version:[<*>]
+megaraid: probe new device <*>: bus <*>:slot <*>:func <*>
+mice: <*> mouse device common for all mice
+mtrr: <*> (<*>)
+per-CPU timeslice cutoff: <*> usecs.
+<*> : LSI Logic MegaRAID driver
+scsi[<*>]: scanning scsi channel <*> [Phy <*>] for non-raid devices
+scsi[<*>]: scanning scsi channel <*> [virtual] for logical drives
+<*>: asking for cache data failed
+<*>: assuming drive cache: write through
+selinux_register_security: Registering secondary module capability
+serio: <*> AUX port at <*>,<*> irq <*>
+task migration cache decay timeout: <*> msecs.
+testing NMI watchdog ... OK.
+<*>: Detected <*> MHz processor.
+<*>: Using <*> MHz HPET timer.
+<*>: Using <*> based timekeeping.
+ts_kernel_services: module license <*> taints kernel.
+<*> at I/O <*> (irq = <*>) is a <*>
+uhci_hcd <*>: UHCI Host Controller
+uhci_hcd <*>: irq <*>, io base <*>
+uhci_hcd <*>: new USB bus registered, assigned bus number <*>
+usb <*>: new high speed USB device using address <*>
+usbcore: registered new driver hiddev
+using <*> in idle threads.
+Version <*> Starting
+restart.
+Creating Topspin <*> entries:
+/: clean, <*> files, <*> blocks
+<*>: clean, <*> files, <*> blocks
+<*>: recovering journal
+Checking all file systems.
+[<*> (<*>) -- <*>] <*> -a <*>
+Entering runlevel: <*>
+<*> <*> entries driver
+bindcache: failed init IPS: <*> (Out of memory)
+pan_ips: error -- cfg target addresses, <*> (Out of memory), <*>
+pan_ips: error -- real init, <*> (Out of memory), err_loc=<*>, <*>
+debug: could not init rm_client: <*> (Out of memory)
+mount.panfs error: mount request rejected because client-realm clock skew exceeds <*> seconds
+mount.panfs: cannot init pan_fm_util_path_util module: <*> (Out of memory)
+Bringing up interface <*>: succeeded
+Setting network parameters: <*>
+Checking filesystems succeeded
+Checking <*> filesystem succeeded
+Configuring kernel parameters: <*>
+Enabling local filesystem quotas: succeeded
+Enabling swap space: succeeded
+Remounting <*> filesystem in read-write mode: succeeded
+Setting clock (localtime): <*> succeeded
+Setting up Logical Volume Management: <*>
+<*> startup failed
+Configuration file <*> parsed.
+Device: <*>, Bad IEC (SMART) mode page, err=<*>, skip device
+Device: <*>, opened
+Home page is <*>
+Opened configuration file <*>
+Unable to register SCSI device <*> at line <*> of file <*>
+Unable to register device <*> (no Directive -d <*>). Exiting.
+smartd version <*> [<*>] Copyright (C) <*> Bruce Allen
+fs.file-max = <*>
+kernel.core_uses_pid = <*>
+kernel.sysrq = <*>
+net.core.rmem_default = <*>
+net.core.rmem_max = <*>
+net.core.wmem_default = <*>
+net.core.wmem_max = <*>
+net.ipv4.conf.default.accept_source_route = <*>
+net.ipv4.conf.default.rp_filter = <*>
+net.ipv4.neigh.default.gc_thresh1 = <*>
+starting udevd daemon
+Unmounting NFS filesystems (retry): <*>
+<*> device driver loaded
+NET-SNMP version <*>
+Instrumentation Service EventID: <*> Server Administrator starting
+Instrumentation Service EventID: <*> Server Administrator startup complete
+Disabled Privacy Extensions on device <*>(<*>)
+IPv6 over IPv4 tunneling driver
+Server listening on <*> port <*>.
+error: Bind to port <*> on <*> failed: Address already in use.
+Reading included configuration file: <*> [file=<*>] [line=<*>]
+Started working: <*> available services
+removing chargen
+xinetd Version <*> started with libwrap loadavg options compiled in.
+(CRON) STARTUP (<*>)
+[smux_accept] accepted fd <*> from <*>
+accepted smux peer: oid <*>, password , descr <*>
+removed all generated mount points
+lockd -KILL succeeded
+failed to contact portmap (errno <*>).
+sendmsg returned error <*>
+Shutting down GANGLIA gmetad:
+Stopping syslog-ng:
+RPC call returned error <*>
+syslog-ng version <*> going down
+connection from "<*>"
+Kerberos password accepted for user <*> (<*>).
+Password authentication for user <*> accepted.
+Install: apply updates
+Kickstart: Configure sysctl parameters
+Kickstart: setup authorization schema
+Kickstart: setup soft links and NFS mounts
+Install: Removing tftpboot installation link from <*>
+Package Release ID=<*> Package Description=<*> Support Log path=<*> Exit code = <*> (Reboot required)
+Got trap from peer on fd <*>
+installing panasas drivers
+PanFS Client version: <*> SMP
+pan_common: init complete
+pan_common: registered major number <*> for device panasas
+pan_kmod: registered subdev <*> ("<*>")
+pan_trace: panfs trace buffer <*> added.
+panfs mount: Byte range locking is turned ON
+panfs mount: Directory Caching is turned ON
+panfs mount: <*> mode is enabled
+panfs mount: If you are running a <*> kernel, you may get an oops.
+panfs mount: Read Ahead is turned ON at level <*>
+panfs mount: loading a <*> CPU panfs.o kernel module on a <*> CPU
+panfs: no version for <*> found: kernel tainted.
+mount.panfs: started PanFS device [<*>]
+Instrumentation Service EventID: <*> Temperature sensor returned to a normal value Sensor location: <*> Chassis location: <*> Previous state was: <*> Temperature sensor value (in Degrees Celsius): <*>
+synchronisation lost
+(<*>) CMD (<*>)
+User <*>, coming from <*>, authenticated.
+Now running on <*>'s privileges.
+Device: <*>, Temperature changed <*> Celsius to <*> Celsius since last report
+STATS: dropped <*>
+process_limit: processing hard nofile <*> for DEFAULT
+reading settings from '<*>'
+time reset <*> s
+Received SNMP packet(s) from <*>
+CentOS-<*> (Kernel Module GPG key)
+(supports <*> <*> <*>)
+DSDT (<*> DELL PE BKC <*> MSFT <*>) @ <*>
+FADT (<*> DELL PE BKC <*> MSFT <*>) @ <*>
+HPET (<*> DELL PE BKC <*> MSFT <*>) @ <*>
+HPET id: <*> base: <*>
+INT_SRC_OVR (bus <*> bus_irq <*> global_irq <*> dfl dfl)
+IOAPIC (id[<*>] address[<*>] gsi_base[<*>])
+Interpreter enabled
+LAPIC (acpi_id[<*>] lapic_id[<*>] enabled)
+LAPIC_NMI (acpi_id[<*>] high edge lint[<*>])
+Local APIC address <*>
+PCI Interrupt Link [<*>] (IRQs <*>) <*>
+PCI Interrupt Routing Table [<*>]
+PCI Root Bridge [<*>] (<*>)
+PCI interrupt <*>[<*>] -> GSI <*> (level, <*>) -> IRQ <*>
+Power Button (<*>) [<*>]
+Processor <*> (supports C1)
+Subsystem revision <*>
+Using IOAPIC for interrupt routing
+<*> - <*> (usable)
+<*> - <*> (ACPI data)
+<*> - <*> (reserved)
+L2 cache: <*>
+Physical Processor ID: <*>
+Trace cache: <*> uops, L1 D cache: <*>
+colour <*> <*>
+<*> (order <*>, <*> bytes)
+mounted filesystem with ordered data mode.
+routing cache hash table of <*> buckets, <*>
+PCI Hot Plug PCI Core version: <*>
+root=<*> initrd=<*> console=<*> console=<*> fastboot BOOT_IMAGE=<*>
+<*> available (<*> kernel code, <*> reserved, <*> data, <*> init)
+Registered protocol family <*>
+Using software bounce buffering for IO (SWIOTLB)
+Probing PCI hardware (bus <*>)
+Transparent bridge - <*>
+Using MMCONFIG at <*>
+Using configuration type <*>
+<*> RAM disks of <*> size <*> blocksize
+Compressed image found at block <*>
+<*> <*>-byte hdwr sectors (<*> MB)
+Disabled at runtime.
+Initializing.
+Registering netfilter hooks
+Starting in permissive mode
+Unregistering netfilter hooks
+<*> driver <*> ports, IRQ sharing enabled
+Hash tables configured (established <*> bind <*>)
+Direct-Access ANSI SCSI revision: <*>
+Processor ANSI SCSI revision: <*>
+Disk quotas <*>
+Mounted <*> (<*> filesystem).
+MegaRAID Model: LD <*> RAID1 <*> Rev: <*>
+PE/PV Model: <*> SCSI BP Rev: <*>
+initialized
+initializing netlink socket (disabled)
+passed.
+<*>-ioctl (<*>-<*>-<*>) initialised: <*>
+not allocating divert_blk for non-ethernet device <*>
+no floppy controllers found
+RNG not detected
+Wait for ready failed before probe !
+Unknown cmd fd(<*>) cmd(<*>){<*>} arg(<*>) on <*>
+(C) <*> Netfilter core team
+Installing public key data
+... autorun DONE.
+Autodetecting RAID arrays.
+autorun ...
+md driver <*> MAX_MD_DEVS=<*>, MD_SB_DISKS=<*>
+<*>-rh1 (Release Date: <*>)
+<*> (Release Date: <*>)
+fw version:[<*>] bios version:[<*>]
+probe new device <*>: bus <*>:slot <*>:func <*>
+<*> mouse device common for all mice
+v2.<*> (<*>)
+<*> usecs.
+LSI Logic MegaRAID driver
+scanning scsi channel <*> [Phy <*>] for non-raid devices
+scanning scsi channel <*> [virtual] for logical drives
+Registering secondary module capability
+<*> AUX port at <*> irq <*>
+syslog-ng version <*> starting
+<*> msecs.
+Detected <*> MHz processor.
+Using <*> MHz HPET timer.
+Using HPET based timekeeping.
+registered new driver hiddev
+probe of <*> failed with error <*>
+Warning: we failed to resolve data source name <*>
+Cannot open file <*> for writing (No such file or directory)
+Changing permissions on special file <*>
+<*> LOGIN ON <*>
+<*> is not set
+bad username <*>
+FAILED LOGIN <*> FROM (null) FOR , Authentication failure
+input: <*> on <*>
+Received <*> signal... shutting down...
+Kernel log daemon terminating.
+Kernel logging <*> stopped.
+hw_random: RNG not detected
+[<*> (<*>) -- <*>]
+fsck.ext3 -a <*>
+Instrumentation Service EventID: <*> Temperature sensor detected a warning value Sensor location: <*> Chassis location: <*> Previous state was: <*> (Normal) Temperature sensor value (in Degrees Celsius): <*>
+[<*>]: Rediscover the subnet
+[<*>]: async events require sweep
+[<*>]: Failed discover node test, node <*>, port_num= <*>, error code <*>
+[<*>]: Failed to GetPortInfo() - hop_count: <*>, direct_path: <*>
+[<*>]: Failed to GetNodeInfo() because of NO RESPONSE
+[<*>]: no routing required for port guid <*>, lid <*>
+[INFO]: Configuration caused by discovering new ports
+[<*>]: Set port GUID=<*>, port=<*> DOWN (port prefix <*>, subnet_prefix <*>
+[<*>]: Force port to go down due to LID conflict, node - GUID=<*>, port=<*>
+[<*>]: Topology changed
+[trip Temperature is <*> Celsius]
+Device: <*>, initial Temperature is <*> Celsius
+Device: <*>, is SMART capable. Adding to <*> list.
+Monitoring <*> ATA and <*> SCSI devices
+smartd has fork()ed into background mode. New PID=<*>.
+Copyright (c) <*> LSI Logic Corporation
+Fusion MPT SCSI Host driver <*>
+Fusion MPT base driver <*>
+SCSI device <*>: drive cache: write through
+ioc0: <*>: Capabilities=<*>
+mptbase: Initiating <*> bringup
+<*> : <*>: <*>, FwRev=<*>, Ports=<*>, MaxQ=<*>, IRQ=<*>
+<*>: no IPv6 routers present
+[INFO]: Generate SM IN_SERVICE trap for GID=<*>
+[<*>]: Program port state, node=<*>, port=<*>, current state <*>, neighbor node=<*>, port=<*>, current state <*>
+[<*>]: A new IB node <*> was discovered and assigned LID <*>
+[INFO]: IB CliSessionThread PID= <*>
+in your dhcpd.conf file for the network segment
+to which interface <*> is attached. **
+you want, please write a subnet declaration
+** Ignoring requests on <*>. If this is not what
+No subnet declaration for <*> (<*>).
+System clock time adjusted to the past. Resetting next wakeup time.
+<*> : TTY=<*> ; PWD=<*> ; USER=<*> ; COMMAND=<*>
+[<*>]: An existing IB node GUID <*> LID <*> was removed
+[<*>]: Active port(s) now in INIT state node=<*>, port=<*>, state=<*>, neighbor node=<*>, port=<*>, state=<*>
+[INFO]: Configuration caused by previous GET/SET operation failures
+RTNETLINK answers: Network is unreachable
+Mounting local filesystems: succeeded
+mount.panfs warning: mount still trying to ping realm. Mount has been trying to ping for <*> seconds and may try for another <*> seconds
+couldn't ping address <*> using <*>, <*> (pan_sock: timeout)
+mount.panfs warning:
+mount.panfs warning: This mount still may succeed, but one or more local interfaces (listed below) failed communicate with the Panasas realm during mount. This suggests that a route cannot be established between these local interface(s) and the system. A client sends a list of IP addresses on which the Panasas storage system may establish a connection. If any one of these addresses should be excluded from the mount time check, use the 'callback-network-disallow' or 'callback-address-disallow' mount options. See 'man <*> mount.panfs' for more details on PanFS mount options. Excluding the interface from the check at mount time <*> avoid long running mount commands.
+mount.panfs: failed local addresses: <*>
+RPC: error <*> connecting to server <*>
+recovery complete.
+Remote host disconnected: Authentication cancelled by user.
+authentication cancelled by user: <*>
+Key exchange failed in remote: <*>
+Remote host disconnected: Key exchange failed.
+Public key <*> used.
+Public key authentication for user <*> accepted.
+LOGIN ON <*> BY <*>
+[<*>]: Clean up SA resources for port forced down due to subnet prefix change, node - GUID=<*>, port=<*>
+[<*>]: Force port (node=<*>, port=<*>, state=<*>) to DOWN because <*>.
+[<*>]: Force neighbor port (node=<*>, port=<*>, state=<*>) to DOWN because (<*>) 1st sweep or (<*>) role change.
+[<*>]: switch lid change, node - GUID=<*>, port=<*>, neighbor (nil), changing lid from <*>, back to original <*>
+[<*>]: Failed to set SwitchInfo on switch=<*>
+[<*>]: Failed to set LFT to switch=<*>
+Keyboard on <*> reports too many keys pressed.
+[IB_NET][<*>][<*>]ib0: can't find hw address for hash <*>
+mount.panfs warning: couldn't ping address <*>
+using <*>, <*> (pan_sock: timeout)
+[<*>]: Detect switch (LID= <*>) port state change
+[<*>]: Switch reported state change
+Clearing orphaned inode <*> (uid=<*>, gid=<*>, mode=<*>, size=<*>)
+[<*>]: Clean up SA resources for port forced down due to LID conflict, node - GUID=<*>, port=<*>
+[<*>]: Active state mismatch GUID=<*>, port=<*>, state <*>, GUID=<*>, port=<*>, state <*>
+[<*>]: IB node <*> port <*> is INIT state
+[INFO]: Configuration caused by some ports in INIT state
+[<*>]: Force port (node=<*>, port=<*>) to DOWN because state(<*>) should be active but not.
+[<*>]: Force neighbor port (node=<*>, port=<*>) to DOWN because state(<*>) should be active but not.
+[<*>]: Skip node= <*>, port= <*> bringup because topology is stale, no response
+Invalid user <*> from <*>
+[WARN]: CLI output failed with error <*>. Exiting thread.
+[INFO]: Receive SystemImageGUID change trap from port (LID= <*>)
+[<*>]: Failed to set LID on switch=<*>, because NO RESPONSE
+[<*>]: Failed to get PortInfo - GUID=<*>, port=<*>
+[<*>]: Failed to discover management port - GUID=<*>
+[<*>]: Failed to discover port - GUID=<*>, port=<*>
+[<*>]: No spine present in chassis, splitting switch_elem
+Idle timeout exceeded.
+Active:<*> inactive:<*> dirty:<*> writeback:<*> unstable:<*> free:<*> slab:<*> mapped:<*> pagetables:<*>
+Free pages: <*> (<*> HighMem)
+Mem-info:
+Node <*> <*> <*> min:<*> low:<*> high:<*> active:<*> inactive:<*> present:<*> pages_scanned:<*> all_unreclaimable? <*>
+Node <*> DMA: <*> = <*>
+Node <*> HighMem per-cpu: empty
+Node <*> Normal: <*> = <*>
+Swap cache: add <*>, delete <*>, find <*>, race <*>
+cpu <*> cold: low <*>, high <*>, batch <*>
+cpu <*> hot: low <*>, high <*>, batch <*>
+oom-killer: gfp_mask=<*>
+protections[]: <*>
+<*> pages of RAM
+<*> pages swap cached
+<*> reserved pages
+<*> pages shared
+Free swap: <*>
+Out of Memory: Killed process <*> (<*>).
+Updated timestamp for job <*> to <*>
+<*>: <*>: fl=<*>, mode=<*>: FIFO: dev=<*>, ino=<*>, nlink=<*>, u/gid=<*>, size=<*>
+<*>: <*>: fl=<*>, mode=<*>: SOCK localhost->[[UNIX: <*>]]
+<*>: SYSERR(<*>): queueup: cannot create queue file <*>, euid=<*>, fd=<*>, fp=<*>: No space left on device
+<*>: SYSERR(<*>): returntosender: cannot select queue for postmaster
+<*>: low on space (SMTP-DAEMON needs <*> bytes + <*> blocks in <*>), max avail: <*>
+(<*>) MAIL (mailed <*> bytes of output but got status <*> )
+<*>: <*>: fl=<*>, mode=<*>: CHR: dev=<*>, ino=<*>, nlink=<*>, u/gid=<*>, size=<*>
+Trying to re-exec init
+exiting
+Lustre: Routing socket <*> unloaded (final mem <*>)
+<*> connection from <*>
+Local password failed for user <*>.
+PAM password failed for user <*>.
+Password authentication for user <*> failed (from <*> port <*>).
+auths-pam: PAM subprocess returned packet SSH_PAM_OP_ERROR. (err_num: <*>, err_msg: <*>)
+PAM transaction resulted in error.
+authentication failure; logname=<*> uid=<*> euid=<*> tty=<*> ruser=<*> rhost=<*>
+check pass; user unknown
+authentication failure; logname=<*> uid=<*> euid=<*> tty=<*> ruser=<*> rhost=<*> user=<*>
+Lustre: <*>:(<*>) Binding <*> <*> to <*>
+Lustre: <*>:(<*>) previously skipped <*> similar messages
+WARNING: DNS lookup failed for "<*>".
+smartd is exiting (exit status <*>)
+smartd received signal <*>: Terminated
+Lustre: <*>:(<*>) showing stack for process <*>
+LustreError: <*>:(<*>) OBD ioctl: device not setup <*>
+LustreError: <*> ASSERTION(<*>) failed
+LustreError: <*>:(<*>) LBUG
+LustreError: dumping log to <*>
+lctl R running task <*> <*> <*> (NOTLB)
+Lustre: <*>:(<*>) Invoked portals upcall <*>
+LustreError: <*>:(<*>) no device for: <*>
+LustreError: <*>:(<*>) OBD device <*> still set up
+LustreError: <*>:(<*>) OBD <*> is still busy with <*> references
+You should stop active file system users, or use the --force option to cleanup.
+LustreError: <*>:(<*>) previously skipped <*> similar messages
+<*>[<*>]: segfault at <*> rip <*> rsp <*> error <*>
+peer disconnected: <*>
+ACPI: PM-Timer IO Port: <*>
+mount.panfs warning: mounting panfs in an untested environment!!
+pan_kernel: expected release: <*> release is: <*>
+ts_ipoib device <*> does not seem to be present, delaying initialization.
+Bringing up interface <*>: failed
+mount.panfs: panfs is not configured in the kernel
+dcdbas: module license <*> taints kernel.
+dcdbas: no version for <*> found: kernel tainted.
+Instrumentation Service EventID: <*> Redundancy lost Redundancy unit: <*> Redundancy Chassis location: <*> System Chassis Previous redundancy state was: <*>
+Instrumentation Service EventID: <*> Power supply detected a failure Sensor location: <*> Status Chassis location: <*> Previous state was: <*> Power Supply type: <*> Power Supply state: <*>
+Listener created on port <*>.
+Daemon is running.
+failed
+no server suitable for synchronization found
+wall: user <*> broadcasted <*> lines (<*> chars)
+<*> route add <*> via <*> dev <*>
+WARNING: Could not write <*>: No space left on device
+segfault at <*> rip <*> rsp <*> error <*>
+Instrumentation Service EventID: <*> Voltage sensor detected a failure value Sensor location: <*> Chassis location: <*> Previous state was: <*> Discrete voltage state: <*>
+Instrumentation Service EventID: <*> Voltage sensor returned to a normal value Sensor location: <*> Chassis location: <*> Previous state was: <*> Discrete voltage state: <*>
+WARNING: Could not chdir to home directory <*>: No such file or directory
+WARNING: Setting tty modes failed: Invalid argument
+USB support disabled
+: server is down.
+mount to NFS server <*> failed
+module license <*> taints kernel.
+no IPv6 routers present
+Searching for custom.cnf. . .
+Skipping customization. <*> not found.
+Kerberos TGT authentication as user <*> accepted for <*>.
+fs_client: Umounting panfs ...
+fs_client_cap: done
+fs_client_cap: starting to scrub the caps
+fs_client_fm: All RPCs returned
+pan_kmod: done quiescing subdev <*> ("<*>")
+many lost ticks.
+Timed out waiting for hotplug event <*>. Rebasing to <*>
+/var:
+<*>: <*>: orphan cleanup on readonly fs
+ext3_orphan_cleanup: deleting unreferenced inode <*>
+usb <*>: device not accepting address <*>, error <*>
+Floppy drive(s): <*> is <*>
+orphaned inode <*> (uid=<*>, gid=<*>, mode=<*>, size=<*>)
+<*>: Clearing
+panfs: module license <*> taints kernel.
+EXT3-fs: <*>: <*> orphan inodes deleted
+Configuration file <*> parsed but has no entries (like <*>)
+Unable to monitor any SMART enabled devices. Try debug (-d) option. Exiting...
+- key was been created <*> seconds in future
+[<*>]: Failed to bring port to ACTIVE for node=<*>, port=<*>, no response
+<*> (pan_sock: timeout)
+[<*>]: Failed to bring port to ACTIVE for node=<*>, port=<*>, mad status <*>
+Found <*>, no active local ports, check cables
+no servers reachable
+Instrumentation Service EventID: <*> Fan sensor detected a failure value Sensor location: <*> RPM Chassis location: <*> Previous state was: <*> Fan sensor value (in RPM): <*>
+UDP: short packet: From <*> <*> to <*>
+Instrumentation Service EventID: <*> Memory device status is critical Memory device location: <*> Possible memory module event cause:<*>
+Error accepting AF_UNIX connection, opened connections: <*>, max: <*>
+Did not receive identification string from <*>
+<*> device driver unloaded
+RPC: giant verf size: <*>
+call_verify: auth check failed
+file-max limit <*> reached
+RRD_update (<*>): opening '<*>': Too many open files in system
+Unable to write meta data for metric <*> to RRD
+THH(<*>): <*>[<*>]: print_track_arr: idx=<*>, token=<*>, counter=<*>
+THH(<*>): <*>[<*>]: XHH_hob_query_port_prop: Device in FATAL state
+[KERNEL_IB][<*>][<*>]<*>: VAPI_query_hca_port_prop failed, return code = <*> (Fatal error (Local Catastrophic Error))
+can't open <*>: Too many open files in system
+THH(<*>): <*>[<*>]: get_fatal_err_syndrome: FW CATASTR ERRBUF[<*>] = <*>
+THH(<*>): <*>[<*>]: XHH_hob_fatal_err_thread: FATAL ERROR DETECTED IN WAKE-UP
+THH(<*>): <*>[<*>]: XHH_hob_fatal_error: device=<*>, err_type=<*>, syndrome=<*>
+THH(<*>): <*>[<*>]: XHH_hob_halt_hca: HALT HCA returned <*>
+THH(<*>): <*>[<*>]: XHH_hob_fatal_err_thread: RECEIVED FATAL ERROR WAKEUP
+THH(<*>): <*>[<*>]: XHH_hob_fatal_error: Fatal Event Syndrome = <*>
+[KERNEL_IB][ib_mad_dispatch][<*>]mad_process failed (<*>) for <*> port <*> QPN <*> (class <*>, aid <*>)
+[<*>]: Failed to get PortInfo from IB node <*> port <*>
+[<*>]: IB node <*> port <*> had discovery timeout
+[KERNEL_IB][ib_cache_update][<*>]port_query failed (<*>) for <*>
+[INFO]: Program switch port state to down, node=<*>, port=<*>, due to non-responding CA
+Losing some ticks... checking if CPU frequency changed.
+nfs: server <*> not responding, still trying
+nfs: server <*> OK
+call_verify: RPC call version mismatch!
+Your time source seems to be instable or some driver is hogging interupts
+rip <*>
+warning: many lost ticks.
+TCP: drop open request from <*>
+tput: No value for <*> and no -T specified
+tput:
+<*> device driver unload failed for kernel <*>
+pan_common: got <*> registering panasas at <*>
+pan_common: load aborted
+panfs exception: at u_modb.c:<*>, <*> (unknown), rollback: <*>
+dcdbas: BIOS Update phys addr: <*>
+Package Release ID=<*> Package Description=<*> Support Log path=<*>
+ssh[<*>] general protection rip:<*> rsp:<*> error:<*>
+Instrumentation Service EventID: <*> Log size is full Log type: <*>
+Instrumentation Service EventID: <*> Log size is no longer near or at capacity Log type: <*>
+Frequency format error in <*>
+Please make sure you have at least <*>
+invcol Error: Not enough space available in <*> folder.
+Instrumentation Service EventID: <*> Memory device status is non-critical Memory device location: <*> Possible memory module event cause:Single bit warning error rate exceeded
+biosie.bin: page allocation failure. order:<*>, mode:<*>
+<*> failed to allocate memory for BIOS Update
+BIOS update verification was successful. Version expected: <*>, Version found: <*>
+BIOS update verification failed. Version expected: <*>, Version found: <*>
+SCSI error : <*> return code = <*>
+Instrumentation Service EventID: <*> Log size is near or at capacity Log type: <*>
+THH(<*>): CMD ERROR DUMP. opcode=<*>, opc_mod = <*>, exec_time_micro=<*>
+THH(<*>): HCR dump END
+THH(<*>): HCR dump, starting at addr <*>, size=<*>:
+THH(<*>): OUT MAILBOX dump END
+THH(<*>): OUT MAILBOX dump, starting at addr <*>, size=<*>:
+THH(<*>): <*>[<*>]: Failed command <*> (TAVOR_IF_CMD_MAD_IFC): status=<*> (<*> - unexpected error - fatal)
+THH(<*>): <*>[<*>]: list of outstanding tokens:
+THH(<*>): <*>[<*>]: outstanding i=<*>, token=<*>
+THH(<*>): <*>[<*>]: Command not completed after timeout: cmd=<*>, token=<*>, pid=<*>, go=<*>
+THH(<*>): <*>[<*>]: XHH_hob_query_port_prop: cmdif returned <*>
+THH(<*>): [XHH_qpm_process_local_mad]: ERROR on port <*>: <*>
+THH(<*>): <*>[<*>]: XHH_hob_register_mr: Device in FATAL state
+VIPKL(<*>): [MM_create_mr]:MM_mr_get_keys failed
+THH(<*>): <*>(<*>): [MM_create_mr]:MM_mr_get_keys failed
+THH(<*>): <*>[<*>]: XHH_hob_register_KL(<*>): [MM_create_mr]:<*>
+[KERNEL_IB][ib_mad_dispatch][<*>]:MM_mr_get_keys failed
+VIPKL(<*>[<*>]: XHH_hob_register_mr: Device in FATAL state
+Aborting journal on device <*>.
+Buffer I/O error on device <*>, logical block <*>
+EXT3-fs error (device <*>) in start_transaction: Journal has aborted
+EXT3-fs error (device <*>): <*>: Detected aborted journal
+Remounting filesystem read-only
+end_request: I/O error, dev <*>, sector <*>
+<*> called.
+journal commit I/O error
+lost page write due to I/O error on <*>
+EXT3-fs error (device <*>) in ext3_dirty_inode: IO failure
+EXT3-fs error (device <*>): <*>: unable to read inode block - inode=<*>, block=<*>
+__journal_remove_journal_head: freeing <*>
+printk: <*> messages suppressed.
+can't open <*>: Read-only file system
+recv_rply: [<*>] RPC status <*>
+Can't callback <*> (<*>), giving up.
+[<*>]: Failed to bring port to ARMED for node=<*>, port=<*>, state=<*>, hop_count=<*>, mad status <*>
+(<*>) BEGIN EDIT (<*>)
+(<*>) REPLACE (<*>)
+(<*>) RELOAD (<*>)
+FAIL: rsync service_limit from=<*>
+Kerberos authentication as <*> denied for <*>
+Remote host disconnected: Disconnect requested by Windows SSH Client.
+disconnected by application in remote: '<*>'
+Failed password for <*> from <*> port <*> ssh2
+process <*> is using obsolete setsockopt SO_BSDCOMPAT
+<*>(<*>): Unknown cmd <*> <*> <*> on <*>
+fatal: the Postfix mail system is not running
+<*>: message-id=<*>
+daemon started -- version <*>
+<*>: uid=<*> from=<*>
+warning: <*> message has been queued for <*> days
+starting the Postfix mail system
+<*>: from=<*>, size=<*>, nrcpt=<*> (queue active)
+<*>: from=<*>, status=expired, returned to sender
+Deleted: <*> messages
+warning: qmgr_active_corrupt: save corrupt file queue active id <*>: No such file or directory
+warning: <*>: remove <*> from active: No such file or directory
+warning: open active <*> No such file or directory
+terminating on signal <*>
+stopping the Postfix mail system
+fatal: uid=<*>: malformed input
+send response: Error building ASN.<*> representation (build int size <*>: s/b <*>)
+<*>: <*> orphan inodes deleted
+deleting unreferenced inode <*>
+warning: stdin: unexpected EOF in data, record type <*> length <*>
+EXT3-fs error (device <*>): <*>: <*> journal on device <*>.
+<*> rejecting I/O to offline device
+unable to read inode block - inode=<*>, block=<*>
+megaraid mbox: critical hardware error!
+megaraid: hw error, cannot reset
+megaraid: resetting the host...
+scsi: Device offlined - not ready after error recovery: host <*> channel <*> id <*> lun <*>
+gssapi authentication failed. Login to account <*> not allowed or account non-existent.
+kerberos-<*> authentication failed. Login to account <*> not allowed or account non-existent.
+Remote host disconnected: No further authentication methods available.
+no more authentication methods on remote: '<*>'
+DIALUP AT ttyS0 BY <*>
+usb <*>: usbfs: USBDEVFS_CONTROL failed cmd <*> rqt <*> rq <*> len <*> ret <*>
+Cannot open file <*> for writing (Too many open files)
+<*>: accept() failed, Too many open files
+mount to NFS server <*> failed: server is down.
+[<*>]: Set LID failed because <*>
+[<*>]: Failed to set LID to CA=<*>, port=<*>
+THH(<*>): IF_CMD_STAT_DDR_MEM_ERR - memory error
+THH(<*>): <*>[<*>]: XHH_hob_create: CMD_error in XHH_cmd_SYS_EN (<*>)
+THH(<*>): modprobe[<*>]: <*>: Failed creating THH hob for device <*> in index <*>
+Tavor HCA Driver: probe of <*> failed with error <*>
+Bootdata ok (command line is ro <*>=LABEL=<*> tsc console==<*> console=<*>,<*> rhgb quiet)
+[<*>]: Failed to get PORT GUID for CA=<*>, port=<*>, no response
+[<*>]: Failed to negotiate MTU, op_vl for node=<*>, port=<*>, no response
+mount.panfs error: cannot find object indicated by path <*> (<*> (bindcache: <*>))
+usb <*>: USB disconnect, address <*>
+tftpd: read: Connection refused
+kpanfs_thpool: page allocation failure. order:<*>, mode:<*>
+<*> pages_scanned:<*> all_unreclaimable? <*>
+high <*>, batch <*>
+protectih <*>
+<de <*> HighMem per-cpu: empty
+rpc: request timed out, request <*>, <*> (sync), to <*>
+low <*>, high <*>, batch <*>
+<*>{:panfs:pan_sock_linux_kernel_sock_c <*>
+Lustre: Lustre Lite Client File System; <*>
+Local disconnected: Connection closed by remote host.
+pan_ips: error -- cmd_destroy: destroying aborted (rc=<*> (IPS: session got unknown error callback)) command <*> (<*>)
+pan_ips: error -- cmd_destroy: invoking callback on aborted (rc=<*> (IPS: session got unknown error callback)) command <*>
+rpc: poll response for unknown request <*>
+cannot lock <*> - another mom running
+MOSAL(<*>): file_p = <*>
+MOSAL(<*>): map_list = <*>
+MOSAL(<*>): <*>[<*>]: dump iobuf at <*> :
+MOSAL(<*>): pid=<*>
+MOSAL(<*>): req_perm = <*> | <*>
+MOSAL(<*>): xhpl[<*>]: <*>: MOSAL_mlock_iobuf failed - MT_ENORSC
+MOSAL(<*>): <*>[<*>]: <*>: could not find mm=<*> (pid=<*>) in the hash
+MOSAL(<*>): <*>[<*>]: MOSAL_mlock_iobuf: Failed (<*>) priv_mosal_mlock for addr=<*> size=<*>
+THH(<*>): XHH_mrwm_register_internal: rc=<*>
+THH(<*>): <*>[<*>]: MOSAL_iobuf_register failed: va=<*>, size=<*> (<*>:MT_ENORSC
+VIPKL(<*>): Inside CQM_create_cq: Unable to register HH CQ. hh_ret = <*>
+<*>: SYSERR(<*>): collect: Cannot write <*> (bfcommit, uid=<*>, gid=<*>): Read-only file system
+<*>: SYSERR(<*>): queueup: cannot create queue file <*>, euid=<*>, fd=<*>, fp=<*>: Read-only file system
+<*>: host <*>[#<*>] said: <*> (in reply to MAIL FROM command)
+connect to <*>: Connection timed out (port <*>)
+<*> login denied for user <*>.
+loaded (max <*> devices)
+Microsoft Joliet Level <*>
+<*>: <*>: <*>: NIC Link is Down
+LAPIC (acpi_id[<*>] lapic_id[<*>] disabled)
+Hyper-Threading is disabled
+authenticated mount request from <*> for <*> (<*>)
+Bootdata ok (command line is initrd=<*> console=<*> BOOT_IMAGE=<*>)
+Kernel command line: initrd=<*> console=<*> console=<*>,<*> BOOT_IMAGE=<*>
+SysRq : HELP : <*> reBoot Crash tErm kIll saK showMem powerOff showPc unRaw Sync showTasks Unmount shoWcpus
+[<*>]: Failed to GetSwitchInfo(guid=<*> LID=<*>) for checking SwitchInfo:port_state_change
+[<*>]: hop_count: <*>, direct_path: <*>
+RAMDISK: Compressed image found at block <*>
+VFS: Mounted <*> (<*> filesystem).
+checking if image is initramfs...it isn't (no cpio magic); looks like an initrd
+nfs warning: mount version older than kernel
+mount: according to mtab, <*> is already mounted on <*>
+mount: <*> already mounted or <*> busy
+mount.panfs: couldn't create mtab lock file: <*> errno: <*>
+mount: special device <*> does not exist
+(<*>) LIST (<*>)
+access denied for user <*> from <*>
+Could not open lock file <*>, disallowing console access
+[<*>]: Failed to set MFT to zero for switch=<*>
+CPU0: Initial APIC ID: <*>, Physical Processor ID: <*>
+error binding to socket: Address already in use
+NOTE: <*> must be restarted to activate changes to <*>
+error creating <*>: No space left on device
+dcdbas: disagrees about version of symbol <*>
+dcdipm: disagrees about version of symbol <*>
+<*>: Keyboard on <*> reports too many keys pressed.
+<*> key generation succeeded
+Determining IP information for eth0...
+ensuring time is synced
+<*> : updated <*>
+DHCPACK from <*>
+DHCPDISCOVER on <*> to <*> interval <*>
+DHCPREQUEST on <*> to <*> port <*>
+bound to <*> -- renewal in <*> seconds.
+done.
+Kickstart: convert to static ip on boot
+loop: loaded (max <*> devices)
+EXT2-fs warning: mounting unchecked fs, running <*> is recommended
+invalid media value (<*>)
+Can't find a valid FAT filesystem on dev <*>.
+open (<*>): Stale NFS file handle
+System type not supported
+Failed to start message bus: The pid file <*> exists, if the message bus is not running, remove this file
+can't open <*>: Stale NFS file handle
+DHCPOFFER from <*> <*> <*> <*> dhclient: DHCPREQUEST on eth0 to <*> port <*>
+the NTP socket is in use, exiting
+getpwnam failed for <*>
+error: lastlog_get_entry: Error reading from <*>: Input/output error
+syslogin_perform_logout: logout() returned an error
+Received disconnect from <*>: <*>: Corrupted MAC on input.
+mount: <*> failed, reason given by server: Permission denied
+Kickstart: <*> pbs server block
+THH(<*>): XHH_mrwm_register_mr: rc=<*>
+THH(<*>): <*>[<*>]: XHH_cmd_WRITE_MTT failed (err=<*>)
+THH(<*>): <*>[<*>]: alloc_reg_pages: <*> register_pages
+Aborted
+Can't open <*> for job <*>: <*>
+<*>: SYSERR(<*>): Error writing control file <*>: No space left on device
+<*>: SYSERR(<*>): putbody: write error: No space left on device
+processor at <*>
+disk at <*>
+<*>: mkdir failed: Read-only file system
+Authentication refused: bad ownership or modes for directory <*>
+<*> bad udp checksums in <*> packets
+bogus UDP packet length: <*>
+Uhhuh. NMI received. Dazed and confused, but trying to continue
+You probably have a hardware problem with your RAM chips
+can't open <*>: Permission denied
+Failed password for invalid user <*> from <*> port <*> ssh2
+<*> more authentication failure; logname=<*> uid=<*> euid=<*> tty=<*> ruser=<*> rhost=<*>
+Disconnecting: Corrupted MAC on input.
+panfs exception: at file.c:<*>, <*> (fmm: object ID/name mismatch), rollback: <*>
+pan_sam: <*>: error report: cap_handle=<*> op=<*> op_offset=<*> op_length=<*> action_mask=<*> cap_offset=<*> cap_length=<*>
+pan_sam: <*>: error report: failure <*>: <*>(OBSD) osd_op=OP_GETATTR offset=<*> length=<*> error=<*> (OBSD: Object not found)
+pan_sam: <*>: unable to report I/O error(s) to SM <*>(SM): <*> (SM: object not found)
+panfs exception: at attr.c:<*>, <*> (SM: object not found), rollback: <*>
+FATAL: Error inserting <*> (<*>): No such device
+ts_ip2pr: Unknown symbol <*>
+execvp: No such file or directory
+INFO: located parameter '<*>'
+INFO: new LOGLEVEL value (<*>)
+INFO: parameter <*> assigned int value <*>
+INFO: starting Moab Workload Manager version <*> ##################
+MUGetIndex(<*>,<*>,<*>,<*>)
+MUGetIndexCI(<*>,<*>,<*>)
+INFO: detected array index '<*>'
+INFO: parameter <*> not processed
+INFO: string <*> -> <*>
+INFO: cannot stat file '<*>', errno: <*> (No such file or directory)
+MCPRestore(<*>,<*>,<*>,<*>)
+WARNING: cannot load checkpoint file '<*>'
+ERROR: unexpected parameter[<*>] 'SYSCFG' detected
+INFO: CLASSCFG[<*>] set to FSWEIGHT <*>
+INFO: CLASSCFG[<*>] set to MAXNODE=<*>
+INFO: new class <*> added
+INFO: server started on host <*> (Primary Server)
+MCfgEnforceConstraints(<*>)
+MCredProcessConfig(<*>,<*>,<*>,<*>,<*>,<*>)
+MSRProcessConfig(<*>,<*>)
+<*> <*> INFO: filename only returned '<*>'
+<*> <*> INFO: pathname returned '<*>'
+<*> SUConfigProcessConfigFile(<*>)
+ERROR: cannot stat file '<*>', errno: <*> (No such file or directory)
+MAMSetDefaults()
+MCfgAdjustBuffer(Buf,<*>,BaseTail)
+MG2GridInitialize()
+MIDSetDefaults()
+MRMProcessConfig(<*>,<*>)
+SUFileBufCreate(<*>)
+SUFileBufInitialize(<*>,<*>)
+SUFileBufLoadFile(<*>)
+SUFileLoad(<*>,<*>,<*>,<*>,<*>,<*>)
+SULoadEnvironment(<*>,<*>)
+INFO: child process in background
+INFO: executing scheduler from <*> under UID <*> GID <*>
+INFO: new file <*> cached in slot <*> (<*> bytes)
+INFO: new file <*> opened
+INFO: opened service socket on port <*>
+MAcct[<*>] <*>
+MFULock(<*>,<*>)
+MJobTraceBuffer[<*>] <*>
+MJob[<*>] <*>
+MNode[<*>] <*>
+MRsv[<*>] <*>
+MSUListen(<*>)
+MSysAuthenticate()
+MSysDaemonize()
+MSysLaunchAction(<*>,)
+MSysMemCheck()
+MSysProcessArgs(<*>,<*>,<*>)
+MSysRegEvent(<*>,<*>)
+MSysStartServer()
+MUGetOpt(<*>,<*>,<*>,<*>,<*>)
+SRsv[ <*>] <*>
+__SUFileCacheData(<*>,<*>,<*>)
+__SUFileGetCachedData(<*>,<*>,<*>)
+starting moab-<*> version Moab Workload Manager (PID: <*>) on <*>
+INFO: no fallback server host specified
+MFSInitialize(<*>)
+MFSLoadDataFile(<*>,<*>)
+MSysCheckFB()
+WARNING: cannot load FS file <*> for slot <*>
+WARNING: cannot open FS data file '<*>'
+INFO: parent is exiting
+INFO: node min value: <*> distance: <*> step: <*>
+INFO: node steps eliminated: <*>
+INFO: updating acct fairshare
+MCPLoad(<*>,<*>)
+MFSUpdateData(<*>,<*>,<*>)
+MStatPreInitialize()
+MStatProfInitialize(<*>)
+INFO: <*> not supported
+INFO: connected to PBS server <*> on sd <*>
+INFO: starting new day: <*>
+MCredCreditRefresh(DAY)
+MPBSInitialize(<*>)
+MParAdd(<*>)
+MParInitialize(<*>)
+MRMInitialize(<*>,<*>,<*>)
+MServerUpdate()
+MStatClearUsage(<*>,<*>)
+MStatInitialize(<*>)
+MStatInitializeActiveSysUsage()
+MStatOpenFile(<*>)
+MStatWritePeriodPStats(<*>,<*>)
+MSysUpdateTime()
+MUSetEnv(<*>,<*>)
+WARNING: cannot create statfile '<*>'
+WARNING: cannot open file '<*>', errno: <*> (No such file or directory)
+__MPBSSystemQuery(<*>,<*>)
+INFO: <*> PBS resources detected on RM base
+INFO: PBS data updated for iteration <*>
+INFO: PBS node <*> set to state <*> (<*>)
+INFO: cannot determine node/rack of host '<*>'
+INFO: queue <*> started state set to <*>
+INFO: starting iteration <*>
+MClusterClearUsage()
+MCredCreditRefresh(MONTH)
+MNodeUpdateResExpression(<*>)
+MPBSClusterQuery(<*>)
+MPBSGetData(<*>)
+MPBSLoadQueueInfo(<*>)
+MPBSNodeLoad(<*>)
+MRMClusterQuery()
+MRMUpdate()
+MSchedProcessJobs(<*>,<*>,<*>)
+WARNING: cannot record <*> stats
+[<*>] tsqe1: (P:<*>,S:<*>,M:<*>,D:<*>) [Down][DEFAULT][[NONE]]<*> C:[NONE] DEFAULT sqe
+INFO: P[<*>]: Total <*> Up <*> Idle <*> Active <*>
+INFO: jobs in queue
+INFO: no queues detected
+INFO: queue is empty or cannot get PBS job info
+INFO: resources detected: <*>
+MClusterUpdateNodeState()
+MPBSWorkloadQuery(<*>)
+MParUpdate(<*>)
+MRMQueueQuery(<*>,<*>,<*>)
+MRMWorkloadQuery(<*>,<*>,<*>)
+MVPCUpdate(<*>)
+INFO: no matches found for node expression
+INFO: rsv <*> hostlist initialized
+INFO: <*> not required for specified period
+MRsvConfigure(<*>,<*>,<*>,<*>,<*>)
+MSRGetAttributes(<*>,<*>,<*>,<*>)
+MSRUpdate()
+MUREToList(<*>,<*>,<*>,<*>,<*>,<*>,<*>,<*>)
+WARNING: empty hostlist in MRsvConfigure()
+INFO: current util[<*>]: <*> (<*>%) PH: <*>% active jobs: <*> of <*> (completed: <*>)
+INFO: idle job queue is empty on iteration <*>
+INFO: iteration: <*> scheduling time: <*> seconds
+MLimitEnforceAll(<*>)
+MNodeCheckStatus()
+MQueueCheckStatus()
+MQueueSelectAllJobs(<*>)
+MQueueSelectJobs(<*>,<*>,<*>,<*>,<*>,<*>,<*>,<*>,<*>,<*>,<*>)
+MQueueUpdateCJobs()
+MRMFinalizeCycle()
+MRsvAdjustDRes(<*>,<*>)
+MRsvUpdateStats()
+MSchedUpdateStats()
+MUClearChild(<*>)
+INFO: scheduling complete. sleeping <*> seconds
+MRsvCheckStatus(<*>)
+MPSIFromXML(<*>)
+MRMFromXML(<*>)
+Unknown username <*> in message bus configuration file
+megaraid abort: <*>, fw owner
+megaraid mbox: Wait for <*> commands to complete:<*>
+megaraid mbox: reset sequence completed successfully
+megaraid: <*> outstanding commands. Max wait <*> sec
+megaraid: aborting-<*> cmd=<*> <c=<*> t=<*> l=<*>
+THH(<*>): <*>[<*>]: XHH_cmd_eventh: could not find context by token. token=<*>
+FATAL ERROR: Creating listener failed: port <*> probably already in use!
+MCPLoadSR(<*>)
+MCPLoadSched(<*>,<*>,<*>)
+nfs_statfs: statfs error = <*>
+LoginGraceTime exceeded.
+EXT3-fs error (device <*>): <*>: reading directory <*> offset <*>
+Service <*> failed to start and is deactivated.
+bind failed (Address already in use (errno = <*>)). service = <*>
+modprobe: Can't locate module <*>
+<*>: <*>, Fault Status assert (Drive Array,Slot/Connector Number: <*>)
+<*>: <*>, Fault Status assert (deassertion event) (Drive Array,Slot/Connector Number: <*>)
+warning: master_wakeup_timer_event: service <*>: Too many open files in system
+fatal: scan_dir_push: open directory deferred: Too many open files in system
+warning: process <*> pid <*> exit status <*>
+fatal: scan_dir_push: open directory maildrop: Too many open files in system
+warning: <*>: bad command startup -- throttling
+<*> error (device <*>): ext3_remount: Abort forced by user
+[CONF]: [<*>]: copy <*> <*>
+[CONF]: [super]: config no ib sm subnet-prefix <*>
+[INFO]: connected to watchd service, sent first pulse.
+[INFO]: remove appId <*> from watchd list.
+[INFO]: ib_sm.x destroyed pid=<*>
+[CONF]: [super]: config interface ib <*> no shutdown
+[INFO]: Change AdminStatus on <*> - new value= <*>
+[CONF]: [super]: config ib sm subnet-prefix fe:<*>
+[INFO]: IB SM Sweep PID= <*>, <*>
+[INFO]: IB SM Heartbeat PID= <*>
+[INFO]: ib_sm connect to watchdog manager
+[INFO]: IB MGR connected to <*>
+[INFO]: IB MGR finished configuring SM (<*>)
+[INFO]: IB MGR sent save config command to SM (<*>)
+[INFO]: process started: app=<*>, pid=<*>, fd=<*>
+[INFO]: Master SM Proceeds with configuration of entire subnet
+[INFO]: SM Role selection result: <*>
+[INFO]: Transitioning to Master, DB was not synchronized with previous Master Guid <*>
+Instrumentation Service EventID: <*> BMC Ambient Temp Main System Chassis <*>
+[INFO]: port down - port=<*>, type=<*>
+[CONF]: [super]: config ntp server-one <*>
+[CONF]: [super]: syslog-server <*>
+[INFO]: bSaveConfig=<*>, bSave=<*>
+THH(<*>): handle_eqe_ib_events: QP event on qpn= <*> event type is <*> (<*>), syndrome=<*>
+[INFO]: received a start-up done notification
+[INFO]: Web Agent <*>
+[INFO]: <*> components started up successfully
+pbs_mom: Unable to open logfile
+<*>: can't exec <*>: Input/output error
+[FATAL]: _ib_smSetSmCapability: ioctl(<*>) code=<*>
+mount: can't get address for <*>
+The <*> <*> profile is still in active development and requires
+some packages still in package.mask or ~amd64 and is not yet ready for user testing.
+[INFO]: event loop conn local to <*>(new fd=<*>)
+[INFO]: accepted new conn to listening fd <*>(new fd=<*>)
+sam raid obsd error on read: local_status <*> (RPC: No response within the timeout period), obsd_error <*> (Success) virtual object <*> index <*>, stor_op <*>, component device <*>(OBSD)
+obsd_client: obsd_client: command timed out SETATTR options=<*> obj_id=<*> get_attributes=<*> set_attributes=<*> realmname panfs1 dev_id=<*> flags=<*>=(<*>) <*>, <*>, <*> allocated_by_sam=<*>
+pan_ips: error -- IPS command timeout command timed out expire_time=<*> now=<*> lifetime=<*> grace_timeouts=<*> cd=<*> session=<*> (initiator:<*> <-> target-OSD:<*>) id=(<*>)
+pan_ips: error -- cmd_destroy: destroying aborted (rc=<*> (IPS: command timed out)) command <*> (<*>)
+pan_ips: error -- cmd_destroy: destroying timed out command cd=<*>
+pan_ips: error -- cmd_destroy: invoking callback on aborted (rc=<*> (IPS: command timed out)) command <*>
+obsd_client: obsd_client: command timed out <*> options=<*> obj_id=<*> starting_byte=<*> length=<*> get_attributes=<*> realmname <*> dev_id=<*> flags=<*> res_buffer=(<*>) callback(<*>, <*>, <*>) allocated_by_sam=<*>
+pan_ips: error -- cmd login netaddr connection create done, <*> (pan_sock: timeout), err_loc=<*> <*> target_address=<*>
+server <*> not responding, still trying
+pan_sam: <*>: error report: failure <*>: <*>(OBSD) osd_op=OP_WRITE offset=<*> length=<*> error=<*> (RPC: No response within the timeout period)
+pan_sam: <*>: unable to report I/O error(s) to SM <*>(SM): <*> (RPC: No response within the timeout period)
+pan_rpc_native_poll_req: unable to send poll pkt <*> (pan_sock: connection reset by peer)
+pan_rpc_native_poll_req: unable to send poll pkt <*> (pan_sock: broken pipe)
+rpc: pan_rpc_request_timeout_engine poll request failed, state <*>, event <*> action <*> rc=<*> (pan_sock: connection reset by peer)
+rpc: pan_rpc_request_timeout_engine poll request failed, state <*>, event <*> action <*> rc=<*> (pan_sock: broken pipe)
+rpc: request timed out, request <*>, <*> (async), to (peer addr not available)
+pan_ips: error -- IPS command timeout command timed out expire_time=<*> now=<*> lifetime=<*> grace_timeouts=<*> cd=<*> session=<*> (connection info not avail <*> (pan_sock: socket not connected)) id=(<*>)
+pan_ips: error -- cmd taskmgmt, <*> (pan_sock: connection reset by peer), err_loc=<*>, <*>
+pan_ips: error -- cmd_timeout_task_query: couldn't send task_query <*> (pan_sock: connection reset by peer)
+pan_ips: error -- tx sched dequeue and send mod, <*> (pan_sock: connection reset by peer), err_loc=<*>, <*>/release/build/panfs/ips/pan_ips_tx_sched.c:<*>
+pan_ips: error -- tx sched send next, <*> (pan_sock: connection reset by peer), err_loc=<*>, <*>
+pan_ips: error -- tx sched send, <*> (pan_sock: connection reset by peer), err_loc=<*>, <*>
+sam raid obsd error on write: local_status <*> (rmm: <*>), obsd_error <*> (<*>) virtual object <*> index <*>, stor_op <*>, component device <*>
+pan_sam: <*>: error report: failure <*>: <*> osd_op=<*> offset=<*> length=<*> error=<*> (rmm: <*>)
+pan_sam: <*>: unable to report I/O error(s) to SM <*>(SM): <*> (SM: object is currently unavailable due to OSD failures)
+objid <*>, caller (<*>)
+fs_client: end_write_length > pannode->attribs.cached_length (<*> > <*>)
+obsd_client: obsd_client: command timed out GETATTR options=<*>=<*> flags=<*> res_buffer=(<*>) callback(<*>) allocated_by_sam=<*>
+server <*> OK
+fs_client_writepage: llapi_io_sync failed (<*> (SM: unspecified internal error)); data <*> be dropped
+pan_sam: <*>: error report: failure <*>: <*>(OBSD) osd_op=OP_WRITE offset=<*> length=<*> error=<*> (OBSD: Capability has expired)
+panfs exception: at <*>, <*> (SM: unspecified internal error), rollback: <*>
+fs_client_release: last call to write_page on object <*> failed with <*> (SM: unspecified internal error); data <*> be dropped (line <*>)
+pan_rpc: Unable to send reply: peer addr not available <*> (RPC: binding was already destroyed, it has already been released)
+CR2: <*> CR3: <*> CR4: <*>
+CS: <*> DS: <*> ES: <*> CR0: <*>
+FS: <*>(<*>) GS:<*>(<*>) knlGS:<*>
+Modules linked in: <*>
+Oops: <*> [<*>] SMP
+PML4 <*> PGD <*> PMD <*>
+Pid: <*>, comm: <*> Tainted: PF <*>
+Process kpanfs_dispatch (pid: <*>, threadinfo <*>, task <*>)
+R10: <*> R11: <*> R12: <*>
+R13: <*> R14: <*> R15: <*>
+RAX: <*> RBX: <*> RCX: <*>
+RBP: <*> R08: <*> R09: <*>
+RDX: <*> RSI: <*> RDI: <*>
+RSP: <*> EFLAGS: <*>
+Unable to handle kernel NULL pointer dereference at <*> RIP:
+fs_client_llapi_io_write: Failed to get a write_hint cap for dribble mode, line: <*>, error: <*> (fs client: Interrupted system call).
+pan_ips: error -- cmd login netaddr connection create done, <*> (pan_sock: network unreachable), err_loc=<*> <*> target_address=<*>
+pan_ips: error -- nexus initiator connect callback, <*> (pan_sock: network unreachable), err_loc=<*>, <*>
+Osa: Leaf <*> is reporting fiber latch fault condition on port <*>
+Osa: Leaf <*> is reporting fiber latch overcurrent condition on port <*> of the (Invalid Ptr)
+execvp: Permission denied
+umount2: Device or resource busy
+umount: <*>: device is busy
+Unable to listen for broadcasts, no broadcast interfaces available
+bind() fd <*>, family <*>, port <*>, addr <*>, in6_is_addr_multicast=<*> flags=<*> fails: Address already in use
+sendto(<*>): Bad file descriptor
+obj_id: <*>, mgr_id: <*>, cb_id: <*>, cb_type: <*>, desired_cb_type: <*>, offset:<*>, length:<*>, flags:<*>, args_flags: <*>, <*>
+panfs exception: at <*>, <*> (ptp: Node not yet ready to respond), rollback: <*>
+panfs exception: at <*>, <*> (ptp: <*>), unknown error:(<*>), rollback: <*>
+pan_ips: error -- cmd scsi, <*> (pan_sock: timeout), err_loc=<*>, <*>
+pan_ips: error -- tx sched dequeue and send mod, <*> (pan_sock: timeout), err_loc=<*>, <*>
+pan_ips: error -- tx sched send next, <*> (pan_sock: timeout), err_loc=<*>, <*>
+pan_ips: error -- tx sched send, <*> (pan_sock: timeout), err_loc=<*>, <*>
+fs_client_release: last call to write_page on object <*> failed with <*> (fs client: <*>); data <*> be dropped (line <*>)
+fs_client_writepage: llapi_io_sync failed (<*> (fs client: <*>)); data <*> be dropped
+pan_ips: error -- cmd_destroy: destroying aborted (rc=<*> (pan_sock: timeout)) command <*> (<*>)
+pan_ips: error -- cmd_destroy: invoking callback on aborted (rc=<*> (pan_sock: timeout)) command <*>
+pan_ips: error -- worker initiator write callback, <*> (pan_sock: timeout), err_loc=<*>, <*>
+pan_sam: <*>: unable to report I/O error(s) to SM <*>(SM): <*> (SM: object cache entry is locked for a long period)
+<*>: <*>: sender notify: Warning: could not send message for past <*> hours
+[<*>]: Failed to read MFT for switch=<*>
+foo
+mount: fs type <*> not supported by kernel
+<*>: Losing <*>: savemail panic
+<*>: SYSERR(<*>): savemail: cannot save rejected email anywhere
+recv_rply: can't decode RPC message!
+[CONF]: [super]: config snmp-server host <*>
+[CONF]: [super]: config snmp-server enable traps authentication <*>
+[INFO]: IB SM worker <*> PID= <*>
+Device: <*>, SMART Failure: HARDWARE IMPENDING FAILURE DATA ERROR RATE TOO HIGH
+Sending warning via mail to <*> ...
+Warning via mail to <*>: successful
+panfs exception: at l_supe.c:<*>, <*> (rmm: Rejecting mount request from client with badly unsynced clock.), unknown error:(<*>), rollback: <*>
+panfs mount: error: problem contacting up realm <*> (rmm: Rejecting mount request from client with badly unsynced clock.)
+[INFO]: Operation failed: <*>
+Osa: <*>: getPortValue failed port=<*> location=<*> ra=<*>
+NOQUEUE: SYSERR(<*>): can not chdir(<*>): Permission denied
+[INFO]: Failed to add pgid <*> to mgid <*>, status <*>
+Kerberos authentication as user <*> accepted for <*>.
+Info fld=<*>, Current sda: sense key Hardware Error
+command = Test Unit Ready <*>
+mptscsih: <*>: attempting task abort! (sc=<*>)
+<*> : destination target <*>, lun <*>
+command = Write (<*>) <*>
+mptbase: <*>: IOCStatus(<*>): SCSI Task Terminated
+<*> error (device <*>): read_inode_bitmap: Cannot read inode bitmap - block_group = <*>, inode_bitmap = <*>
+Lustre: <*>:(<*>) <*>: connection lost to <*>
+LustreError: <*> ### lock timed out (enqueued <*> ago), entering recovery for <*> ns: <*> lock: <*> lrc: <*> mode: <*> res: <*> rrc: <*> type: <*> flags: <*> remote: <*> expref: <*> pid: <*>
+LustreError: Connection to service <*> via nid <*> was lost; in progress operations using this service <*> wait for recovery to complete.
+Lustre: Connection restored to service <*> using nid <*>.
+<*> device driver built for kernel <*>-<*>
+statd running as <*>. chown <*> to choose different user
+<*> device driver build failed for kernel <*>-<*>. <*> failed to find kernel source at <*>. <*> requires kernel source to build device drivers.
+FATAL: Could not load <*>: No such file or directory
+dcdbas device driver build failed for kernel <*>. Check <*> for build error.
+invcol Error: Cannot create directory <*>. Please ensure there
+is enough space.
+(CRON) STAT FAILED (<*>)
+MOSAL(<*>): <*>[<*>]: unlock_it: unknown error (<*>)
+VIPKL(<*>): [create_mr] MM_bld_hh_mr failed (<*>)
+VIPKL(<*>): <*>[<*>]: make_iobuf: MOSAL_iobuf_register failed: va=<*>=<*>
+Bootdata ok (command line is initrd=<*> console=<*> console=<*>,<*> quiet BOOT_IMAGE=<*>)
+VIPKL( failed
+FATAL state

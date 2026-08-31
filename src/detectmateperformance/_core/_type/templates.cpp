@@ -2,7 +2,9 @@
 #include <utility>
 #include <string>
 #include <deque>
+#include <regex>
 #include "templates.h"
+
 #include "../aux.h"
 
 
@@ -28,8 +30,15 @@ Templates::Templates(std::deque<std::string> templates) {
     resetCount();
 }
 
-Templates::Templates(std::string message) {
-    this->messages.push_back(te_preprocess(preprocessing(message)));
+Templates::Templates(std::string filename) {
+    std::regex pattern("<[^>]*>");
+    std::deque<std::string> templates = readFileToLines(filename);
+
+    for (const auto& message : templates) {
+        this->messages.push_back(te_preprocess(preprocessing(
+            std::regex_replace(message, pattern, "VAR")
+        )));
+    }
     resetCount();
 }
 

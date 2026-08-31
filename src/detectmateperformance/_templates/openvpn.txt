@@ -1,0 +1,23 @@
+Validating certificate extended key usage
+peer info: <*>
+VERIFY <*> OK
+++ Certificate has <*>> (str) TLS Web Client Authentication, expects TLS Web Client Authentication
+VERIFY OK: depth=<*>, C=<*>, ST=<*>, L=<*>, O=<*>, CN=<*>, emailAddress=<*>
+VERIFY OK: depth=<*>, CN=<*>, "PUSH: Received control message: <*>
+VERIFY OK: depth=<*>, CN=<*>
+<*> Data Channel: Cipher <*> initialized with <*> bit key
+<*> Data Channel: Using <*> bit message hash <*> for HMAC authentication"
+Control Channel: <*>, cipher <*> <*>, peer certificate: <*> bit RSA, signature: <*>
+SIGUSR1[soft,ping-restart] received, client-instance restarting
+<*>: Received control message: <*>
+[<*>] Inactivity timeout (--ping-restart), restarting
+MULTI_sva: pool returned IPv4=<*>, IPv6=<*>
+SENT CONTROL [<*>]: '<*>,redirect-gateway def1,block-outside-dns,route <*>,topology <*>,ping <*>,ping-restart <*>,ifconfig <*>,peer-id <*>,cipher <*>' (status=<*>)
+TLS: soft reset sec=<*> bytes=<*> pkts=<*>
+TLS Error: TLS handshake failed
+TLS Error: TLS key negotiation failed to occur within 60 seconds (check your network connectivity)
+TLS: Initial packet from <*>, sid=<*> <*>
+MULTI: Learn: <*> -> <*>
+MULTI: primary virtual IP for <*> <*>
+[<*>] Peer Connection Initiated with [<*>]<*>
+TLS: move_session: dest=<*> src=<*> reinit_src=<*>

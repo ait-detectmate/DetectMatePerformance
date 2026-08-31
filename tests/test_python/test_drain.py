@@ -5,6 +5,29 @@ import polars as pl
 
 
 class TestCommonMethods:
+    def test_clean_strings(self):
+        result = drain.clean_strings(pl.DataFrame({"Content": [
+            "Hello, world",
+            "Hello. world 123 21",
+            "Hello. world 129.131.12.12",
+            "Receiving block blk_-1608999687919862906",
+            "Receiving block /home/linux/home/windows",
+            "Receiving src: /123.1 asdasd aas ",
+        ]}))["Content"].to_list()
+
+        print(result)
+        expected = [
+            "Hello world",
+            "Hello world VAR",
+            "Hello world VAR",
+            "Receiving block blk_-1608999687919862906",
+            "Receiving block VAR",
+            "Receiving src VAR asdasd aas",
+        ]
+        print(expected)
+
+        assert result == expected
+
     def test_cluster_logs_df(self):
         df = pl.DataFrame({"Content": ["hello world, 12 1cia2o1", "Ciao! ? bella bella"]})
 
@@ -67,3 +90,10 @@ class TestDrain:
         tree_match = drain_.generate()
         template = tree_match.match_log("Hello world").get_all_templates()[0]
         assert "Hello VAR" == template
+
+    def test_drain_pipeline(self):
+        drain_ = drain.Drain(sim=0.3, max_child=1000, depth=2)
+        regex = r"type=(?P<Type>\w+) msg=audit\((?P<Time>[^:]+):(?P<Serial>\d+)\): (?P<Content>.*)"
+
+        templates = drain_(logs="tests/test_data/audit.log", regex=regex).get_templates(False)
+        assert len(templates) == 10

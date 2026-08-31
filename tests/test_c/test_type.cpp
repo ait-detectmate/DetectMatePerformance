@@ -14,6 +14,37 @@ TEST(MessagesTest, Preprocessing) {
     EXPECT_EQ(result.size(), 2);
     EXPECT_EQ(result[0], "Hello");
     EXPECT_EQ(result[1], "world");
+
+    std::string input2 = "Hello. world";
+    auto result2 = preprocessing(input2);
+
+    EXPECT_EQ(result2.size(), 2);
+    EXPECT_EQ(result2[0], "Hello");
+    EXPECT_EQ(result2[1], "world");
+
+    std::string input3 = "Hello. world 129.131.12.12";
+    auto result3 = preprocessing(input3);
+
+    EXPECT_EQ(result3.size(), 3);
+    EXPECT_EQ(result3[0], "Hello");
+    EXPECT_EQ(result3[1], "world");
+    EXPECT_EQ(result3[2], "129.131.12.12");
+
+    std::string input4 = "Receiving block blk_-1608999687919862906";
+    auto result4 = preprocessing(input4);
+
+    EXPECT_EQ(result4.size(), 3);
+    EXPECT_EQ(result4[0], "Receiving");
+    EXPECT_EQ(result4[1], "block");
+    EXPECT_EQ(result4[2], "blk_-1608999687919862906");
+
+    std::string input5 = "Receiving block /home/linux/home/windows";
+    auto result5 = preprocessing(input5);
+
+    EXPECT_EQ(result5.size(), 3);
+    EXPECT_EQ(result5[0], "Receiving");
+    EXPECT_EQ(result5[1], "block");
+    EXPECT_EQ(result5[2], "/home/linux/home/windows");
 }
 
 TEST(TemplatesTest, SizeShape) {
@@ -42,6 +73,19 @@ TEST(TemplatesTest, GetNextTemplate) {
 
     auto message3 = templates.getNext();
     EXPECT_TRUE(message3.empty());
+}
+
+TEST(TemplatesTest, GetTempalteFile) {
+    Templates templates("../tests/test_data/audit_templates.txt");
+
+    EXPECT_EQ(templates.size(), 9);
+
+    auto message1 = templates.getNext();
+    EXPECT_EQ(message1.size(), 23);
+    EXPECT_EQ(message1[0], "pid");
+    EXPECT_EQ(message1[1], "VAR");
+    EXPECT_EQ(message1[2], "uid");
+    EXPECT_EQ(message1[3], "VAR");
 }
 
 TEST(ParsedMessagesTest, ParsedElementtest) {

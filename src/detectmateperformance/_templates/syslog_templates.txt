@@ -1,0 +1,109 @@
+(<*>) CMD (<*>)
+Changed host name to host <*>
+Closed GnuPG cryptographic agent <*>
+Closed GnuPG cryptographic agent and passphrase cache access for web browsers
+Closed GnuPG cryptographic agent and passphrase cache restricted
+Closed GnuPG network certificate management daemon.
+Closed GnuPG cryptographic agent and passphrase cache.
+Closed REST API socket for snapd user session agent.
+Created slice User Slice of jhall
+Detected architecture <*>
+Detected virtualization kvm
+Enumeration completed
+Grace period over, resuming full feature set (<*>) for DNS server <*>
+Listening on GnuPG cryptographic agent and passphrase cache access for web browsers
+Listening on GnuPG cryptographic agent and passphrase cache restricted
+Listening on GnuPG network certificate management daemon
+Listening on REST API socket for snapd user session agent
+Listening on GnuPG cryptographic agent (ssh-agent emulation).
+Listening on GnuPG cryptographic agent and passphrase cache.
+Network configuration changed trying to establish connection
+Negative trust anchors: <*>
+Positive Trust Anchors
+Reached target <*>
+Received <*> from PID <*>
+Recording successful boot for GRUB
+Reexecuting
+Reloaded The Apache HTTP Server
+Reloading The Apache HTTP Server
+Reloading.
+Removed slice User Slice of jhall
+Started Clean php session files
+Started Cleanup of Temporary Directories
+Started Daily apt download activities
+Started Daily apt upgrade and clean activities
+Started Discard unused blocks
+Started Flush Journal to Persistent Storage
+Started Hostname Service
+Started Journal Service
+Started LSB Record successful boot for GRUB
+Started LSB automatic crash report generation
+Started Message of the Day
+Started Network <*>
+Started Network Service
+Started OpenBSD Secure Shell server
+Started Session <*> of user jhall
+Started User Manager for UID <*>
+Started udev Kernel Device Manager
+Starting Clean php session files...
+Starting Cleanup of Temporary Directories
+Starting Daily apt download activities
+Starting Daily apt upgrade and clean activities
+Starting Discard unused blocks
+Starting Exit the Session
+Starting Flush Journal to Persistent Storage
+Starting Hostname Service
+Starting Journal Service
+Starting LSB Record successful boot for GRUB
+Starting LSB automatic crash report generation
+Starting Message of the Day
+Starting Network <*>
+Starting Network Service
+Starting OpenBSD Secure Shell server
+Starting User Manager for UID <*>
+Starting automatic crash report generation apport
+Starting udev Kernel Device Manager
+Startup finished in <*>
+Stopped Flush Journal to Persistent Storage
+Stopped Journal Service
+Stopped LSB Record successful boot for GRUB
+Stopped LSB automatic crash report generation
+Stopped Network <*>
+Stopped Network Service
+Stopped OpenBSD Secure Shell server
+Stopped User Manager for UID <*>
+Stopped target <*>
+Stopped target Basic System
+Stopped udev Kernel Device Manager
+Stopping Flush Journal to Persistent Storage
+Stopping Journal Service
+Stopping LSB Record successful boot for GRUB
+Stopping LSB automatic crash report generation
+Stopping Network <*>
+Stopping Network Service
+Stopping OpenBSD Secure Shell server
+Stopping User Manager for UID <*>
+Stopping automatic crash report generation apport
+Stopping udev Kernel Device Manager
+Super optimized for small spaces read how we shrank the memory
+Synchronized to time server <*> (<*>).
+Using degraded feature set (UDP) for DNS server <*>
+Using system hostname <*> 
+done
+<*> Configured
+<*> DHCPv4 address <*> via <*>
+<*> Gained IPv6LL
+<*> IPv6 successfully enabled
+message repeated <*> times <*> 
+system Reloaded configuration
+system Successfully activated <*> 
+user <*> service Killing process <*> kill with signal <*> 
+footprint of <*>> to make it the smallest full K8s around.
+IN DS <*>
+[system] Activating via systemd: service name=<*> unit=<*> requested by <*> (uid=<*>> pid=<*> comm=<*> label=<*>)
+systemd <*> running in system mode. (<*>)
+lo: Link is not managed by us
+<*>: Link is not managed by us
+<*>: Gained IPv6LL
+Timed out waiting for reply from <*>
+https://ubuntu.com/blog/microk8s-memory-optimisation

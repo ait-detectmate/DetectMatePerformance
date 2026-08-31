@@ -9,6 +9,7 @@ nav:
   - Methods:
       - TreeMatcher: tree_matcher.md
       - Drain: drain.md
+      - AutoParser: auto_parser.md
   - Auxiliar:
       - Types: types.md
       - Metrics: metrics.md

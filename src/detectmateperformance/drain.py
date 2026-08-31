@@ -1,15 +1,39 @@
 from detectmateperformance.match_tree import TreeMatcher
 from detectmateperformance.types_ import LogTemplates
 
+from detectmateperformance.pipeline_op import preprocessing
+
 from detectmateperformance.lib.bind_class import drain_generator
 
 import polars as pl
-import warnings
+import re
+
+
+def replace_patterns(text: str) -> str:
+    text = re.sub(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', "VAR", text)
+    text = re.sub(r'(?:[a-zA-Z]:\\.[^\\\-]*|/[^\\\-\s]*|\.\.[^\\\-]*|\.\/[^\\\-]*)\b', "VAR", text)
+    text = re.sub(r'(?<!\w)(?:-\d+|\d+-\d+|\d+\s\d+)(?!\w)', "VAR", text)
+    return text
+
+
+def clean_strings(df: pl.DataFrame) -> pl.DataFrame:
+    df = df.with_columns(
+        pl.concat_str([pl.lit(" "), pl.col("Content"), pl.lit(" ")]).alias("Content")
+    )
+    return df.with_columns(
+        pl.col("Content")
+        .str.replace_all(r'[!"#$%&\'()*+,:;<=>?@\[\\\]^`{|}~\s]', " ")
+        .str.replace_all(r'\.\s|\s\.', " ")
+        .str.replace_all(r'-\s|\s-', " ")
+        .map_elements(replace_patterns)
+        .str.replace_all(r' \d+ ', " VAR ")
+        .str.replace_all(r"\s+", " ")
+        .str.strip_chars()
+    )
 
 
 def cluster_logs_df(df: pl.DataFrame, depth: int = 2, max_child: int = 10) -> dict[str, list[str]]:
-    df = df.with_columns(pl.col("Content").str.replace_all(r"[^a-zA-Z0-9\s]", " "))
-    df = df.with_columns(pl.col("Content").str.replace_all(r"\b\d+\b", "VAR").str.replace_all(r"\s+", " "))
+    df = clean_strings(df)
     df = df.unique()
 
     df = df.insert_column(-1, pl.col("Content").str.split(by=" ").list.len().alias("L"))
@@ -40,7 +64,6 @@ class Drain:
         self.depth = depth
         self.max_child = max_child
         self.sim = sim
-        warnings.warn("This method is still a prototype!!")
 
         self.reset()
 
@@ -80,3 +103,11 @@ class Drain:
 
     def generate(self) -> TreeMatcher:
         return self.generate_from_df(pl.DataFrame({"Content": self.buffer}))
+
+    def __call__(
+        self, logs: list[str] | pl.DataFrame | str, regex: str = r"(?P<Content>.*)"
+    ) -> TreeMatcher:
+        if not isinstance(logs, pl.DataFrame):
+            logs = preprocessing(logs=logs, regex=regex)
+
+        return self.generate_from_df(logs)
