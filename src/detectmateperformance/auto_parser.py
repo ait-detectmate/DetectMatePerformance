@@ -2,6 +2,8 @@
 from detectmateperformance.match_tree import TreeMatcher
 from detectmateperformance.types_ import LogTemplates
 
+from detectmateperformance.pipeline_op import preprocessing
+
 from detectmateperformance.lib.bind_class import auto_parser
 from pathlib import Path
 import polars as pl
@@ -34,7 +36,7 @@ class AutoParse:
     def reset(self) -> None:
         self.buffer: list[str] = []
 
-    def generate(self) -> tuple[TreeMatcher, bytes]:
+    def generate(self) -> tuple[TreeMatcher, str]:
         print("\033[46m >>>> Searching templates    \033[0m")
         print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
 
@@ -53,5 +55,10 @@ class AutoParse:
 
         return tree_matcher, python_regex[idx]
 
-    def __call__(self, logs: list[str] | pl.DataFrame | str) -> TreeMatcher:
-        return TreeMatcher(LogTemplates([]))
+    def __call__(self, logs: list[str] | pl.DataFrame | str) -> tuple[TreeMatcher, str]:
+        if not isinstance(logs, pl.DataFrame):
+            logs = preprocessing(logs)
+
+        self.reset()
+        self.buffer = logs["Content"][:self.num_use].to_list()
+        return self.generate()
