@@ -1,7 +1,6 @@
 
 #include "auto_parser.h"
 
-#include <iostream>
 #include <regex>
 
 
@@ -47,7 +46,6 @@ std::pair<Templates, int> autoParserGenerator(
         for (size_t j = 0; j < sentences.size(); j++) {
             std::regex_search(sentences[j], match_results, log_regex);
             sentences_aux[j] = match_results[match_results.size() - 1].str();
-            std::cout << "Original " << sentences_aux[j] << std::endl;
         }
         ParsedMessages* parsed_logs = tree->match_batch(sentences_aux, 1);
 
@@ -55,22 +53,20 @@ std::pair<Templates, int> autoParserGenerator(
         int not_found = 0;
         for (size_t j = 0; j < sentences.size(); j++) {
             ParsedElement elem = parsed_logs->getElem(i);
-            std::cout << elem.log_template << "\n";
             if (elem.log_template == "template not found" || sentences_aux[j] == "") {
                 not_found += 1;
             }
         }
 
         // Make decision
-        std::cout << i << " Not found " << not_found << " " << templatePaths[i] << "\n";
         if (not_found < min_count) {
             idx = i;
             min_count = not_found;
         }
 
-        //if (not_found == 0) {
-        //    break;
-        //}
+        if (not_found == 0) {
+            break;
+        }
 
     }
 
