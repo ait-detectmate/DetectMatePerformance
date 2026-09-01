@@ -70,3 +70,16 @@ class TestAutoParse:
         )
         assert parsed_logs["Type"].to_list()[0] == "USER_ACCT"
         assert parsed_logs.filter(pl.col("Templates") == "template not found").shape[0] == 0
+
+    def test_call_fix_type(self):
+        auto_parser = AutoParse(10)
+        tree_matcher, regex = auto_parser("tests/test_data/audit.log")
+
+        df = pl.DataFrame({"Content": load_logs()})
+        auto_parser = AutoParse(10)
+        tree_matcher2, regex2 = auto_parser(df, "BGL")
+
+        assert tree_matcher.get_templates(False) != tree_matcher2.get_templates(False)
+        assert regex != regex2
+
+        assert regex_audit == regex
