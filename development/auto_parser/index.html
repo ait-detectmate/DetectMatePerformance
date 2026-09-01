@@ -103,8 +103,8 @@
     def reset(self) -&gt; None:
         &quot;&quot;&quot;Reset train buffer&quot;&quot;&quot;
 
-    def generate(self) -&gt; tuple[TreeMatcher, str]:
-        &quot;&quot;&quot;Generate Tree matcher and a regex pattern&quot;&quot;&quot;
+    def generate(self, log_type: str = &quot;&quot;) -&gt; tuple[TreeMatcher, str]:
+        &quot;&quot;&quot;Generate Tree matcher and a regex pattern, log_type allow to select a specific log type&quot;&quot;&quot;
 
     def __call__(self, logs: list[str] | pl.DataFrame | str) -&gt; tuple[TreeMatcher, str]:
         &quot;&quot;&quot;Generate Tree matcher and a regex pattern from df&quot;&quot;&quot;
