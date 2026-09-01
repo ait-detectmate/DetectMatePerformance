@@ -17,7 +17,7 @@ std::pair<Templates, int> autoParserGenerator(
 );
 
 
-Templates getTemplates(
+std::pair<Templates, int> getTemplates(
     std::string logType, std::vector<std::string> pathTemplates
 );
 

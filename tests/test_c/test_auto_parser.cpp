@@ -54,9 +54,10 @@ std::vector<std::string> sentences6 = {
 
 TEST(AutoTest, GetTemplates) {
     // Note that we depend that the paths are sorted same way as logTypes var
-    Templates result = getTemplates("Audit", paths);
-    std::string temp = result.getNextConcatenate();
+    auto result = getTemplates("Audit", paths);
+    std::string temp = result.first.getNextConcatenate();
     EXPECT_EQ(temp, "saddr VAR");
+    EXPECT_EQ(result.second, 0);
 }
 
 

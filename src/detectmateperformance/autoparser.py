@@ -38,7 +38,7 @@ class AutoParse:
     def reset(self) -> None:
         self.buffer: list[str] = []
 
-    def generate(self) -> tuple[TreeMatcher, str]:
+    def generate(self, log_type: str = "") -> tuple[TreeMatcher, str]:
         print("\033[46m >>>> Searching templates    \033[0m")
         print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
 
@@ -46,7 +46,10 @@ class AutoParse:
         print(f"\033[46m  \033[0m  💻 Sampling {len(sample)}")
 
         print("\033[46m  \033[0m  🔎 Doing the template search")
-        templates, idx = auto_parser(sample, self.path, "")
+        if log_type == "Apache":
+            return TreeMatcher(LogTemplates([])), apache_regex
+
+        templates, idx = auto_parser(sample, self.path, log_type)
         templates = LogTemplates(templates)
 
         print("\033[46m  \033[0m  💻  Initializing tree matcher instansce")

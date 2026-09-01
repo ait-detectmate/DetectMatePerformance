@@ -36,6 +36,21 @@ class TestAutoParse:
 
         assert apache_regex == regex
 
+    def test_specific(self):
+        auto_parser = AutoParse(10)
+        for log in load_logs("tests/test_data/apache.log"):
+            auto_parser.add(log)
+        _, regex = auto_parser.generate("Apache")
+
+        assert apache_regex == regex
+
+        auto_parser = AutoParse(10)
+        for log in load_logs():
+            auto_parser.add(log)
+        _, regex = auto_parser.generate("BGL")
+
+        assert regex_audit != regex
+
     def test_call(self):
         auto_parser = AutoParse(10)
         tree_matcher, regex = auto_parser("tests/test_data/audit.log")

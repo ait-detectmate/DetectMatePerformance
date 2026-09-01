@@ -113,18 +113,18 @@ void throwException(std::string name) {
 }
 
 
-Templates getTemplates(
+std::pair<Templates, int> getTemplates(
     std::string logType, std::vector<std::string> pathTemplates
 ) {
     int z = 0;
     for (std::string name : logTypes) {
         if (name == logType) {
-            return Templates(pathTemplates[z]);
+            return std::make_pair(Templates(pathTemplates[z]), z);
         }
         z++;
     }
     throwException(logType);
-    return Templates("");
+    return std::make_pair(Templates(""), 0);
 }
 
 
@@ -141,7 +141,7 @@ std::pair<Templates, int> doAutoParse(
 
 
     if (logType != UNASSIGNED) {
-        return std::make_pair(getTemplates(logType, pathsCopy), 0);
+        return getTemplates(logType, pathsCopy);
     }
 
     return autoParserGenerator(
