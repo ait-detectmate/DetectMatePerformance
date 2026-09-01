@@ -60,10 +60,12 @@ class AutoParse:
 
         return tree_matcher, apache_regex if idx == -1 else python_regex[idx]
 
-    def __call__(self, logs: list[str] | pl.DataFrame | str) -> tuple[TreeMatcher, str]:
+    def __call__(
+        self, logs: list[str] | pl.DataFrame | str, log_type: str = ""
+    ) -> tuple[TreeMatcher, str]:
         if not isinstance(logs, pl.DataFrame):
             logs = preprocessing(logs)
 
         self.reset()
         self.buffer = logs["Content"][:self.num_use].to_list()
-        return self.generate()
+        return self.generate(log_type)
