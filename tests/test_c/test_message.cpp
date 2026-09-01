@@ -239,6 +239,11 @@ TEST(TreeMatchTest, MatchString) {
     EXPECT_EQ(result3->size(), 1);
     EXPECT_EQ(result3->getElem(0).log_template, "template not found");
 
+    ParsedElement result5 = matcher->match_string(
+        "ciaooo beelllaaa"
+    )->getElemWithVar(0);
+    EXPECT_EQ(result5.log_template, "template not found");
+
     delete matcher;
 }
 
@@ -272,6 +277,11 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     std::string expected4 = "1213 asd 112 bye";
     EXPECT_EQ(result4.log_template, "load VAR from VAR");
     EXPECT_EQ(result4.variables, expected4);
+
+    ParsedElement result5 = matcher->match_string_with_var(
+        "ciaooo beelllaaa"
+    )->getElemWithVar(0);
+    EXPECT_EQ(result5.log_template, "template not found");
 
     delete matcher;
 }

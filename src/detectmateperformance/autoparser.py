@@ -19,6 +19,8 @@ python_regex: list[str] = [
     r'(?P<Label>\S+) (?P<Timestamp>\S+) (?P<Date>\S+) (?P<User>\S+) (?P<Month>\S+) (?P<Day>\S+) (?P<Time>\S+) (?P<Location>\S+) (?P<Component>\S+): (?P<Content>.*)',  # noqa: E501
 ]
 
+apache_regex = r'^(?P<IP>\S+) - - \[(?P<Time>[^\]]+)\] "(?P<Method>[A-Z]+) (?P<URL>[^ ]+) (?P<Protocol>[^"]+)" (?P<Status>\d{3}) (?P<Bytes>\d+) "(?P<Referer>[^"]*)" "(?P<UserAgent>[^"]*)"'  # noqa: E501
+
 
 class AutoParse:
     def __init__(self, num_use: int = 10) -> None:
@@ -44,16 +46,16 @@ class AutoParse:
         print(f"\033[46m  \033[0m  💻 Sampling {len(sample)}")
 
         print("\033[46m  \033[0m  🔎 Doing the template search")
-        templates, idx = auto_parser(sample, self.path)
+        templates, idx = auto_parser(sample, self.path, "")
         templates = LogTemplates(templates)
 
-        print("\033[46m  \033[0m  💻  Initializing tree matcher instance")
+        print("\033[46m  \033[0m  💻  Initializing tree matcher instansce")
         tree_matcher = TreeMatcher(templates)
 
         print("\033[46m  \033[0m  ✅ Process complete!")
         print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
 
-        return tree_matcher, python_regex[idx]
+        return tree_matcher, apache_regex if idx == -1 else python_regex[idx]
 
     def __call__(self, logs: list[str] | pl.DataFrame | str) -> tuple[TreeMatcher, str]:
         if not isinstance(logs, pl.DataFrame):
