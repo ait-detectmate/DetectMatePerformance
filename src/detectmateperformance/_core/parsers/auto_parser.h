@@ -8,6 +8,8 @@
 #include "../template_matcher/match_tree.h"
 
 
+const std::string UNASSIGNED = "";
+
 std::pair<Templates, int> autoParserGenerator(
     std::vector<std::string> sentences,
     std::vector<std::string> templatePaths,
@@ -15,10 +17,15 @@ std::pair<Templates, int> autoParserGenerator(
 );
 
 
-std::pair<Templates, int> doAutoParse(
-    std::vector<std::string> sentences,
-    std::string pathTemplates
+std::pair<Templates, int> getTemplates(
+    std::string logType, std::vector<std::string> pathTemplates
 );
 
+
+std::pair<Templates, int> doAutoParse(
+    std::vector<std::string> sentences,
+    std::string pathTemplates,
+    std::string logType =UNASSIGNED
+);
 
 #endif

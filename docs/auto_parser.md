@@ -17,8 +17,8 @@ class AutoParse:
     def reset(self) -> None:
         """Reset train buffer"""
 
-    def generate(self) -> tuple[TreeMatcher, str]:
-        """Generate Tree matcher and a regex pattern"""
+    def generate(self, log_type: str = "") -> tuple[TreeMatcher, str]:
+        """Generate Tree matcher and a regex pattern, log_type allow to select a specific log type"""
 
     def __call__(self, logs: list[str] | pl.DataFrame | str) -> tuple[TreeMatcher, str]:
         """Generate Tree matcher and a regex pattern from df"""
