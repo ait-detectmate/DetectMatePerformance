@@ -100,3 +100,17 @@ TEST(AutoTest, AllLogs) {
     std::string temp5 = templates5.getNextConcatenate();
     EXPECT_EQ(temp5, "Validating certificate extended key usage");
 }
+
+
+TEST(AutoTest, AssignedLog) {
+    std::string path = "../src/detectmateperformance/_templates/";
+
+    auto result1 = doAutoParse(sentences1, path, "Audit");
+    Templates templates = result1.first;
+    std::string temp = templates.getNextConcatenate();
+    EXPECT_EQ(temp, "saddr VAR");
+    EXPECT_EQ(result1.second, 0);
+
+    EXPECT_THROW(doAutoParse(sentences1, path, "Unknow"), std::runtime_error);
+
+}

@@ -117,6 +117,11 @@ std::pair<Templates, int> doAutoParse(
         path = pathFolder + path;
     }
 
+
+    if (logType != UNASSIGNED) {
+        return std::make_pair(getTemplates(logType, pathsCopy), 0);
+    }
+
     return autoParserGenerator(
         sentences, pathsCopy, regexs_patterns
     );
