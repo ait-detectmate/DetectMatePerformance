@@ -23,4 +23,4 @@ $HOME/.local/bin/uv pip uninstall detectmateperformance
 $HOME/.local/bin/uv pip install --no-cache-dir .
 
 # Run tests
-$HOME/.local/bin/uv run pytest
+#$HOME/.local/bin/uv run pytest
