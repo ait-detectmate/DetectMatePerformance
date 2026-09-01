@@ -23,7 +23,7 @@ python_regex: list[str] = [
 class AutoParse:
     def __init__(self, num_use: int = 10) -> None:
         current_dir = Path(__file__).resolve().parent
-        self.path = f"{current_dir}/_templates"
+        self.path = f"{current_dir}/_templates/"
         self.reset()
         self.num_use = num_use
 

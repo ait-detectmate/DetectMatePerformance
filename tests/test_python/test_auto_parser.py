@@ -26,6 +26,7 @@ class TestAutoParse:
             regex=regex
         )
         assert parsed_logs["Type"].to_list()[0] == "USER_ACCT"
+        assert parsed_logs.filter(pl.col("Templates") == "template not found").shape[0] == 0
 
     def test_call(self):
         auto_parser = AutoParse(10)
@@ -45,3 +46,4 @@ class TestAutoParse:
             regex=regex
         )
         assert parsed_logs["Type"].to_list()[0] == "USER_ACCT"
+        assert parsed_logs.filter(pl.col("Templates") == "template not found").shape[0] == 0
