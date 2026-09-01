@@ -15,10 +15,15 @@ std::pair<Templates, int> autoParserGenerator(
 );
 
 
-std::pair<Templates, int> doAutoParse(
-    std::vector<std::string> sentences,
-    std::string pathTemplates
+Templates getTemplates(
+    std::string logType, std::vector<std::string> pathTemplates
 );
 
+
+std::pair<Templates, int> doAutoParse(
+    std::vector<std::string> sentences,
+    std::string pathTemplates,
+    std::string logType = ""
+);
 
 #endif

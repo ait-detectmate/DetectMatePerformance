@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-
+#include <stdexcept>
 
 #include "../../src/detectmateperformance/_core/parsers/auto_parser.h"
 
@@ -43,6 +43,20 @@ std::vector<std::string> sentences5 = {
     "2022-01-21 00:09:11 jhall/192.168.230.165:46011 VERIFY OK: depth=1, C=AT, ST=Vienna, L=Vienna, O=Some Organisation GmbH, CN=OpenVPN CA, emailAddress=admin@organisation.cyberrange.at",
     "2022-01-21 00:09:11 jhall/192.168.230.165:46011 VERIFY KU OK",
 };
+
+
+TEST(AutoTest, GetTemplates) {
+    // Note that we depend that the paths are sorted same way as logTypes var
+    Templates result = getTemplates("Audit", paths);
+    std::string temp = result.getNextConcatenate();
+    EXPECT_EQ(temp, "saddr VAR");
+}
+
+
+TEST(AutoTest, GetTemplatesNotFound) {
+    EXPECT_THROW(getTemplates("Unknown", paths);, std::runtime_error);
+}
+
 
 TEST(AutoTest, MainPipeline) {
     auto result1 = autoParserGenerator(sentences1, paths, regexs);

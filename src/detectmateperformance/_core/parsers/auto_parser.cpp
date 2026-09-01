@@ -1,6 +1,7 @@
 
 #include "auto_parser.h"
 
+#include <stdexcept>
 #include <regex>
 
 
@@ -14,6 +15,9 @@ std::vector<std::string> pathTemplates = {
     "thunderbird_templates.txt",
 };
 
+std::vector<std::string> logTypes = {
+    "Audit", "BGL", "DNSmasq", "HDFS", "OpenVPN", "SysLog", "Thunderbird"
+};
 
 std::vector<const char*> regexs_patterns = {
     R"(type=(\w+) msg=audit\(([^:]+):(\d+)\): (.*))",
@@ -76,9 +80,36 @@ std::pair<Templates, int> autoParserGenerator(
 }
 
 
+void throwException(std::string name) {
+
+    std::string msg = "Error: " + name + " not part of logTypes: ";
+    for (std::string logType : logTypes) {
+        msg = msg + logType + ", ";
+    }
+    throw std::runtime_error(msg);
+
+}
+
+
+Templates getTemplates(
+    std::string logType, std::vector<std::string> pathTemplates
+) {
+    int z = 0;
+    for (std::string name : logTypes) {
+        if (name == logType) {
+            return Templates(pathTemplates[z]);
+        }
+        z++;
+    }
+    throwException(logType);
+    return Templates("");
+}
+
+
 std::pair<Templates, int> doAutoParse(
     std::vector<std::string> sentences,
-    std::string pathFolder
+    std::string pathFolder,
+    std::string logType
 ) {
     std::vector<std::string> pathsCopy(pathTemplates);
 
