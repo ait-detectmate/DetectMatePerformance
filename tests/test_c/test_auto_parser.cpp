@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <stdexcept>
 
 
 #include "../../src/detectmateperformance/_core/parsers/auto_parser.h"
@@ -44,17 +45,43 @@ std::vector<std::string> sentences5 = {
     "2022-01-21 00:09:11 jhall/192.168.230.165:46011 VERIFY KU OK",
 };
 
+
+std::vector<std::string> sentences6 = {
+    R"LOG(10.143.3.65 - - [21/Jan/2022:05:57:48 +0000] "GET /wp-content/plugins/wpdiscuz/assets/third-party/font-awesome-5.13.0/webfonts/fa-brands-400.woff2 HTTP/1.1" 200 76991 "https://intranet.smith.russellmitchell.com/wp-content/plugins/wpdiscuz/assets/third-party/font-awesome-5.13.0/css/fa.min.css?ver=7.0.4" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0")LOG",
+    R"LOG(10.143.3.65 - - [21/Jan/2022:05:57:48 +0000] "GET /favicon.ico HTTP/1.1" 404 418 "https://intranet.smith.russellmitchell.com/?p=5" "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:86.0) Gecko/20100101 Firefox/86.0")LOG",
+    R"LOG(::1 - - [21/Jan/2022:05:57:53 +0000] "OPTIONS * HTTP/1.0" 200 110 "-" "Apache/2.4.29 (Ubuntu) OpenSSL/1.1.1 (internal dummy connection)")LOG"
+};
+
+TEST(AutoTest, GetTemplates) {
+    // Note that we depend that the paths are sorted same way as logTypes var
+    auto result = getTemplates("Audit", paths);
+    std::string temp = result.first.getNextConcatenate();
+    EXPECT_EQ(temp, "saddr VAR");
+    EXPECT_EQ(result.second, 0);
+}
+
+
+TEST(AutoTest, GetTemplatesNotFound) {
+    EXPECT_THROW(getTemplates("Unknown", paths);, std::runtime_error);
+}
+
+
 TEST(AutoTest, MainPipeline) {
     auto result1 = autoParserGenerator(sentences1, paths, regexs);
     Templates templates = result1.first;
     std::string temp = templates.getNextConcatenate();
     EXPECT_EQ(temp, "saddr VAR");
+    EXPECT_TRUE(result1.second > -1);
 
 
     auto result2 = autoParserGenerator(sentences2, paths, regexs);
     Templates templates2 = result2.first;
     std::string temp2 = templates2.getNextConcatenate();
     EXPECT_EQ(temp2, "Receiving block VAR src VAR dest VAR");
+    EXPECT_TRUE(result2.second > -1);
+
+    auto result6 = autoParserGenerator(sentences6, paths, regexs);
+    EXPECT_EQ(result6.second, -1);
 }
 
 
@@ -85,4 +112,21 @@ TEST(AutoTest, AllLogs) {
     Templates templates5 = result5.first;
     std::string temp5 = templates5.getNextConcatenate();
     EXPECT_EQ(temp5, "Validating certificate extended key usage");
+
+    auto result6 = doAutoParse(sentences6, path);
+    EXPECT_EQ(result6.second, -1);
+}
+
+
+TEST(AutoTest, AssignedLog) {
+    std::string path = "../src/detectmateperformance/_templates/";
+
+    auto result1 = doAutoParse(sentences1, path, "Audit");
+    Templates templates = result1.first;
+    std::string temp = templates.getNextConcatenate();
+    EXPECT_EQ(temp, "saddr VAR");
+    EXPECT_EQ(result1.second, 0);
+
+    EXPECT_THROW(doAutoParse(sentences1, path, "Unknow"), std::runtime_error);
+
 }

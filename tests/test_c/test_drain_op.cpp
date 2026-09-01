@@ -12,16 +12,16 @@ TEST(DrainTest, Similarity) {
     std::string string_3 = "Hello";
     std::string string_4 = "Ciao";
 
-    float result = calculate_sim(string_1, string_2);
+    float result = calculateSim(string_1, string_2);
     EXPECT_TRUE(0.71 < result && result < 0.73);
 
-    float result_2 = calculate_sim(string_1, string_1);
+    float result_2 = calculateSim(string_1, string_1);
     EXPECT_EQ(result_2, 1.0);
 
-    float result_3 = calculate_sim(string_3, string_4);
+    float result_3 = calculateSim(string_3, string_4);
     EXPECT_EQ(result_3, 0.0);
 
-    float result_4 = calculate_sim(string_3, string_1);
+    float result_4 = calculateSim(string_3, string_1);
     EXPECT_EQ(result_4, 1.0);
 }
 
@@ -35,7 +35,7 @@ TEST(DrainTest, GenerateTemplate) {
     };
     std::string expected = "Hello VAR my VAR";
 
-    EXPECT_EQ(generate_template(inp), expected);
+    EXPECT_EQ(generateTemplate(inp), expected);
 
     std::deque<std::string> inp2 = {
         "Hello tobias my man my bro",
@@ -44,7 +44,7 @@ TEST(DrainTest, GenerateTemplate) {
     };
     std::string expected2 = "Hello VAR my VAR";
 
-    EXPECT_EQ(generate_template(inp2), expected2);
+    EXPECT_EQ(generateTemplate(inp2), expected2);
 
 }
 
@@ -65,7 +65,7 @@ TEST(DrainTest, GenerateMultipleTemplate) {
     };
     std::deque<std::string> expected = {"Hello VAR my VAR"};
 
-    std::deque<std::string> result = generate_templates(inp, 0.2);
+    std::deque<std::string> result = generateTemplates(inp, 0.2);
 
     EXPECT_EQ(result.size(), 3);
     EXPECT_EQ(result[0], "Hello VAR my VAR");
@@ -87,7 +87,7 @@ TEST(DrainTest, CleanTemplates) {
         "Hello there VAR ",
     };
 
-    EXPECT_EQ(clean_templates(templates), expected);
+    EXPECT_EQ(cleanTemplates(templates), expected);
 }
 
 
@@ -101,7 +101,7 @@ TEST(DrainTest, DrainGenerator) {
         },
     };
 
-    Templates result = drain_generator(inp, 0.2);
+    Templates result = drainGenerator(inp, 0.2);
     auto message1 = result.getNext();
 
     for (size_t i= 0; i < message1.size(); i++)

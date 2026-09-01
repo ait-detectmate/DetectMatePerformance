@@ -38,7 +38,7 @@ std::string join_sentence(std::vector<std::string> words) {
 
 /////// Main methods
 
-float calculate_sim(std::string sentence_1, std::string sentence_2) {
+float calculateSim(std::string sentence_1, std::string sentence_2) {
     int n = sentence_1.size();
     if (sentence_2.size() < n)
         n = sentence_2.size();
@@ -53,7 +53,7 @@ float calculate_sim(std::string sentence_1, std::string sentence_2) {
 }
 
 
-std::string generate_template(std::deque<std::string> sentences) {
+std::string generateTemplate(std::deque<std::string> sentences) {
     if (sentences.empty()) return "";
 
     std::vector<std::vector<std::string>> splitSentences;
@@ -82,7 +82,7 @@ std::string generate_template(std::deque<std::string> sentences) {
 }
 
 
-std::deque<std::string> generate_templates(
+std::deque<std::string> generateTemplates(
     std::vector<std::deque<std::string>> sentences, float simSeq
 ) {
 
@@ -109,7 +109,7 @@ std::deque<std::string> generate_templates(
                 queueSentCopy = {};
 
                 for (size_t j = 0; j < queueSent.size(); j++) {
-                    if (calculate_sim(template_, queueSent[j]) > simSeq) {
+                    if (calculateSim(template_, queueSent[j]) > simSeq) {
                         similar.push_back(queueSent[j]);
                     } else {
                         queueSentCopy.push_back(queueSent[j]);
@@ -118,7 +118,7 @@ std::deque<std::string> generate_templates(
                 }
 
                 queueSent = queueSentCopy;
-                templates.push_back(generate_template(similar));
+                templates.push_back(generateTemplate(similar));
             }
         }
     }
@@ -127,7 +127,7 @@ std::deque<std::string> generate_templates(
 }
 
 
-std::deque<std::string> clean_templates(std::deque<std::string> templates) {
+std::deque<std::string> cleanTemplates(std::deque<std::string> templates) {
 
     // Change "Hello VAR VAR" to "Hello VAR"
     std::regex pattern("\\s*VAR\\s*VAR\\s*");
@@ -157,12 +157,12 @@ std::deque<std::string> clean_templates(std::deque<std::string> templates) {
 }
 
 
-Templates drain_generator(
+Templates drainGenerator(
     std::vector<std::deque<std::string>> sentences, float SimSeq
 ) {
 
-    std::deque<std::string> templates = generate_templates(sentences, SimSeq);
-    templates = clean_templates(templates);
+    std::deque<std::string> templates = generateTemplates(sentences, SimSeq);
+    templates = cleanTemplates(templates);
 
     Templates temp_instance = Templates(templates);
 

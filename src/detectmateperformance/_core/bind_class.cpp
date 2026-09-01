@@ -14,7 +14,7 @@ namespace py = pybind11;
 
 
 PYBIND11_MODULE(bind_class, m) {
-    m.def("drain_generator", &drain_generator);
+    m.def("drain_generator", &drainGenerator);
     m.def("auto_parser", &doAutoParse);
 
     py::class_<Templates>(m, "Templates")
