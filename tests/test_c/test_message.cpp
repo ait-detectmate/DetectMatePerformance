@@ -428,3 +428,18 @@ TEST(ParsedMessagesTest, HardCases4) {
     EXPECT_EQ(result1->getElem(0).log_template, "data TLB error interrupt");
 
 }
+
+TEST(ParsedMessagesTest, HardCases5) {
+    std::deque<std::string> input = {
+        "VAR Killing process VAR (kill) with signal SIGKILL.",
+    };
+    std::string log = "user@1002.service: Killing process 29 (kill) with signal SIGKILL.";
+
+    Templates* templates = new Templates(input);
+    MatchTree* matcher = new MatchTree(templates);
+
+    ParsedMessages* result1 = matcher->match_string(log);
+    EXPECT_EQ(result1->size(), 1);
+    EXPECT_EQ(result1->getElem(0).log_template, "VAR Killing process VAR kill with signal SIGKILL");
+
+}
