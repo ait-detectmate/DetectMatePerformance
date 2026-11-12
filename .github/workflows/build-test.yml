@@ -58,3 +58,44 @@ jobs:
                     echo "$service ($container) exited with code $code"
                     if [[ "$code" != 0 ]]; then
                       echo "::error::$service failed with exit code $code"
+                      status=1
+                    fi
+                  else
+                    echo "::error::Could not wait for $service ($container)"
+                    status=1
+                  fi
+                  ;;
+                *)
+                  echo "::error::$service cannot complete (container state: $state)"
+                  status=1
+                  ;;
+              esac
+            done
+          done
+
+          # Report failure only after checking/waiting for every container.
+          exit "$status"
+
+      - name: Show container status and logs
+        if: always()
+        run: |
+          docker compose ps --all
+          docker compose logs --no-color
+
+      - name: Clean up
+        if: always()
+        run: docker compose down --volumes --remove-orphans
+
+      - name: Commit and Push Changes
+        env:
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git add .
+          if git diff --cached --quiet; then
+            echo "No tracked files changed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Automated documentation update"
+          git push origin "HEAD:$PR_BRANCH"
