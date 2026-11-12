@@ -24,7 +24,7 @@ if [[ ! -f compile.sh ]]; then
 fi
 
 apt-get update
-apt-get install -y --no-install-recommends ca-certificates curl cmake build-essential
+apt-get install -y --no-install-recommends ca-certificates curl git cmake build-essential
 
 # Make uv available immediately, without requiring a new shell.
 if ! command -v uv >/dev/null 2>&1; then

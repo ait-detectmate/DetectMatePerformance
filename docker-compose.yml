@@ -1,53 +1,195 @@
+# Run from the project directory containing install_compile.sh, compile.sh and tests.
+# Docker Desktop includes QEMU. On Linux, register emulators once if needed:
+#   docker run --privileged --rm tonistiigi/binfmt --install all
+# Then: docker compose up
+# Inspect test exit codes: docker compose ps -a
+# Each build/test pair shares an isolated named volume.
+# Successful builds also export their extension to ./src/detectmateperformance/lib/.
+# Builders copy the source afresh on each run, excluding local environments/caches.
+# src/ and the project root are always importable.
+# Set TEST_PYTHONPATH to any additional compiled module directory if needed.
+# Optional TEST_REQUIREMENTS is relative to /work/project; default: requirements-test.txt.
+
+# Match the test OS/runtime. install_compile.sh installs Bookworm build-essential.
+# Using gcc:latest here can produce extensions requiring a newer libstdc++.
+x-builder: &builder
+  working_dir: /work
+  command:
+    - bash
+    - -euc
+    - |
+      set -o pipefail
+      rm -rf -- /work/project
+      mkdir -p /work/project
+      tar -C /source --exclude='./build' --exclude='./src/detectmateperformance/lib/bind_class*.so' --exclude='./.venv' --exclude='./.git' --exclude='__pycache__' --exclude='.pytest_cache' -cf - . | tar -C /work/project -xf -
+      cd /work/project
+      bash install_compile.sh "$$PYTHON_VERSION"
+      # Export only this build's Python/architecture-specific extension to the host.
+      EXT_SUFFIX=$$(.venv/bin/python -c 'import sysconfig; print(sysconfig.get_config_var("EXT_SUFFIX"))')
+      MODULE="bind_class$$EXT_SUFFIX"
+      test -f "src/detectmateperformance/lib/$$MODULE"
+      install -m 775 "src/detectmateperformance/lib/$$MODULE" "/artifacts/$$MODULE"
+      echo "Exported src/detectmateperformance/lib/$$MODULE to the host"
+
+x-test: &test
+  working_dir: /work/project
+  environment: &test-env
+    PYTHONDONTWRITEBYTECODE: "1"
+    PYTHONPATH: "/work/project/src:/work/project:${TEST_PYTHONPATH:-/work/project/src}"
+    TEST_REQUIREMENTS: "${TEST_REQUIREMENTS:-requirements-test.txt}"
+  command:
+    - sh
+    - -ec
+    - |
+      python --version
+      uname -m
+      # Bootstrap uv; all test dependencies are installed by uv below.
+      python -m pip install --no-cache-dir uv
+      # Keep the test environment separate from the builder's .venv.
+      uv venv --python /usr/local/bin/python /tmp/pytest-venv
+      export VIRTUAL_ENV=/tmp/pytest-venv
+      export PATH="$$VIRTUAL_ENV/bin:$$PATH"
+      # Install declared runtime dependencies without rebuilding the compiled project.
+      uv pip install --python "$$VIRTUAL_ENV/bin/python" -r pyproject.toml pytest
+      if [ -f "$$TEST_REQUIREMENTS" ]; then
+        uv pip install --python "$$VIRTUAL_ENV/bin/python" -r "$$TEST_REQUIREMENTS"
+      elif [ "$$TEST_REQUIREMENTS" != "requirements-test.txt" ]; then
+        echo "Missing test requirements: $$TEST_REQUIREMENTS" >&2
+        exit 1
+      fi
+      uv run --no-project --no-sync --python "$$VIRTUAL_ENV/bin/python" python -m pytest -v -p no:cacheprovider
+
 services:
-  # Build for arm64 architecture
   arm64_builder_12:
-    image: arm64v8/gcc:latest
-    container_name: arm64_builder
+    <<: *builder
+    image: debian:bookworm-slim
     platform: linux/arm64
+    environment:
+      PYTHON_VERSION: "12"
     volumes:
-      - ./:/app
-    working_dir: /app
-    command: ["bash", "install_compile.sh", "12"]
+      - ./:/source:ro
+      - ./src/detectmateperformance/lib:/artifacts
+      - arm64_py12_work:/work
+
+  arm64_test_12:
+    <<: *test
+    image: python:3.12-slim-bookworm
+    platform: linux/arm64
+    depends_on:
+      arm64_builder_12:
+        condition: service_completed_successfully
+    volumes:
+      - arm64_py12_work:/work
 
   arm64_builder_13:
-    image: arm64v8/gcc:latest
-    container_name: arm64_builder
+    <<: *builder
+    image: debian:bookworm-slim
     platform: linux/arm64
+    environment:
+      PYTHON_VERSION: "13"
     volumes:
-      - ./:/app
-    working_dir: /app
-    command: ["bash", "install_compile.sh", "13"]
+      - ./:/source:ro
+      - ./src/detectmateperformance/lib:/artifacts
+      - arm64_py13_work:/work
+
+  arm64_test_13:
+    <<: *test
+    image: python:3.13-slim-bookworm
+    platform: linux/arm64
+    depends_on:
+      arm64_builder_13:
+        condition: service_completed_successfully
+    volumes:
+      - arm64_py13_work:/work
 
   arm64_builder_14:
-    image: arm64v8/gcc:latest
-    container_name: arm64_builder
+    <<: *builder
+    image: debian:bookworm-slim
     platform: linux/arm64
+    environment:
+      PYTHON_VERSION: "14"
     volumes:
-      - ./:/app
-    working_dir: /app
-    command: ["bash", "install_compile.sh", "14"]
+      - ./:/source:ro
+      - ./src/detectmateperformance/lib:/artifacts
+      - arm64_py14_work:/work
 
-  # Build for x86_64 architecture
-  x86_64_builder_12:
-    image: gcc:latest
-    container_name: x86_64_builder
+  arm64_test_14:
+    <<: *test
+    image: python:3.14-slim-bookworm
+    platform: linux/arm64
+    depends_on:
+      arm64_builder_14:
+        condition: service_completed_successfully
     volumes:
-      - ./:/app
-    working_dir: /app
-    command: ["bash", "install_compile.sh", "12"]
+      - arm64_py14_work:/work
+
+  x86_64_builder_12:
+    <<: *builder
+    image: debian:bookworm-slim
+    platform: linux/amd64
+    environment:
+      PYTHON_VERSION: "12"
+    volumes:
+      - ./:/source:ro
+      - ./src/detectmateperformance/lib:/artifacts
+      - x86_64_py12_work:/work
+
+  x86_64_test_12:
+    <<: *test
+    image: python:3.12-slim-bookworm
+    platform: linux/amd64
+    depends_on:
+      x86_64_builder_12:
+        condition: service_completed_successfully
+    volumes:
+      - x86_64_py12_work:/work
 
   x86_64_builder_13:
-    image: gcc:latest
-    container_name: x86_64_builder
+    <<: *builder
+    image: debian:bookworm-slim
+    platform: linux/amd64
+    environment:
+      PYTHON_VERSION: "13"
     volumes:
-      - ./:/app
-    working_dir: /app
-    command: ["bash", "install_compile.sh", "13"]
+      - ./:/source:ro
+      - ./src/detectmateperformance/lib:/artifacts
+      - x86_64_py13_work:/work
+
+  x86_64_test_13:
+    <<: *test
+    image: python:3.13-slim-bookworm
+    platform: linux/amd64
+    depends_on:
+      x86_64_builder_13:
+        condition: service_completed_successfully
+    volumes:
+      - x86_64_py13_work:/work
 
   x86_64_builder_14:
-    image: gcc:latest
-    container_name: x86_64_builder
+    <<: *builder
+    image: debian:bookworm-slim
+    platform: linux/amd64
+    environment:
+      PYTHON_VERSION: "14"
     volumes:
-      - ./:/app
-    working_dir: /app
-    command: ["bash", "install_compile.sh", "14"]
+      - ./:/source:ro
+      - ./src/detectmateperformance/lib:/artifacts
+      - x86_64_py14_work:/work
+
+  x86_64_test_14:
+    <<: *test
+    image: python:3.14-slim-bookworm
+    platform: linux/amd64
+    depends_on:
+      x86_64_builder_14:
+        condition: service_completed_successfully
+    volumes:
+      - x86_64_py14_work:/work
+
+volumes:
+  arm64_py12_work:
+  arm64_py13_work:
+  arm64_py14_work:
+  x86_64_py12_work:
+  x86_64_py13_work:
+  x86_64_py14_work:
