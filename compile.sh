@@ -1,7 +1,3 @@
-
-# Update python dependencies
-$HOME/.local/bin/uv sync
-
 # Remove old build
 rm -rf build
 mkdir build
