@@ -15,8 +15,8 @@ chmod 775 src/detectmateperformance/lib/*
 chmod 775 -R build/*
 
 # Install package
-$HOME/.local/bin/uv pip uninstall detectmateperformance
-$HOME/.local/bin/uv pip install --no-cache-dir .
+#$HOME/.local/bin/uv pip uninstall detectmateperformance
+#$HOME/.local/bin/uv pip install --no-cache-dir .
 
 # Run tests
 #$HOME/.local/bin/uv run pytest
