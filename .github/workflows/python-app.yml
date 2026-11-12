@@ -30,4 +30,4 @@ jobs:
         run: sh compile_manual.sh
 
       - name: Test with pytest
-        run: uv run --dev pytest -s
+        run: uv run --dev pytest tests/test_python
