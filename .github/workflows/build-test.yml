@@ -1,0 +1,195 @@
+name: Build and test Python extensions
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: compiled-extensions-pr-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build-test:
+    name: Build and test Docker Compose stack
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    env:
+      COMPOSE_FILE: docker-compose.yml
+    steps:
+      - name: Check out the exact PR revision
+        uses: actions/checkout@v4
+        with:
+          repository: ${{ github.event.pull_request.head.repo.full_name }}
+          ref: ${{ github.event.pull_request.head.sha }}
+          persist-credentials: false
+
+      - name: Enable ARM64 emulation
+        uses: docker/setup-qemu-action@v4
+        with:
+          platforms: arm64
+
+      - name: Validate Compose configuration
+        run: docker compose config --quiet
+
+      - name: Build and run pytest
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Use the repository's actual Compose file and its dependency graph.
+          services=$(docker compose config --services)
+          test -n "$services"
+          status=0
+          docker compose up --detach || status=1
+          # Check every service, including all builders and pytest containers.
+          # Successful builder exits are expected and must not stop the tests.
+          for service in $services; do
+            container=$(docker compose ps --all --quiet "$service")
+            if [[ -z "$container" ]]; then
+              echo "::error::No container found for $service"
+              status=1
+              continue
+            fi
+            state=$(docker inspect --format '{{.State.Status}}' "$container")
+            if [[ "$state" != running && "$state" != exited ]]; then
+              echo "::error::$service did not start (state: $state)"
+              status=1
+              continue
+            fi
+            code=$(docker wait "$container")
+            echo "$service exited with code $code"
+            if [[ "$code" != 0 ]]; then
+              echo "::error::$service failed with exit code $code"
+              status=1
+            fi
+          done
+          exit "$status"
+
+      - name: Stage all six tested extensions
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/compiled"
+          for minor in 12 13 14; do
+            for arch in aarch64 x86_64; do
+              module="bind_class.cpython-3${minor}-${arch}-linux-gnu.so"
+              test -f "src/detectmateperformance/lib/$module"
+              cp "src/detectmateperformance/lib/$module" "$RUNNER_TEMP/compiled/$module"
+            done
+          done
+
+      - name: Upload tested extensions
+        uses: actions/upload-artifact@v4
+        with:
+          name: compiled-all
+          path: ${{ runner.temp }}/compiled/*.so
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Collect container logs
+        if: always()
+        shell: bash
+        run: |
+          mkdir -p "$RUNNER_TEMP/compose-logs"
+          docker compose ps --all > "$RUNNER_TEMP/compose-logs/status.txt" 2>&1
+          docker compose logs --no-color > "$RUNNER_TEMP/compose-logs/containers.log" 2>&1
+          cat "$RUNNER_TEMP/compose-logs/status.txt"
+          cat "$RUNNER_TEMP/compose-logs/containers.log"
+
+      - name: Upload container logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: compose-logs
+          path: ${{ runner.temp }}/compose-logs/
+          retention-days: 7
+
+      - name: Remove containers and temporary volumes
+        if: always()
+        run: docker compose down --volumes --remove-orphans
+
+  update-pr:
+    name: Commit tested binaries to PR
+    needs: build-test
+    # Forks and Dependabot get tests/artifacts, but no automatic writeback.
+    # A run triggered by our own commit must not create another binary commit.
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.actor != 'dependabot[bot]' &&
+      github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write
+    env:
+      PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+      PR_SHA: ${{ github.event.pull_request.head.sha }}
+    steps:
+      - name: Check out the tested revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+
+      - name: Download all six tested extensions
+        uses: actions/download-artifact@v4
+        with:
+          pattern: compiled-*
+          path: ${{ runner.temp }}/compiled
+          merge-multiple: true
+
+      - name: Validate and copy binaries
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import os
+          from pathlib import Path
+          import shutil
+
+          source = Path(os.environ['RUNNER_TEMP']) / 'compiled'
+          expected = {
+              f'bind_class.cpython-3{minor}-{arch}-linux-gnu.so'
+              for minor in ('12', '13', '14')
+              for arch in ('aarch64', 'x86_64')
+          }
+          actual = {p.name for p in source.iterdir()}
+          if actual != expected:
+              raise SystemExit(f'Unexpected artifacts: missing={expected-actual}, extra={actual-expected}')
+          target = Path('src/detectmateperformance/lib')
+          if any(p.is_symlink() for p in (target, *target.parents)):
+              raise SystemExit('Output directory must not be a symbolic link')
+          target.mkdir(parents=True, exist_ok=True)
+          for name in sorted(expected):
+              src, dst = source / name, target / name
+              if src.is_symlink() or not src.is_file() or dst.is_symlink():
+                  raise SystemExit(f'Invalid artifact path: {name}')
+              shutil.copyfile(src, dst)
+              dst.chmod(0o775)
+          PY
+
+      - name: Commit only changed compiled files
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Do not commit outputs from an obsolete PR revision.
+          git fetch --no-tags origin "refs/heads/$PR_BRANCH"
+          if [[ "$(git rev-parse FETCH_HEAD)" != "$PR_SHA" ]]; then
+            echo "PR branch changed during this run; the newer run will update its binaries."
+            exit 0
+          fi
+          for minor in 12 13 14; do
+            for arch in aarch64 x86_64; do
+              git add -f -- "src/detectmateperformance/lib/bind_class.cpython-3${minor}-${arch}-linux-gnu.so"
+            done
+          done
+          if git diff --cached --quiet; then
+            echo "Compiled files are unchanged; no commit needed."
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'Update compiled Python extensions'
+          # No force push: a concurrent change to the branch must not be overwritten.
+          git push origin "HEAD:refs/heads/$PR_BRANCH"
