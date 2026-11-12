@@ -17,6 +17,9 @@ jobs:
       - name: Set timezone
         run: sudo timedatectl set-timezone Europe/Vienna
 
+      - name: Add priviledge
+        run:  docker run --privileged --rm tonistiigi/binfmt --install all
+
       - name: Run Docker Compose and wait for all containers
         shell: bash
         run: |
