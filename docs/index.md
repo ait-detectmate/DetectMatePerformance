@@ -4,11 +4,11 @@
 
 It combines C++ functionality with [`Polars`](https://pola.rs/) DataFrames. Currently the library supports:
 
-| | Python 3.12 | Python 3.13|
-|--|----|---|
-**x86_64** | Yes | Yes |
-**arch64** | No | Yes |
-**amd64** | No | No |
+| | Python 3.12 | Python 3.13| Python 3.14
+|--|----|---|---|
+**x86_64** | Yes | Yes | Yes |
+**arch64** | Yes | Yes | Yes |
+**amd64** | No | No | No |
 
 
 ## Installation

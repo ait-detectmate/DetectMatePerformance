@@ -83,11 +83,7 @@ def evaluate(
     predicted = TreeMatcher(_init_temp(templates))(
         logs, get_var=False, n_workers=n_workers, batch=batch, regex=regex
     )["Templates"]
-
-    results = pl.DataFrame()
-    results.insert_column(0, ground_truth.rename("GroundTruth"))
-    results.insert_column(1, predicted)
-    print(results)
+    results = pl.DataFrame([ground_truth.rename("GroundTruth"), predicted])
 
     final = {}
     for me in tqdm(metrics, desc="Running metrics..."):

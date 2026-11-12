@@ -1,0 +1,103 @@
+name: Python application
+
+on:
+  push:
+    branches: [ "main"]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
+
+      - name: Set timezone
+        run: sudo timedatectl set-timezone Europe/Vienna
+
+      - name: Add priviledge
+        run:  docker run --privileged --rm tonistiigi/binfmt --install all
+
+      - name: Run Docker Compose and wait for all containers
+        shell: bash
+        run: |
+          set -euo pipefail
+          services=$(docker compose config --services)
+          test -n "$services"
+          status=0
+
+          # Keep track of startup failures, but still wait for containers
+          # that did start. Do not abort when the first container exits.
+          docker compose up --detach || status=1
+
+          for service in $services; do
+            if ! containers=$(docker compose ps --all --quiet "$service"); then
+              echo "::error::Could not inspect service $service"
+              status=1
+              continue
+            fi
+            if [[ -z "$containers" ]]; then
+              echo "::error::No container was created for $service"
+              status=1
+              continue
+            fi
+
+            for container in $containers; do
+              if ! state=$(docker inspect --format '{{.State.Status}}' "$container"); then
+                echo "::error::Could not inspect container $container"
+                status=1
+                continue
+              fi
+              # A created container blocked by a failed dependency never ran;
+              # waiting on it would hang forever.
+              case "$state" in
+                running|restarting|exited)
+                  if code=$(docker wait "$container"); then
+                    echo "$service ($container) exited with code $code"
+                    if [[ "$code" != 0 ]]; then
+                      echo "::error::$service failed with exit code $code"
+                      status=1
+                    fi
+                  else
+                    echo "::error::Could not wait for $service ($container)"
+                    status=1
+                  fi
+                  ;;
+                *)
+                  echo "::error::$service cannot complete (container state: $state)"
+                  status=1
+                  ;;
+              esac
+            done
+          done
+
+          # Report failure only after checking/waiting for every container.
+          exit "$status"
+
+      - name: Show container status and logs
+        if: always()
+        run: |
+          docker compose ps --all
+          docker compose logs --no-color
+
+      - name: Clean up
+        if: always()
+        run: docker compose down --volumes --remove-orphans
+
+      - name: Commit and Push Changes
+        env:
+          PR_BRANCH: ${{ github.event.pull_request.head.ref }}
+        run: |
+          git add .
+          if git diff --cached --quiet; then
+            echo "No tracked files changed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Automated documentation update"
+          git push origin "HEAD:$PR_BRANCH"

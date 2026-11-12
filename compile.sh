@@ -1,26 +1,44 @@
+#!/bin/sh
+# Stop immediately if configuration, compilation, copying, or installation fails.
+set -eu
 
-# Update python dependencies
-$HOME/.local/bin/uv sync
+cd "$(dirname "$0")"
+: "${VIRTUAL_ENV:?Run install_compile.sh first, or activate the intended Python venv.}"
+PYTHON="$VIRTUAL_ENV/bin/python"
+EXT_SUFFIX=$("$PYTHON" -c 'import sysconfig; print(sysconfig.get_config_var("EXT_SUFFIX"))')
+MODULE="bind_class$EXT_SUFFIX"
+DEST="src/detectmateperformance/lib"
 
-# Remove old build
-rm -rf build
-mkdir build
+"$PYTHON" --version
+c++ --version
 
-# Run cmake and build
-cmake -B build
-cd build
-make
-cd ..
+# Delete the old artifact for this Python/architecture before starting.
+# Preserve extensions built for other Python versions or architectures.
+mkdir -p "$DEST"
+rm -f -- "$DEST/$MODULE"
+rm -rf -- build
 
-# Move compiled C++ code
-mkdir lib
-cp build/bind_class* src/detectmateperformance/lib/
-chmod 775 src/detectmateperformance/lib/*
-chmod 775 -R build/*
+cmake -S . -B build \
+    -DPYBIND11_FINDPYTHON=ON \
+    -DPython_EXECUTABLE="$PYTHON"
+cmake --build build
 
-# Install package
-$HOME/.local/bin/uv pip uninstall detectmateperformance
-$HOME/.local/bin/uv pip install --no-cache-dir .
+# Require the exact extension for the selected interpreter, not a wildcard match.
+test -f "build/$MODULE"
+"$PYTHON" - "build/$MODULE" <<'PYTHON_CHECK'
+import importlib.util
+import pathlib
+import sys
+path = pathlib.Path(sys.argv[1]).resolve()
+spec = importlib.util.spec_from_file_location("bind_class", path)
+module = importlib.util.module_from_spec(spec)
+spec.loader.exec_module(module)
+print(f"Successfully loaded freshly compiled extension: {path}")
+PYTHON_CHECK
 
-# Run tests
-#$HOME/.local/bin/uv run pytest
+cp "build/$MODULE" "$DEST/$MODULE"
+chmod 775 "$DEST/$MODULE"
+echo "Copied freshly compiled extension to $DEST/$MODULE"
+
+# Install using the same interpreter that CMake used.
+uv pip install --python "$PYTHON" --no-cache-dir .
