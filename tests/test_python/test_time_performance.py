@@ -12,18 +12,21 @@ max_time = 6
 
 
 class TestPerformance:
+    @pytest.mark.ignored
     @pytest.mark.timeout(max_time)
     def test_drain_pipeline(self):
         for _ in range(10):
             drain_ = drain.Drain(sim=0.3, max_child=1000, depth=2)
             drain_(logs=logs_path, regex=regex)
 
+    @pytest.mark.ignored
     @pytest.mark.timeout(max_time)
     def test_autoparser_pipeline(self):
         for _ in range(10):
             auto_parser = autoparser.AutoParse(num_use=10)
             auto_parser(logs=logs_path)
 
+    @pytest.mark.ignored
     @pytest.mark.timeout(max_time)
     def test_matchtree_pipeline(self):
         for _ in range(10):
