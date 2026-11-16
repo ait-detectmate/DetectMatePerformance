@@ -9,6 +9,7 @@ dependencies = [
     "numpy>=2.4.4",
     "polars>=1.38.1",
     "pybind11>=3.0.4",
+    "pytest-timeout>=2.4.0",
     "setuptools>=82.0.1",
     "tqdm",
 ]

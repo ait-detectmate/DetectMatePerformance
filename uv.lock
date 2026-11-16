@@ -140,6 +140,7 @@ dependencies = [
     { name = "numpy" },
     { name = "polars" },
     { name = "pybind11" },
+    { name = "pytest-timeout" },
     { name = "setuptools" },
     { name = "tqdm" },
 ]
@@ -159,6 +160,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=2.4.4" },
     { name = "polars", specifier = ">=1.38.1" },
     { name = "pybind11", specifier = ">=3.0.4" },
+    { name = "pytest-timeout", specifier = ">=2.4.0" },
     { name = "setuptools", specifier = ">=82.0.1" },
     { name = "tqdm" },
 ]
@@ -698,6 +700,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/cf/a1/c2679d7ff2da20a0f89c7820ae2739cde739eac9b43c192531117b31b5f4/pytest_cpp-2.6.0.tar.gz", hash = "sha256:c2f49d3c038539ac84786a94d852e4f4619c34c95979c2bc69c20b3bdf051d85", size = 465490, upload-time = "2024-09-18T00:08:08.251Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2a/44/dc2f5d53165264ae5831f361fe7723c45da05718a97015b2eddc452cf503/pytest_cpp-2.6.0-py3-none-any.whl", hash = "sha256:b33de94609450feea2fba9efff3558b8ac8f1fdf40a99e263b395d4798b911bb", size = 15074, upload-time = "2024-09-18T00:08:06.415Z" },
+]
+
+[[package]]
+name = "pytest-timeout"
+version = "2.4.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "pytest" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/ac/82/4c9ecabab13363e72d880f2fb504c5f750433b2b6f16e99f4ec21ada284c/pytest_timeout-2.4.0.tar.gz", hash = "sha256:7e68e90b01f9eff71332b25001f85c75495fc4e3a836701876183c4bcfd0540a", size = 17973, upload-time = "2025-05-05T19:44:34.99Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/fa/b6/3127540ecdf1464a00e5a01ee60a1b09175f6913f0644ac748494d9c4b21/pytest_timeout-2.4.0-py3-none-any.whl", hash = "sha256:c42667e5cdadb151aeb5b26d114aff6bdf5a907f176a007a30b940d3d865b5c2", size = 14382, upload-time = "2025-05-05T19:44:33.502Z" },
 ]
 
 [[package]]
