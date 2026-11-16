@@ -6,29 +6,35 @@ from detectmateperformance.pipeline_op import preprocessing
 from detectmateperformance.lib.bind_class import drain_generator
 
 import polars as pl
-import re
-
-
-def replace_patterns(text: str) -> str:
-    text = re.sub(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', "VAR", text)
-    text = re.sub(r'(?:[a-zA-Z]:\\.[^\\\-]*|/[^\\\-\s]*|\.\.[^\\\-]*|\.\/[^\\\-]*)\b', "VAR", text)
-    text = re.sub(r'(?<!\w)(?:-\d+|\d+-\d+|\d+\s\d+)(?!\w)', "VAR", text)
-    return text
 
 
 def clean_strings(df: pl.DataFrame) -> pl.DataFrame:
-    df = df.with_columns(
-        pl.concat_str([pl.lit(" "), pl.col("Content"), pl.lit(" ")]).alias("Content")
-    )
     return df.with_columns(
-        pl.col("Content")
+        # Pad text so boundary-sensitive patterns match at both ends.
+        pl.concat_str([pl.lit(" "), pl.col("Content"), pl.lit(" ")])
+        # Replace listed punctuation and whitespace with spaces.
         .str.replace_all(r'[!"#$%&\'()*+,:;<=>?@\[\\\]^`{|}~\s]', " ")
+        # Remove periods adjacent to whitespace.
         .str.replace_all(r'\.\s|\s\.', " ")
+        # Remove hyphens adjacent to whitespace.
         .str.replace_all(r'-\s|\s-', " ")
-        .map_elements(replace_patterns)
+        # Replace IPv4-shaped strings.
+        .str.replace_all(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', "VAR")
+        # Replace path-like strings; remove unreachable Windows-path
+        # matching and redundant backslash exclusions.
+        .str.replace_all(r'(?:/[^-\s]*|\.\.[^-]*|\./[^-]*)\b', "VAR")
+        # Replace negative integers, ranges, and pairs of integers.
+        # Word boundaries replace the original Python lookarounds.
+        .str.replace_all(
+            r'(?:\B-\d+|\b\d+-\d+|\b\d+\s\d+)\b',
+            "VAR",
+        )
+        # Replace individual integers surrounded by spaces.
         .str.replace_all(r' \d+ ', " VAR ")
-        .str.replace_all(r"\s+", " ")
+        # Collapse repeated whitespace, then trim both ends.
+        .str.replace_all(r'\s+', " ")
         .str.strip_chars()
+        .alias("Content")
     )
 
 
