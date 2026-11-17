@@ -58,7 +58,7 @@ class TestTreeOp:
                 "e": [1, {}],
             }]
         }
-        op.prune(tree, theta_1=0.3, theta_3=1.)
+        op.prune(tree, theta_1=0.2, theta_3=1.)
 
         expected = {
             "hello": [4, {
