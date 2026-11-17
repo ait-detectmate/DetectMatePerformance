@@ -127,3 +127,17 @@ def prune(
             theta_2=theta_2 * (1 + damp),
             theta_3=theta_3 * (1 + damp),
         )
+
+
+def get_templates(tree: Tree) -> list[str]:
+    templates = []
+
+    def visit(node: Tree, words: list[str]) -> None:
+        if node.is_end_state:
+            templates.append(" ".join(words))
+
+        for token, child in node.children.items():
+            visit(child, words + [token])
+
+    visit(tree, [])
+    return templates

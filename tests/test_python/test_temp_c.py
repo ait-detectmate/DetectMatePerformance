@@ -189,3 +189,26 @@ class TestTreeOp:
             count={"ciao": 3, "bye": 2, "<*>": 5},
         )
         assert tree == expected
+
+    def test_get_templates(self) -> None:
+        tree = op.Tree(
+            children={
+                "ciao": op.Tree(children={}, is_end_state=True, count={}),
+                "bye": op.Tree(
+                    children={"b": op.Tree(children={}, is_end_state=True, count={})},
+                    count={"b": 2},
+                ),
+                "hello": op.Tree(
+                    children={
+                        "ciao": op.Tree(children={}, is_end_state=True, count={}),
+                        "a": op.Tree(children={}, is_end_state=True, count={}),
+                    },
+                    count={"ciao": 20, "a": 1},
+                    is_end_state=True,
+                ),
+            },
+            count={"ciao": 40, "bye": 1, "hello": 1},
+        )
+
+        templates = set(['ciao', 'bye b', 'hello', 'hello ciao', 'hello a'])
+        assert templates == set(op.get_templates(tree))
