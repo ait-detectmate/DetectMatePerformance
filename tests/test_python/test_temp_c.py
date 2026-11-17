@@ -3,7 +3,6 @@ import detectmateperformance.temp_c as op
 
 
 class TestTreeOp:
-
     def test_add_log(self) -> None:
         tree = op.init_tree()
         log = "hello there"
@@ -35,7 +34,7 @@ class TestTreeOp:
             },
             count={"hello": 2},
         )
-        logs = [lo.split(" ") for lo in ["hello there", "hello ciao"]]
+        logs = ["hello there", "hello ciao"]
         op.add_logs(tree, logs)
         assert tree == expected
 

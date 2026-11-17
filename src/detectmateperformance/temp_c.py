@@ -32,9 +32,9 @@ def add_log(tree: Tree, log: list[str]) -> None:
     add_log(tree.children[head], tail)
 
 
-def add_logs(tree: Tree, logs: list[list[str]]) -> None:
+def add_logs(tree: Tree, logs: list[str]) -> None:
     for log in logs:
-        add_log(tree, log=log)
+        add_log(tree, log=log.split(" "))
 
 
 def merge_left(tree_left: Tree, tree_right: Tree) -> None:
