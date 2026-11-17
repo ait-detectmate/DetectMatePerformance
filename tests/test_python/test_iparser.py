@@ -12,6 +12,7 @@ def test_clean_strings():
         "Receiving block blk_-1608999687919862906",
         "Receiving block /home/linux/home/windows",
         "Receiving src: /123.1 asdasd aas ",
+        "proctitle 61707061726D6F725F706172736572002D",
     ]}))["Content"].to_list()
 
     expected = [
@@ -21,6 +22,7 @@ def test_clean_strings():
         "Receiving block blk_-1608999687919862906",
         "Receiving block VAR",
         "Receiving src VAR asdasd aas",
+        "proctitle VAR",
     ]
 
     assert result == expected

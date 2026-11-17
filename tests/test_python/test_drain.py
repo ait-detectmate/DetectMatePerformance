@@ -74,5 +74,5 @@ class TestDrain:
         drain_ = drain.Drain(sim=0.3, max_child=1000, depth=2)
         regex = r"type=(?P<Type>\w+) msg=audit\((?P<Time>[^:]+):(?P<Serial>\d+)\): (?P<Content>.*)"
 
-        templates = drain_(logs="tests/test_data/audit.log", regex=regex).get_templates(False)
+        templates = drain_(logs="tests/test_data/audit.log", regex=regex).get_templates(True)
         assert len(templates) == 10

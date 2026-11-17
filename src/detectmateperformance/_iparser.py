@@ -7,30 +7,29 @@ import polars as pl
 
 
 def clean_strings(df: pl.DataFrame) -> pl.DataFrame:
-    print("🚀 Running Regex preproces...")
+    print("🚀 Running Regex preprocessing...")
     return df.with_columns(
-        # Pad text so boundary-sensitive patterns match at both ends.
+        # Pad text so patterns match at both ends.
         pl.concat_str([pl.lit(" "), pl.col("Content"), pl.lit(" ")])
-        # Replace listed punctuation and whitespace with spaces.
+        # Replace punctuation and whitespace with spaces.
         .str.replace_all(r'[!"#$%&\'()*+,:;<=>?@\[\\\]^`{|}~\s]', " ")
-        # Remove periods adjacent to whitespace.
+        # Remove periods and hyphens adjacent to whitespace.
         .str.replace_all(r'\.\s|\s\.', " ")
-        # Remove hyphens adjacent to whitespace.
         .str.replace_all(r'-\s|\s-', " ")
         # Replace IPv4-shaped strings.
         .str.replace_all(r'\b(?:\d{1,3}\.){3}\d{1,3}\b', "VAR")
-        # Replace path-like strings; remove unreachable Windows-path
-        # matching and redundant backslash exclusions.
+        # Replace path-like strings.
         .str.replace_all(r'(?:/[^-\s]*|\.\.[^-]*|\./[^-]*)\b', "VAR")
         # Replace negative integers, ranges, and pairs of integers.
-        # Word boundaries replace the original Python lookarounds.
-        .str.replace_all(
-            r'(?:\B-\d+|\b\d+-\d+|\b\d+\s\d+)\b',
-            "VAR",
-        )
+        .str.replace_all(r'(?:\B-\d+|\b\d+-\d+|\b\d+\s\d+)\b', "VAR")
         # Replace individual integers surrounded by spaces.
         .str.replace_all(r' \d+ ', " VAR ")
-        # Collapse repeated whitespace, then trim both ends.
+        # Replace standalone hexadecimal tokens of 16+ characters.
+        .str.replace_all(
+            r' [A-Za-z0-9]*(?:[A-Za-z][0-9]|[0-9][A-Za-z])[A-Za-z0-9]* ',
+            " VAR ",
+        )
+        # Collapse whitespace and trim both ends.
         .str.replace_all(r'\s+', " ")
         .str.strip_chars()
         .alias("Content")

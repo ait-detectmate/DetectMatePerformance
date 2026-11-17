@@ -55,6 +55,7 @@ class Drain(IParser):
         print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
 
         print("\033[46m  \033[0m  ⚙️ Clustering logs")
+        print(df[["Content"]])
         set_groups = cluster_logs_df(df=df[["Content"]], depth=self.depth, max_child=self.max_child)
 
         print("\033[46m  \033[0m  ⚙️  Generating templates")

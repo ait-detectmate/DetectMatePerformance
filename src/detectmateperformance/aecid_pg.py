@@ -3,6 +3,8 @@ from detectmateperformance.types_ import LogTemplates
 
 from detectmateperformance._iparser import IParser
 
+from detectmateperformance.temp_c import aecid_pg_generator
+
 import polars as pl
 
 
@@ -35,9 +37,16 @@ class AECID_PG(IParser):
         print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
 
         print("\033[46m  \033[0m  ⚙️  Generating and prunning log tree")
+        templates = aecid_pg_generator(
+            logs=df["Content"].to_list(),
+            theta_1=self.theta_1,
+            theta_2=self.theta_2,
+            theta_3=self.theta_3,
+        )
+        print(templates)
 
         print("\033[46m  \033[0m  💻  Initializing tree matcher instance")
-        tree_matcher = TreeMatcher(LogTemplates([]))
+        tree_matcher = TreeMatcher(LogTemplates(templates))
 
         print("\033[46m  \033[0m  ✅ Process complete!")
         print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")

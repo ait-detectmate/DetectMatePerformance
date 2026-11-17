@@ -6,8 +6,6 @@ from dataclasses import dataclass, field
 
 @dataclass
 class Tree:
-    """A prefix-tree state, including whether a log ends at this state."""
-
     children: dict[str, Tree] = field(default_factory=dict)
     count: dict[str, int] = field(default_factory=dict)
     is_end_state: bool = False
@@ -141,3 +139,14 @@ def get_templates(tree: Tree) -> list[str]:
 
     visit(tree, [])
     return templates
+
+
+def aecid_pg_generator(
+    logs: list[list[str]], theta_1: float = 0.2, theta_2: float = 0.8, theta_3: float = 0.5
+) -> list[str]:
+
+    tree = init_tree()
+    add_logs(tree, logs=logs)
+
+    prune(tree, theta_1=theta_1, theta_2=theta_2, theta_3=theta_3)
+    return get_templates(tree)
