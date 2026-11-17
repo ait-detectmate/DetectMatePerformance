@@ -81,8 +81,7 @@ class TestTreeOp:
         expected = {
             "ciao": [40, {}],
             "<*>": [2, {
-                "ciao": [20, {}],
-                "<*>": [3, {}]
+                "<*>": [23, {}],
             }]
         }
         assert tree == expected

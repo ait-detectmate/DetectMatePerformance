@@ -94,4 +94,10 @@ def prune(tree: Tree, theta_1: float = 0.2, theta_2: float = 0.8, theta_3: float
                 apply_rule_2(tree, child=child)
 
     for child in tree:
-        prune(tree[child][1], theta_1=theta_1, theta_2=theta_2, theta_3=theta_3)
+        damp = 1 - (tree[child][0] / n)
+        prune(
+            tree[child][1],
+            theta_1=theta_1 * (1 + damp),
+            theta_2=theta_2 * (1 + damp),
+            theta_3=theta_3 * (1 + damp),
+        )
