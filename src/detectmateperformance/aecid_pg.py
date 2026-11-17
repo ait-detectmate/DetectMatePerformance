@@ -20,5 +20,26 @@ class AECID_PG(IParser):
 
         super().__init__()
 
+    def __str__(self) -> str:
+        text = f"<Theta_1: {self.theta_1} Theta_2: {self.theta_2} Theta_3: {self.theta_3}>"
+
+        msg = "\033[46m >>>> Generating templates    \033[0m\n"
+        msg += "\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m\n"
+        msg += f"\033[46m  \033[0mAECID_PG <{text}>"
+        msg += f"\n\033[46m  \033[0m  -> (N. logs in buffer {len(self)})\n"
+        return msg + "\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m\n"
+
     def generate_from_df(self, df: pl.DataFrame) -> TreeMatcher:
-        return TreeMatcher(LogTemplates([]))
+
+        print("\033[46m >>>> Generating templates    \033[0m")
+        print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
+
+        print("\033[46m  \033[0m  ⚙️  Generating and prunning log tree")
+
+        print("\033[46m  \033[0m  💻  Initializing tree matcher instance")
+        tree_matcher = TreeMatcher(LogTemplates([]))
+
+        print("\033[46m  \033[0m  ✅ Process complete!")
+        print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
+
+        return tree_matcher

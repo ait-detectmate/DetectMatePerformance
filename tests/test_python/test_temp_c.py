@@ -1,5 +1,5 @@
 # mypy: ignore-errors
-import prototype as op
+import detectmateperformance.temp_c as op
 
 
 class TestTreeOp:

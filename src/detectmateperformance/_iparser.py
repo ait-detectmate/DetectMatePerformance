@@ -7,6 +7,7 @@ import polars as pl
 
 
 def clean_strings(df: pl.DataFrame) -> pl.DataFrame:
+    print("🚀 Running Regex preproces...")
     return df.with_columns(
         # Pad text so boundary-sensitive patterns match at both ends.
         pl.concat_str([pl.lit(" "), pl.col("Content"), pl.lit(" ")])
