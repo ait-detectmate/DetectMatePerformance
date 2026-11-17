@@ -43,7 +43,6 @@ class AECID_PG(IParser):
             theta_2=self.theta_2,
             theta_3=self.theta_3,
         )
-        print(templates)
 
         print("\033[46m  \033[0m  💻  Initializing tree matcher instance")
         tree_matcher = TreeMatcher(LogTemplates(templates))

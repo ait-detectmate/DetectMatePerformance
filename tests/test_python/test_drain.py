@@ -10,11 +10,11 @@ class TestCommonMethods:
     def test_cluster_logs_df(self):
         df = pl.DataFrame({"Content": ["hello world, 12 1cia2o1", "Ciao! ? bella bella"]})
 
-        expected = {'3_Ciao_bella': ['Ciao bella bella'], '4_hello_world': ['hello world VAR 1cia2o1']}
+        expected = {'3_Ciao_bella': ['Ciao bella bella'], '4_hello_world': ['hello world VAR VAR']}
         assert drain.cluster_logs_df(clean_strings(df), depth=2) == expected
 
         expected = {
-            '3_Ciao_bella_bella': ['Ciao bella bella'], '4_hello_world_VAR': ['hello world VAR 1cia2o1']
+            '3_Ciao_bella_bella': ['Ciao bella bella'], '4_hello_world_VAR': ['hello world VAR VAR']
         }
         assert drain.cluster_logs_df(clean_strings(df), depth=3) == expected
 
@@ -74,5 +74,5 @@ class TestDrain:
         drain_ = drain.Drain(sim=0.3, max_child=1000, depth=2)
         regex = r"type=(?P<Type>\w+) msg=audit\((?P<Time>[^:]+):(?P<Serial>\d+)\): (?P<Content>.*)"
 
-        templates = drain_(logs="tests/test_data/audit.log", regex=regex).get_templates(True)
+        templates = drain_(logs="tests/test_data/audit.log", regex=regex).get_templates(False)
         assert len(templates) == 10

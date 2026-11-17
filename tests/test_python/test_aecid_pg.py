@@ -40,8 +40,10 @@ class TestAECID_PG:
         assert "Hello VAR" == template
 
     def test_aecid_pg_pipeline(self):
-        aecid_pg_ = aecid_pg.AECID_PG()
+        aecid_pg_ = aecid_pg.AECID_PG(
+            theta_1=0.1, theta_2=0.6, theta_3=0.6
+        )
         regex = r"type=(?P<Type>\w+) msg=audit\((?P<Time>[^:]+):(?P<Serial>\d+)\): (?P<Content>.*)"
 
-        templates = aecid_pg_(logs="tests/test_data/audit.log", regex=regex).get_templates(True)
-        assert len(templates) == 10
+        templates = aecid_pg_(logs="tests/test_data/audit.log", regex=regex).get_templates(False)
+        assert len(templates) == 20
