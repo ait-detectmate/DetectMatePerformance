@@ -34,28 +34,41 @@ def merge_left(tree_left: Tree, tree_right: Tree) -> None:
             merge_left(tree_left[child_right][1], tree_right[child_right][1])
 
 
+def is_rule_1(tree: Tree, childs: list[str], theta_1: float, n: int) -> bool:
+    return theta_1 > max([tree[node][0] / n for node in childs])
+
+
+def apply_rule_1(tree: Tree, childs: list[str]) -> None:
+    tree["<*>"] = tree.pop(childs[0])
+    for child in childs[1:]:
+        merge_left(tree["<*>"][1], tree[child][1])
+
+
+def is_rule_2(tree: Tree, child: str, theta_2: float, n: int) -> bool:
+    return tree[child][0] / n < theta_2
+
+
+def apply_rule_2(tree: Tree, child: str) -> None:
+    if "<*>" not in tree:
+        tree["<*>"] = tree.pop(child)
+    else:
+        tree["<*>"][0] += tree[child][0]
+        merge_left(tree["<*>"][1], tree[child][1])
+        tree.pop(child)
+
+
 def prune(tree: Tree, theta_1: float = 0.2, theta_2: float = 0.4) -> None:
     childs = list(tree.keys())
     if len(childs) == 0:
         return None
     n = sum([tree[node][0] for node in childs])
 
-    if theta_1 > max([tree[node][0] / n for node in childs]):
-        # Rule 1
-        tree["<*>"] = tree.pop(childs[0])
-        for child in childs[1:]:
-            merge_left(tree["<*>"][1], tree[child][1])
-
+    if is_rule_1(tree, childs=childs, theta_1=theta_1, n=n):
+        apply_rule_1(tree, childs=childs)
     else:
-        # Rule 2
         for child in childs:
-            if tree[child][0] / n < theta_2:
-                if "<*>" not in tree:
-                    tree["<*>"] = tree.pop(child)
-                else:
-                    tree["<*>"][0] += tree[child][0]
-                    merge_left(tree["<*>"][1], tree[child][1])
-                    tree.pop(child)
+            if is_rule_2(tree, child=child, theta_2=theta_2, n=n):
+                apply_rule_2(tree, child=child)
 
     for child in tree:
         prune(tree[child][1], theta_2=theta_2)
