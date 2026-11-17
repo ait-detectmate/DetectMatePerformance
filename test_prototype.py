@@ -48,7 +48,25 @@ class TestTreeOp:
         op.merge_left(tree_1, tree_2)
         assert tree_1 == expected
 
-    def test_prune_rule_1(self) -> None:
+    def test_prune_with_rule_1(self) -> None:
+        tree = {
+            "hello": [1, {
+                "a": [1, {}],
+                "b": [1, {}],
+                "c": [1, {}],
+                "d": [1, {"ciao": [1, {}]}],
+            }]
+        }
+        op.prune(tree, theta_1=0.3)
+
+        expected = {
+            "hello": [1, {
+                "<*>": [4, {"ciao": [1, {}]}]
+            }]
+        }
+        assert tree == expected
+
+    def test_prune_with_rule_2(self) -> None:
         tree = {
             "ciao": [4, {}],
             "bye": [1, {"b": [2, {}]}],
@@ -57,7 +75,7 @@ class TestTreeOp:
                 "a": [1, {}]
             }]
         }
-        op.prune(tree, theta=0.5)
+        op.prune(tree, theta_2=0.5)
 
         expected = {
             "ciao": [4, {}],
