@@ -41,6 +41,7 @@ def is_rule_1(tree: Tree, childs: list[str], theta_1: float, n: int) -> bool:
 def apply_rule_1(tree: Tree, childs: list[str]) -> None:
     tree["<*>"] = tree.pop(childs[0])
     for child in childs[1:]:
+        tree["<*>"][0] += tree[child][0]
         merge_left(tree["<*>"][1], tree[child][1])
 
 
@@ -57,18 +58,40 @@ def apply_rule_2(tree: Tree, child: str) -> None:
         tree.pop(child)
 
 
-def prune(tree: Tree, theta_1: float = 0.2, theta_2: float = 0.4) -> None:
+def rule_3(
+    tree: Tree, childs: list[str], theta_1: float, theta_3: float, n: int
+) -> bool:
+    per = [tree[node][0] / n for node in childs]
+    if sum(list(filter(lambda x: x >= theta_1, per))) < theta_3:
+        return False
+
+    f_childs = []
+    for per_i, child_i in zip(per, childs):
+        if per_i < theta_1:
+            f_childs.append(child_i)
+
+    if len(f_childs) > 0:
+        tree["<*>"] = tree.pop(f_childs[0])
+        for child in f_childs[1:]:
+            tree["<*>"][0] += tree[child][0]
+            merge_left(tree["<*>"][1], tree[child][1])
+            tree.pop(child)
+    return True
+
+
+def prune(tree: Tree, theta_1: float = 0.2, theta_2: float = 0.8, theta_3: float = 0.5) -> None:
     childs = list(tree.keys())
     if len(childs) == 0:
         return None
+
     n = sum([tree[node][0] for node in childs])
 
     if is_rule_1(tree, childs=childs, theta_1=theta_1, n=n):
         apply_rule_1(tree, childs=childs)
-    else:
+    elif not rule_3(tree, childs=childs, theta_1=theta_1, theta_3=theta_3, n=n):
         for child in childs:
             if is_rule_2(tree, child=child, theta_2=theta_2, n=n):
                 apply_rule_2(tree, child=child)
 
     for child in tree:
-        prune(tree[child][1], theta_2=theta_2)
+        prune(tree[child][1], theta_2=theta_2, theta_3=theta_3)
