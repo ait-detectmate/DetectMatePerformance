@@ -86,6 +86,21 @@ TEST(AutoTest, MainPipeline) {
 }
 
 
+TEST(AutoTest, RequiresEveryLogToMatch) {
+    auto result = autoParserGenerator(
+        {
+            sentences1.front(),
+            "type=USER_ACCT msg=audit(1642723741.072:376): "
+            "service finished with unknown status"
+        },
+        {paths.front()},
+        {regexs.front()}
+    );
+
+    EXPECT_EQ(result.second, -1);
+}
+
+
 TEST(AutoTest, AllLogs) {
     auto result1 = doAutoParse(sentences1, templateDirectory);
     Templates templates = result1.first;
