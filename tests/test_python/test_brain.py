@@ -79,3 +79,10 @@ class TestBrain:
             ]
         })
         assert results.equals(expected)
+
+    def test_brain_pipeline(self):
+        drain_ = brain.Brain(weight=0.5)
+        regex = r"type=(?P<Type>\w+) msg=audit\((?P<Time>[^:]+):(?P<Serial>\d+)\): (?P<Content>.*)"
+
+        templates = drain_(logs="tests/test_data/audit.log", regex=regex).get_templates(False)
+        assert len(templates) == 10

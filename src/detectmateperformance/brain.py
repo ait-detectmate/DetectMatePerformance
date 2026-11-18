@@ -1,4 +1,9 @@
+from detectmateperformance.match_tree import TreeMatcher
+from detectmateperformance.types_ import LogTemplates
+
 from detectmateperformance._iparser import IParser
+
+from detectmateperformance.lib.bind_class import brain as template_generator
 
 
 import polars as pl
@@ -53,3 +58,22 @@ class Brain(IParser):
         msg += f"\033[46m  \033[0mDrain <Weight: {self.weight}>"
         msg += f"\n\033[46m  \033[0m  -> (N. logs in buffer {len(self)})\n"
         return msg + "\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m\n"
+
+    def generate_from_df(self, df: pl.DataFrame) -> TreeMatcher:
+
+        print("\033[46m >>>> Generating templates    \033[0m")
+        print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
+
+        print("\033[46m  \033[0m  ⚙️ Clustering logs")
+        set_groups = cluter_logs(logs=df[["Content"]], weight=self.weight)
+
+        print("\033[46m  \033[0m  ⚙️  Generating templates")
+        results = pl.from_arrow(template_generator(set_groups.to_arrow()))
+        templates = LogTemplates(results["Templates"].to_list())
+
+        print("\033[46m  \033[0m  💻  Initializing tree matcher instance")
+        tree_matcher = TreeMatcher(templates)
+
+        print("\033[46m  \033[0m  ✅ Process complete!")
+        print("\033[46m" + "".join([" " for _ in range(100)]) + "\033[0m")
+        return tree_matcher
