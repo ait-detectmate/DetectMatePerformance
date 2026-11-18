@@ -69,7 +69,7 @@ void mergeLeft(Tree& tree_left, const Tree& tree_right) {
 bool isRule1(
     const Tree& tree,
     const std::vector<std::string>& children,
-    double theta_1,
+    const AecidPgThresholds& thresholds,
     int n
 ) {
     double maximum = static_cast<double>(tree.count.at(children.at(0))) / n;
@@ -80,7 +80,7 @@ bool isRule1(
         );
     }
 
-    return theta_1 > maximum;
+    return thresholds.theta_1 > maximum;
 }
 
 void applyRule1(Tree& tree, const std::vector<std::string>& children) {
@@ -102,10 +102,10 @@ void applyRule1(Tree& tree, const std::vector<std::string>& children) {
 bool isRule2(
     const Tree& tree,
     const std::string& child,
-    double theta_2,
+    const AecidPgThresholds& thresholds,
     int n
 ) {
-    return static_cast<double>(tree.count.at(child)) / n < theta_2;
+    return static_cast<double>(tree.count.at(child)) / n < thresholds.theta_2;
 }
 
 void applyRule2(Tree& tree, const std::string& child) {
@@ -126,8 +126,7 @@ void applyRule2(Tree& tree, const std::string& child) {
 bool rule3(
     Tree& tree,
     const std::vector<std::string>& children,
-    double theta_1,
-    double theta_3,
+    const AecidPgThresholds& thresholds,
     int n
 ) {
     std::vector<double> proportions;
@@ -138,18 +137,18 @@ bool rule3(
         proportion = static_cast<double>(tree.count.at(child)) / n;
         proportions.push_back(proportion);
 
-        if (proportion >= theta_1) {
+        if (proportion >= thresholds.theta_1) {
             sum += proportion;
         }
     }
-    if (sum < theta_3) {
+    if (sum < thresholds.theta_3) {
         return false;
     }
 
     std::vector<std::string> filtered_children;
     std::size_t index = 0;
     for (; index < children.size(); ++index) {
-        if (proportions[index] < theta_1) {
+        if (proportions[index] < thresholds.theta_1) {
             filtered_children.push_back(children[index]);
         }
     }
@@ -160,7 +159,7 @@ bool rule3(
     return true;
 }
 
-void prune(Tree& tree, double theta_1, double theta_2, double theta_3) {
+void prune(Tree& tree, const AecidPgThresholds& thresholds) {
     std::vector<std::string> children;
     int n = 0;
 
@@ -173,25 +172,24 @@ void prune(Tree& tree, double theta_1, double theta_2, double theta_3) {
         return;
     }
 
-    if (isRule1(tree, children, theta_1, n)) {
+    if (isRule1(tree, children, thresholds, n)) {
         applyRule1(tree, children);
-    } else if (!rule3(tree, children, theta_1, theta_3, n)) {
+    } else if (!rule3(tree, children, thresholds, n)) {
         for (const auto& child : children) {
-            if (isRule2(tree, child, theta_2, n)) {
+            if (isRule2(tree, child, thresholds, n)) {
                 applyRule2(tree, child);
             }
         }
     }
 
-    double damp = 0.0;
+    AecidPgThresholds child_thresholds;
+    double scale = 1.0;
     for (auto& [child, subtree] : tree.children) {
-        damp = 1.0 - static_cast<double>(tree.count.at(child)) / n;
-        prune(
-            subtree,
-            theta_1 * (1.0 + damp),
-            theta_2 * (1.0 + damp),
-            theta_3 * (1.0 + damp)
-        );
+        scale = 1.0 + (1.0 - static_cast<double>(tree.count.at(child)) / n);
+        child_thresholds.theta_1 = thresholds.theta_1 * scale;
+        child_thresholds.theta_2 = thresholds.theta_2 * scale;
+        child_thresholds.theta_3 = thresholds.theta_3 * scale;
+        prune(subtree, child_thresholds);
     }
 }
 
@@ -229,8 +227,9 @@ std::vector<std::string> aecidPgGenerator(
     double theta_2,
     double theta_3
 ) {
+    const AecidPgThresholds thresholds{theta_1, theta_2, theta_3};
     Tree tree = initTree();
     addLogs(tree, logs);
-    prune(tree, theta_1, theta_2, theta_3);
+    prune(tree, thresholds);
     return getTemplates(tree);
 }

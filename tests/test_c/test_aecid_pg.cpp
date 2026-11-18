@@ -73,7 +73,7 @@ TEST(TreeOpTest, PruneWithRule1) {
               false}}},
         {{"hello", 4}},
         false};
-    prune(tree, 0.2, 0.8, 1.0);
+    prune(tree, {0.2, 0.8, 1.0});
     const Tree expected =
         Tree{{{"hello",
               Tree{{{"<*>",
@@ -96,7 +96,7 @@ TEST(TreeOpTest, PruneWithRule2) {
                         false}}},
         {{"ciao", 40}, {"bye", 1}, {"hello", 1}},
         false};
-    prune(tree, 0.2, 0.5, 1.0);
+    prune(tree, {0.2, 0.5, 1.0});
     const Tree expected =
         Tree{{{"ciao", Tree{{}, {}, true}},
               {"<*>", Tree{{{"<*>", Tree{{}, {}, true}}}, {{"<*>", 23}}, false}}},
@@ -124,7 +124,7 @@ TEST(TreeOpTest, PruneWithRule3) {
                       {"hello4", 1}},
                     false};
 
-    prune(tree, 0.2, 0.8, 0.4);
+    prune(tree, {0.2, 0.8, 0.4});
     const Tree expected = Tree{{{"ciao", Tree{{}, {}, true}},
                                 {"bye", Tree{{}, {}, true}},
                                 {"<*>", Tree{{}, {}, true}}},

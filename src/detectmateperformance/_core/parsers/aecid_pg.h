@@ -13,6 +13,12 @@ struct Tree {
     bool operator==(const Tree& other) const;
 };
 
+struct AecidPgThresholds {
+    double theta_1 = 0.2;
+    double theta_2 = 0.8;
+    double theta_3 = 0.5;
+};
+
 Tree initTree();
 
 void addLog(Tree& tree, const std::vector<std::string>& log);
@@ -23,7 +29,7 @@ void mergeLeft(Tree& tree_left, const Tree& tree_right);
 bool isRule1(
     const Tree& tree,
     const std::vector<std::string>& children,
-    double theta_1,
+    const AecidPgThresholds& thresholds,
     int n
 );
 void applyRule1(Tree& tree, const std::vector<std::string>& children);
@@ -31,7 +37,7 @@ void applyRule1(Tree& tree, const std::vector<std::string>& children);
 bool isRule2(
     const Tree& tree,
     const std::string& child,
-    double theta_2,
+    const AecidPgThresholds& thresholds,
     int n
 );
 void applyRule2(Tree& tree, const std::string& child);
@@ -39,25 +45,18 @@ void applyRule2(Tree& tree, const std::string& child);
 bool rule3(
     Tree& tree,
     const std::vector<std::string>& children,
-    double theta_1,
-    double theta_3,
+    const AecidPgThresholds& thresholds,
     int n
 );
 
-
-void prune(
-    Tree& tree,
-    double theta_1 = 0.2,
-    double theta_2 = 0.8,
-    double theta_3 = 0.5
-);
+void prune(Tree& tree, const AecidPgThresholds& thresholds = {});
 std::vector<std::string> getTemplates(const Tree& tree);
 
 std::vector<std::string> aecidPgGenerator(
     const std::vector<std::string>& logs,
-    double theta_1 = 0.2,
-    double theta_2 = 0.8,
-    double theta_3 = 0.5
+    double theta_1 = AecidPgThresholds{}.theta_1,
+    double theta_2 = AecidPgThresholds{}.theta_2,
+    double theta_3 = AecidPgThresholds{}.theta_3
 );
 
 #endif  // AECID_PG_H_
