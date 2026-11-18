@@ -112,6 +112,10 @@ add_executable(
   test_type
   tests/test_c/test_type.cpp
 )
+target_compile_definitions(
+  test_type PRIVATE
+  TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/test_data"
+)
 
 add_executable(
   test_matcher_tree
@@ -132,6 +136,17 @@ add_executable(
   test_auto_parser
   tests/test_c/test_auto_parser.cpp
 )
+target_compile_definitions(
+  test_auto_parser PRIVATE
+  TEST_TEMPLATES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/src/detectmateperformance/_templates"
+)
+
+add_executable(
+  test_aecid_pg
+  tests/test_c/test_aecid_pg.cpp
+  src/detectmateperformance/_core/parsers/aecid_pg.cpp
+)
+target_link_libraries(test_aecid_pg PRIVATE GTest::gtest_main)
 
 pybind11_add_module(
   bind_class
@@ -156,6 +171,8 @@ pybind11_add_module(
   src/detectmateperformance/_core/parsers/drain.cpp
   src/detectmateperformance/_core/parsers/auto_parser.h
   src/detectmateperformance/_core/parsers/auto_parser.cpp
+  src/detectmateperformance/_core/parsers/aecid_pg.h
+  src/detectmateperformance/_core/parsers/aecid_pg.cpp
 )
 
 target_link_libraries(
@@ -234,3 +251,4 @@ gtest_discover_tests(test_matcher_tree)
 gtest_discover_tests(test_matcher_vars)
 gtest_discover_tests(test_drain_op)
 gtest_discover_tests(test_auto_parser)
+gtest_discover_tests(test_aecid_pg)

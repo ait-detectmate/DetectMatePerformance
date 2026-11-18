@@ -75,12 +75,12 @@ std::pair<Templates, int> autoParserGenerator(
         }
         ParsedMessages* parsed_logs = tree->match_batch(sentences_aux, 1);
 
-        // Count template missmatchess
+        // Count template mismatches for the sampled logs.
         int not_found = 0;
 
         for (size_t j = 0; j < sentences.size(); j++) {
-            ParsedElement elem = parsed_logs->getElem(i);
-            if (elem.log_template == "template not found" || sentences_aux[j] == "") {
+            if (sentences_aux[j].empty() ||
+                parsed_logs->getElem(j).log_template == "template not found") {
                 not_found += 1;
             }
         }

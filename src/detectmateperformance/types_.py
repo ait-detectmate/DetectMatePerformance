@@ -20,6 +20,8 @@ class LogTemplates:
     def __init__(self, templates: list[str] | Templates):
         if isinstance(templates, Templates):
             templates = _templates_to_list(templates)
+        else:
+            templates = [temp.replace("VAR", "<*>") for temp in templates]
 
         self.temp_list = templates.copy()
         self.inst = Templates(list(

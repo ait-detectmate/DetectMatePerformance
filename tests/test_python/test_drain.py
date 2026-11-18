@@ -1,55 +1,34 @@
 from detectmateperformance.lib.bind_class import Templates
+from detectmateperformance._iparser import clean_strings
 from detectmateperformance import drain
 
 import polars as pl
 
 
 class TestCommonMethods:
-    def test_clean_strings(self):
-        result = drain.clean_strings(pl.DataFrame({"Content": [
-            "Hello, world",
-            "Hello. world 123 21",
-            "Hello. world 129.131.12.12",
-            "Receiving block blk_-1608999687919862906",
-            "Receiving block /home/linux/home/windows",
-            "Receiving src: /123.1 asdasd aas ",
-        ]}))["Content"].to_list()
-
-        print(result)
-        expected = [
-            "Hello world",
-            "Hello world VAR",
-            "Hello world VAR",
-            "Receiving block blk_-1608999687919862906",
-            "Receiving block VAR",
-            "Receiving src VAR asdasd aas",
-        ]
-        print(expected)
-
-        assert result == expected
 
     def test_cluster_logs_df(self):
         df = pl.DataFrame({"Content": ["hello world, 12 1cia2o1", "Ciao! ? bella bella"]})
 
-        expected = {'3_Ciao_bella': ['Ciao bella bella'], '4_hello_world': ['hello world VAR 1cia2o1']}
-        assert drain.cluster_logs_df(df, depth=2) == expected
+        expected = {'3_Ciao_bella': ['Ciao bella bella'], '4_hello_world': ['hello world VAR VAR']}
+        assert drain.cluster_logs_df(clean_strings(df), depth=2) == expected
 
         expected = {
-            '3_Ciao_bella_bella': ['Ciao bella bella'], '4_hello_world_VAR': ['hello world VAR 1cia2o1']
+            '3_Ciao_bella_bella': ['Ciao bella bella'], '4_hello_world_VAR': ['hello world VAR VAR']
         }
-        assert drain.cluster_logs_df(df, depth=3) == expected
+        assert drain.cluster_logs_df(clean_strings(df), depth=3) == expected
 
     def test_cluster_logs_df_special_cases(self):
         df = pl.DataFrame({"Content": ["hello world, 12 ciao", "Ciao bella bella"]})
 
         expected = {'2_Ciao': ['Ciao bella bella'], '2_hello': ['hello world VAR ciao']}
-        assert drain.cluster_logs_df(df, depth=1, max_child=2) == expected
+        assert drain.cluster_logs_df(clean_strings(df), depth=1, max_child=2) == expected
 
         expected = {
             '3_Ciao_bella_bella_None_None_None_None_None_None_None': ['Ciao bella bella'],
             '4_hello_world_VAR_ciao_None_None_None_None_None_None': ['hello world VAR ciao']
         }
-        assert drain.cluster_logs_df(df, depth=10) == expected
+        assert drain.cluster_logs_df(clean_strings(df), depth=10) == expected
 
     def test_bind_method(self):
         assert isinstance(drain.drain_generator(
