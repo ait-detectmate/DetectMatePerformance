@@ -7,8 +7,8 @@
 #include "../../src/detectmateperformance/_core/parsers/aecid_pg.h"
 
 TEST(TreeOpTest, AddLog) {
-    Tree tree = InitTree();
-    AddLog(tree, {"hello", "there"});
+    Tree tree = initTree();
+    addLog(tree, {"hello", "there"});
     const Tree expected = Tree{
         {{"hello", Tree{{{"there", Tree{{}, {}, true}}}, {{"there", 1}}, false}}},
         {{"hello", 1}},
@@ -18,7 +18,7 @@ TEST(TreeOpTest, AddLog) {
 }
 
 TEST(TreeOpTest, AddLogs) {
-    Tree tree = InitTree();
+    Tree tree = initTree();
     const Tree expected =
         Tree{{{"hello",
               Tree{{{"there", Tree{{}, {}, true}}, {"ciao", Tree{{}, {}, true}}},
@@ -28,7 +28,7 @@ TEST(TreeOpTest, AddLogs) {
             false};
 
     const std::vector<std::string> logs = {"hello there", "hello ciao"};
-    AddLogs(tree, logs);
+    addLogs(tree, logs);
     EXPECT_EQ(tree, expected);
 }
 
@@ -57,7 +57,7 @@ TEST(TreeOpTest, MergeLeft) {
             {{"ciao", 1}, {"hello", 3}},
             false};
 
-    MergeLeft(tree_1, tree_2);
+    mergeLeft(tree_1, tree_2);
     EXPECT_EQ(tree_1, expected);
 }
 
@@ -73,7 +73,7 @@ TEST(TreeOpTest, PruneWithRule1) {
               false}}},
         {{"hello", 4}},
         false};
-    Prune(tree, 0.2, 0.8, 1.0);
+    prune(tree, 0.2, 0.8, 1.0);
     const Tree expected =
         Tree{{{"hello",
               Tree{{{"<*>",
@@ -96,7 +96,7 @@ TEST(TreeOpTest, PruneWithRule2) {
                         false}}},
         {{"ciao", 40}, {"bye", 1}, {"hello", 1}},
         false};
-    Prune(tree, 0.2, 0.5, 1.0);
+    prune(tree, 0.2, 0.5, 1.0);
     const Tree expected =
         Tree{{{"ciao", Tree{{}, {}, true}},
               {"<*>", Tree{{{"<*>", Tree{{}, {}, true}}}, {{"<*>", 23}}, false}}},
@@ -124,7 +124,7 @@ TEST(TreeOpTest, PruneWithRule3) {
                       {"hello4", 1}},
                     false};
 
-    Prune(tree, 0.2, 0.8, 0.4);
+    prune(tree, 0.2, 0.8, 0.4);
     const Tree expected = Tree{{{"ciao", Tree{{}, {}, true}},
                                 {"bye", Tree{{}, {}, true}},
                                 {"<*>", Tree{{}, {}, true}}},
@@ -146,7 +146,7 @@ TEST(TreeOpTest, GetTemplates) {
 
     const std::set<std::string> expected = {"ciao", "bye b", "hello",
                                             "hello ciao", "hello a"};
-    const auto templates = GetTemplates(tree);
+    const auto templates = getTemplates(tree);
     const std::set<std::string> actual(templates.begin(), templates.end());
 
     EXPECT_EQ(actual, expected);

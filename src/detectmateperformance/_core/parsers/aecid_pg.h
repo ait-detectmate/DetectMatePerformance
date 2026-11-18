@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-// ****** Internal methods
 struct Tree {
     std::map<std::string, Tree> children;
     std::map<std::string, int> count;
@@ -14,31 +13,30 @@ struct Tree {
     bool operator==(const Tree& other) const;
 };
 
-Tree InitTree();
+Tree initTree();
 
+void addLog(Tree& tree, const std::vector<std::string>& log);
+void addLogs(Tree& tree, const std::vector<std::string>& logs);
 
-void AddLog(Tree& tree, const std::vector<std::string>& log);
-void AddLogs(Tree& tree, const std::vector<std::string>& logs);
+void mergeLeft(Tree& tree_left, const Tree& tree_right);
 
-void MergeLeft(Tree& tree_left, const Tree& tree_right);
-
-bool IsRule1(
+bool isRule1(
     const Tree& tree,
     const std::vector<std::string>& children,
     double theta_1,
     int n
 );
-void ApplyRule1(Tree& tree, const std::vector<std::string>& children);
+void applyRule1(Tree& tree, const std::vector<std::string>& children);
 
-bool IsRule2(
+bool isRule2(
     const Tree& tree,
     const std::string& child,
     double theta_2,
     int n
 );
-void ApplyRule2(Tree& tree, const std::string& child);
+void applyRule2(Tree& tree, const std::string& child);
 
-bool Rule3(
+bool rule3(
     Tree& tree,
     const std::vector<std::string>& children,
     double theta_1,
@@ -47,16 +45,15 @@ bool Rule3(
 );
 
 
-void Prune(
+void prune(
     Tree& tree,
     double theta_1 = 0.2,
     double theta_2 = 0.8,
     double theta_3 = 0.5
 );
-std::vector<std::string> GetTemplates(const Tree& tree);
+std::vector<std::string> getTemplates(const Tree& tree);
 
-// ******** Parser method
-std::vector<std::string> AecidPgGenerator(
+std::vector<std::string> aecidPgGenerator(
     const std::vector<std::string>& logs,
     double theta_1 = 0.2,
     double theta_2 = 0.8,
