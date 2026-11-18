@@ -112,6 +112,10 @@ add_executable(
   test_type
   tests/test_c/test_type.cpp
 )
+target_compile_definitions(
+  test_type PRIVATE
+  TEST_DATA_DIR="${CMAKE_CURRENT_SOURCE_DIR}/tests/test_data"
+)
 
 add_executable(
   test_matcher_tree
@@ -131,6 +135,10 @@ add_executable(
 add_executable(
   test_auto_parser
   tests/test_c/test_auto_parser.cpp
+)
+target_compile_definitions(
+  test_auto_parser PRIVATE
+  TEST_TEMPLATES_DIR="${CMAKE_CURRENT_SOURCE_DIR}/src/detectmateperformance/_templates"
 )
 
 pybind11_add_module(

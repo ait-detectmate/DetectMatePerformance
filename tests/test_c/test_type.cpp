@@ -76,12 +76,12 @@ TEST(TemplatesTest, GetNextTemplate) {
 }
 
 TEST(TemplatesTest, GetTempalteFile) {
-    Templates templates("../tests/test_data/audit_templates.txt");
+    Templates templates(TEST_DATA_DIR "/audit_templates.txt");
 
-    EXPECT_EQ(templates.size(), 9);
+    ASSERT_EQ(templates.size(), 9);
 
     auto message1 = templates.getNext();
-    EXPECT_EQ(message1.size(), 23);
+    ASSERT_EQ(message1.size(), 23);
     EXPECT_EQ(message1[0], "pid");
     EXPECT_EQ(message1[1], "VAR");
     EXPECT_EQ(message1[2], "uid");
