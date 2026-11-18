@@ -6,9 +6,12 @@
   `lowerCamelCase` for functions, and `snake_case` for filenames.
 - Put native code in `src/detectmateperformance/_core/` and
   GoogleTest cases in `tests/test_c/`.
+- Function arguments and tabs follow python pep8 standards
+- Do not initialize variables inside loops, do it outside and then use the variable inside the loop
 - When porting Python to C++, preserve behavior, default arguments,
   and existing test cases. Keep Python callers working through pybind11.
 - Keep the diff focused on the requested change.
+- The C++ should be fast and memory efficient. If you have suggestions let me know.
 
 ## Python
 
