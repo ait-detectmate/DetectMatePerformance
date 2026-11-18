@@ -1,10 +1,23 @@
 
 import detectmateperformance.brain as brain
+from detectmateperformance.lib.bind_class import brain as native_brain
 
 import polars as pl
 
 
 class TestBrain:
+    def test_native_brain_accepts_arrow_table(self) -> None:
+        pairs = [
+            {"word": "a", "position": 0},
+            {"word": "b", "position": 0},
+            {"word": "c", "position": 0},
+        ]
+        table = pl.DataFrame({"A": [1, 2, 3], "B": pairs}).to_arrow()
+        results = native_brain(table)
+
+        assert results.to_pydict() == {"A": [-1, -2, -3], "B": pairs}
+        assert table.to_pydict() == {"A": [1, 2, 3], "B": pairs}
+
     def test_cluster_logs(self):
         logs = pl.DataFrame({
             "Content": [
