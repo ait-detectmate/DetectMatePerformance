@@ -2,7 +2,7 @@
 
 `AECID_PG` learns log templates by counting token sequences in a tree and
 merging selected branches into the wildcard `<*>`. The parser follows the
-tree-based method described by Wurzenberger et al. (2019). [AECID-PG paper](https://markuswurzenberger.com/assets/pdf/annet_2019.pdf)
+tree-based method described by Wurzenberger et al. (2019). [AECID-PG paper](https://ieeexplore.ieee.org/document/8717887)
 
 ```python
 class AECID_PG:
