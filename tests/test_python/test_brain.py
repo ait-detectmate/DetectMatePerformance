@@ -7,16 +7,39 @@ import polars as pl
 
 class TestBrain:
     def test_native_brain_accepts_arrow_table(self) -> None:
-        pairs = [
-            {"word": "a", "position": 0},
-            {"word": "b", "position": 0},
-            {"word": "c", "position": 0},
-        ]
-        table = pl.DataFrame({"A": [1, 2, 3], "B": pairs}).to_arrow()
-        results = native_brain(table)
+        table = pl.DataFrame({
+            "Lenght": [6, 5, 3],
+            "Template": [
+                [
+                    {'position': 0, 'word': 'INFO'},
+                    {'position': 1, 'word': 'user'},
+                    {'position': 3, 'word': 'login'},
+                    {'position': 4, 'word': 'succeeded'},
+                    {'position': 5, 'word': 'CIAO'}
+                ],
+                [
+                    {'position': 0, 'word': 'INFO'},
+                    {'position': 1, 'word': 'disk'},
+                    {'position': 3, 'word': 'became'},
+                    {'position': 4, 'word': 'full'}
+                ],
+                [
+                    {'position': 0, 'word': 'hello'},
+                    {'position': 1, 'word': 'there'}
+                ]
+            ]
+        })
 
-        assert results.to_pydict() == {"A": [-1, -2, -3], "B": pairs}
-        assert table.to_pydict() == {"A": [1, 2, 3], "B": pairs}
+        expected = pl.DataFrame({
+            "Templates": [
+                "INFO user <*> login succeeded CIAO",
+                "INFO disk <*> became full",
+                "hello there <*>"
+            ]
+        })
+
+        results = pl.from_arrow(native_brain(table.to_arrow()))
+        assert results.equals(expected)
 
     def test_cluster_logs(self):
         logs = pl.DataFrame({
@@ -31,7 +54,8 @@ class TestBrain:
         })
 
         results = brain.cluter_logs(logs, weight=0.3).sort(
-            by="Lenght", descending=True)
+            by="Lenght", descending=True
+        )
         expected = pl.DataFrame({
             "Lenght": [6, 5, 2],
             "Template": [
