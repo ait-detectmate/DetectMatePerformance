@@ -171,6 +171,8 @@ pybind11_add_module(
   src/detectmateperformance/_core/parsers/drain.cpp
   src/detectmateperformance/_core/parsers/auto_parser.h
   src/detectmateperformance/_core/parsers/auto_parser.cpp
+  src/detectmateperformance/_core/parsers/aecid_pg.h
+  src/detectmateperformance/_core/parsers/aecid_pg.cpp
 )
 
 target_link_libraries(

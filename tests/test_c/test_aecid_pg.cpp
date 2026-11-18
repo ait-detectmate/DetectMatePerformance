@@ -6,6 +6,8 @@
 
 #include "../../src/detectmateperformance/_core/parsers/aecid_pg.h"
 
+namespace aecid_pg {
+
 TEST(TreeOpTest, AddLog) {
     Tree tree = initTree();
     addLog(tree, {"hello", "there"});
@@ -151,3 +153,5 @@ TEST(TreeOpTest, GetTemplates) {
 
     EXPECT_EQ(actual, expected);
 }
+
+}  // namespace aecid_pg

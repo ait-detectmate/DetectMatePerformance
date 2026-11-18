@@ -1,6 +1,7 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/stl.h>
 
+#include "parsers/aecid_pg.h"
 #include "parsers/drain.h"
 #include "parsers/auto_parser.h"
 
@@ -16,6 +17,16 @@ namespace py = pybind11;
 PYBIND11_MODULE(bind_class, m) {
     m.def("drain_generator", &drainGenerator);
     m.def("auto_parser", &doAutoParse);
+
+    constexpr aecid_pg::AecidPgThresholds aecid_thresholds{};
+    m.def(
+        "aecid_pg_generator",
+        &aecidPgGenerator,
+        py::arg("logs"),
+        py::arg("theta_1") = aecid_thresholds.theta_1,
+        py::arg("theta_2") = aecid_thresholds.theta_2,
+        py::arg("theta_3") = aecid_thresholds.theta_3
+    );
 
     py::class_<Templates>(m, "Templates")
         .def(py::init<std::deque<std::string>>())

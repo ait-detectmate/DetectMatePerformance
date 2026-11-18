@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+namespace aecid_pg {
+
 struct Tree {
     std::map<std::string, Tree> children;
     std::map<std::string, int> count;
@@ -52,11 +54,13 @@ bool rule3(
 void prune(Tree& tree, const AecidPgThresholds& thresholds = {});
 std::vector<std::string> getTemplates(const Tree& tree);
 
+}  // namespace aecid_pg
+
 std::vector<std::string> aecidPgGenerator(
     const std::vector<std::string>& logs,
-    double theta_1 = AecidPgThresholds{}.theta_1,
-    double theta_2 = AecidPgThresholds{}.theta_2,
-    double theta_3 = AecidPgThresholds{}.theta_3
+    double theta_1 = aecid_pg::AecidPgThresholds{}.theta_1,
+    double theta_2 = aecid_pg::AecidPgThresholds{}.theta_2,
+    double theta_3 = aecid_pg::AecidPgThresholds{}.theta_3
 );
 
 #endif  // AECID_PG_H_

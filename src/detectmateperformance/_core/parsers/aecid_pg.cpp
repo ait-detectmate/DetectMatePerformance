@@ -6,6 +6,8 @@
 #include <utility>
 
 
+namespace aecid_pg {
+
 bool Tree::operator==(const Tree& other) const {
     return children == other.children &&
            count == other.count &&
@@ -221,15 +223,17 @@ std::vector<std::string> getTemplates(const Tree& tree) {
     return templates;
 }
 
+}  // namespace aecid_pg
+
 std::vector<std::string> aecidPgGenerator(
     const std::vector<std::string>& logs,
     double theta_1,
     double theta_2,
     double theta_3
 ) {
-    const AecidPgThresholds thresholds{theta_1, theta_2, theta_3};
-    Tree tree = initTree();
-    addLogs(tree, logs);
-    prune(tree, thresholds);
-    return getTemplates(tree);
+    const aecid_pg::AecidPgThresholds thresholds{theta_1, theta_2, theta_3};
+    aecid_pg::Tree tree = aecid_pg::initTree();
+    aecid_pg::addLogs(tree, logs);
+    aecid_pg::prune(tree, thresholds);
+    return aecid_pg::getTemplates(tree);
 }
