@@ -3,7 +3,7 @@ from detectmateperformance.types_ import LogTemplates
 
 from detectmateperformance._iparser import IParser
 
-from detectmateperformance.temp_c import aecid_pg_generator
+from detectmateperformance.lib.bind_class import aecid_pg_generator
 
 import polars as pl
 

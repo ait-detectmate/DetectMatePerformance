@@ -5,14 +5,12 @@
 #include <string>
 #include <vector>
 
-namespace aecid_pg {
-
-struct Tree {
-    std::map<std::string, Tree> children;
+struct AecidPgTree {
+    std::map<std::string, AecidPgTree> children;
     std::map<std::string, int> count;
     bool is_end_state = false;
 
-    bool operator==(const Tree& other) const;
+    bool operator==(const AecidPgTree& other) const;
 };
 
 struct AecidPgThresholds {
@@ -21,46 +19,44 @@ struct AecidPgThresholds {
     double theta_3 = 0.5;
 };
 
-Tree initTree();
+AecidPgTree initTree();
 
-void addLog(Tree& tree, const std::vector<std::string>& log);
-void addLogs(Tree& tree, const std::vector<std::string>& logs);
+void addLog(AecidPgTree& tree, const std::vector<std::string>& log);
+void addLogs(AecidPgTree& tree, const std::vector<std::string>& logs);
 
-void mergeLeft(Tree& tree_left, const Tree& tree_right);
+void mergeLeft(AecidPgTree& tree_left, const AecidPgTree& tree_right);
 
 bool isRule1(
-    const Tree& tree,
+    const AecidPgTree& tree,
     const std::vector<std::string>& children,
     const AecidPgThresholds& thresholds,
     int n
 );
-void applyRule1(Tree& tree, const std::vector<std::string>& children);
+void applyRule1(AecidPgTree& tree, const std::vector<std::string>& children);
 
 bool isRule2(
-    const Tree& tree,
+    const AecidPgTree& tree,
     const std::string& child,
     const AecidPgThresholds& thresholds,
     int n
 );
-void applyRule2(Tree& tree, const std::string& child);
+void applyRule2(AecidPgTree& tree, const std::string& child);
 
 bool rule3(
-    Tree& tree,
+    AecidPgTree& tree,
     const std::vector<std::string>& children,
     const AecidPgThresholds& thresholds,
     int n
 );
 
-void prune(Tree& tree, const AecidPgThresholds& thresholds = {});
-std::vector<std::string> getTemplates(const Tree& tree);
-
-}  // namespace aecid_pg
+void prune(AecidPgTree& tree, const AecidPgThresholds& thresholds = {});
+std::vector<std::string> getTemplates(const AecidPgTree& tree);
 
 std::vector<std::string> aecidPgGenerator(
     const std::vector<std::string>& logs,
-    double theta_1 = aecid_pg::AecidPgThresholds{}.theta_1,
-    double theta_2 = aecid_pg::AecidPgThresholds{}.theta_2,
-    double theta_3 = aecid_pg::AecidPgThresholds{}.theta_3
+    double theta_1 = AecidPgThresholds{}.theta_1,
+    double theta_2 = AecidPgThresholds{}.theta_2,
+    double theta_3 = AecidPgThresholds{}.theta_3
 );
 
 #endif  // AECID_PG_H_

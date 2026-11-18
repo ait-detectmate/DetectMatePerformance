@@ -18,7 +18,7 @@ PYBIND11_MODULE(bind_class, m) {
     m.def("drain_generator", &drainGenerator);
     m.def("auto_parser", &doAutoParse);
 
-    constexpr aecid_pg::AecidPgThresholds aecid_thresholds{};
+    constexpr AecidPgThresholds aecid_thresholds{};
     m.def(
         "aecid_pg_generator",
         &aecidPgGenerator,

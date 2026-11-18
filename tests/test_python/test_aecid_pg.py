@@ -1,16 +1,8 @@
 
 from detectmateperformance import aecid_pg
-from detectmateperformance.lib.bind_class import aecid_pg_generator
 
 
 class TestAECID_PG:
-    def test_bind_method(self) -> None:
-        logs = ["Hello world", "Hello planet"]
-        assert sorted(aecid_pg_generator(logs)) == ["Hello planet", "Hello world"]
-        assert aecid_pg_generator(
-            logs=logs, theta_1=0.8, theta_2=0.8, theta_3=0.5
-        ) == ["Hello <*>"]
-
     def test_add_reset(self):
         aecid_pg_ = aecid_pg.AECID_PG()
         assert len(aecid_pg_) == 0

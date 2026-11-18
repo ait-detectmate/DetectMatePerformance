@@ -6,13 +6,12 @@
 
 #include "../../src/detectmateperformance/_core/parsers/aecid_pg.h"
 
-namespace aecid_pg {
-
 TEST(TreeOpTest, AddLog) {
-    Tree tree = initTree();
+    AecidPgTree tree = initTree();
     addLog(tree, {"hello", "there"});
-    const Tree expected = Tree{
-        {{"hello", Tree{{{"there", Tree{{}, {}, true}}}, {{"there", 1}}, false}}},
+    const AecidPgTree expected = AecidPgTree{
+        {{"hello", AecidPgTree{{{"there", AecidPgTree{{}, {}, true}}},
+                              {{"there", 1}}, false}}},
         {{"hello", 1}},
         false};
 
@@ -20,10 +19,11 @@ TEST(TreeOpTest, AddLog) {
 }
 
 TEST(TreeOpTest, AddLogs) {
-    Tree tree = initTree();
-    const Tree expected =
-        Tree{{{"hello",
-              Tree{{{"there", Tree{{}, {}, true}}, {"ciao", Tree{{}, {}, true}}},
+    AecidPgTree tree = initTree();
+    const AecidPgTree expected =
+        AecidPgTree{{{"hello",
+              AecidPgTree{{{"there", AecidPgTree{{}, {}, true}},
+                           {"ciao", AecidPgTree{{}, {}, true}}},
                     {{"there", 1}, {"ciao", 1}},
                     false}}},
             {{"hello", 2}},
@@ -35,25 +35,26 @@ TEST(TreeOpTest, AddLogs) {
 }
 
 TEST(TreeOpTest, MergeLeft) {
-    Tree tree_1 =
-        Tree{{{"hello",
-              Tree{{{"there", Tree{{}, {}, true}}, {"ciao", Tree{{}, {}, true}}},
+    AecidPgTree tree_1 =
+        AecidPgTree{{{"hello",
+              AecidPgTree{{{"there", AecidPgTree{{}, {}, true}},
+                           {"ciao", AecidPgTree{{}, {}, true}}},
                     {{"there", 1}, {"ciao", 1}},
                     false}}},
             {{"hello", 2}},
             false};
-    Tree tree_2 = Tree{
-        {{"ciao", Tree{{}, {}, true}},
-        {"hello", Tree{{{"ciao", Tree{{}, {}, true}}, {"a", Tree{{}, {}, true}}},
-                        {{"ciao", 2}, {"a", 1}},
-                        false}}},
+    AecidPgTree tree_2 = AecidPgTree{
+        {{"ciao", AecidPgTree{{}, {}, true}},
+        {"hello", AecidPgTree{{{"ciao", AecidPgTree{{}, {}, true}},
+                              {"a", AecidPgTree{{}, {}, true}}},
+                             {{"ciao", 2}, {"a", 1}}, false}}},
         {{"ciao", 1}, {"hello", 1}},
         false};
-    const Tree expected =
-        Tree{{{"ciao", Tree{{}, {}, true}},
-              {"hello", Tree{{{"there", Tree{{}, {}, true}},
-                              {"ciao", Tree{{}, {}, true}},
-                              {"a", Tree{{}, {}, true}}},
+    const AecidPgTree expected =
+        AecidPgTree{{{"ciao", AecidPgTree{{}, {}, true}},
+              {"hello", AecidPgTree{{{"there", AecidPgTree{{}, {}, true}},
+                              {"ciao", AecidPgTree{{}, {}, true}},
+                              {"a", AecidPgTree{{}, {}, true}}},
                             {{"there", 1}, {"ciao", 3}, {"a", 1}},
                             false}}},
             {{"ciao", 1}, {"hello", 3}},
@@ -64,22 +65,24 @@ TEST(TreeOpTest, MergeLeft) {
 }
 
 TEST(TreeOpTest, PruneWithRule1) {
-    Tree tree = Tree{
+    AecidPgTree tree = AecidPgTree{
         {{"hello",
-          Tree{{{"a", Tree{{}, {}, true}},
-                {"b", Tree{{}, {}, true}},
-                {"c", Tree{{}, {}, true}},
-                {"d", Tree{{{"ciao", Tree{{}, {}, true}}}, {{"ciao", 1}}, false}},
-                {"e", Tree{{}, {}, true}}},
+          AecidPgTree{{{"a", AecidPgTree{{}, {}, true}},
+                {"b", AecidPgTree{{}, {}, true}},
+                {"c", AecidPgTree{{}, {}, true}},
+                {"d", AecidPgTree{{{"ciao", AecidPgTree{{}, {}, true}}},
+                                  {{"ciao", 1}}, false}},
+                {"e", AecidPgTree{{}, {}, true}}},
               {{"a", 2}, {"b", 2}, {"c", 2}, {"d", 2}, {"e", 1}},
               false}}},
         {{"hello", 4}},
         false};
     prune(tree, {0.2, 0.8, 1.0});
-    const Tree expected =
-        Tree{{{"hello",
-              Tree{{{"<*>",
-                      Tree{{{"ciao", Tree{{}, {}, true}}}, {{"ciao", 1}}, true}}},
+    const AecidPgTree expected =
+        AecidPgTree{{{"hello",
+              AecidPgTree{{{"<*>",
+                      AecidPgTree{{{"ciao", AecidPgTree{{}, {}, true}}},
+                                   {{"ciao", 1}}, true}}},
                     {{"<*>", 9}},
                     false}}},
             {{"hello", 4}},
@@ -90,18 +93,20 @@ TEST(TreeOpTest, PruneWithRule1) {
 
 TEST(TreeOpTest, PruneWithRule2) {
 
-    Tree tree = Tree{
-        {{"ciao", Tree{{}, {}, true}},
-        {"bye", Tree{{{"b", Tree{{}, {}, true}}}, {{"b", 2}}, false}},
-        {"hello", Tree{{{"ciao", Tree{{}, {}, true}}, {"a", Tree{{}, {}, true}}},
-                        {{"ciao", 20}, {"a", 1}},
-                        false}}},
+    AecidPgTree tree = AecidPgTree{
+        {{"ciao", AecidPgTree{{}, {}, true}},
+        {"bye", AecidPgTree{{{"b", AecidPgTree{{}, {}, true}}},
+                           {{"b", 2}}, false}},
+        {"hello", AecidPgTree{{{"ciao", AecidPgTree{{}, {}, true}},
+                              {"a", AecidPgTree{{}, {}, true}}},
+                             {{"ciao", 20}, {"a", 1}}, false}}},
         {{"ciao", 40}, {"bye", 1}, {"hello", 1}},
         false};
     prune(tree, {0.2, 0.5, 1.0});
-    const Tree expected =
-        Tree{{{"ciao", Tree{{}, {}, true}},
-              {"<*>", Tree{{{"<*>", Tree{{}, {}, true}}}, {{"<*>", 23}}, false}}},
+    const AecidPgTree expected =
+        AecidPgTree{{{"ciao", AecidPgTree{{}, {}, true}},
+              {"<*>", AecidPgTree{{{"<*>", AecidPgTree{{}, {}, true}}},
+                                  {{"<*>", 23}}, false}}},
             {{"ciao", 40}, {"<*>", 2}},
             false};
 
@@ -110,13 +115,13 @@ TEST(TreeOpTest, PruneWithRule2) {
 
 TEST(TreeOpTest, PruneWithRule3) {
 
-    Tree tree = Tree{{{"ciao", Tree{{}, {}, true}},
-                      {"bye", Tree{{}, {}, true}},
-                      {"hello", Tree{{}, {}, true}},
-                      {"hello1", Tree{{}, {}, true}},
-                      {"hello2", Tree{{}, {}, true}},
-                      {"hello3", Tree{{}, {}, true}},
-                      {"hello4", Tree{{}, {}, true}}},
+    AecidPgTree tree = AecidPgTree{{{"ciao", AecidPgTree{{}, {}, true}},
+                      {"bye", AecidPgTree{{}, {}, true}},
+                      {"hello", AecidPgTree{{}, {}, true}},
+                      {"hello1", AecidPgTree{{}, {}, true}},
+                      {"hello2", AecidPgTree{{}, {}, true}},
+                      {"hello3", AecidPgTree{{}, {}, true}},
+                      {"hello4", AecidPgTree{{}, {}, true}}},
                     {{"ciao", 3},
                       {"bye", 2},
                       {"hello", 1},
@@ -127,22 +132,24 @@ TEST(TreeOpTest, PruneWithRule3) {
                     false};
 
     prune(tree, {0.2, 0.8, 0.4});
-    const Tree expected = Tree{{{"ciao", Tree{{}, {}, true}},
-                                {"bye", Tree{{}, {}, true}},
-                                {"<*>", Tree{{}, {}, true}}},
-                              {{"ciao", 3}, {"bye", 2}, {"<*>", 5}},
-                              false};
+    const AecidPgTree expected =
+        AecidPgTree{{{"ciao", AecidPgTree{{}, {}, true}},
+                    {"bye", AecidPgTree{{}, {}, true}},
+                    {"<*>", AecidPgTree{{}, {}, true}}},
+                    {{"ciao", 3}, {"bye", 2}, {"<*>", 5}},
+                    false};
 
     EXPECT_EQ(tree, expected);
 }
 
 TEST(TreeOpTest, GetTemplates) {
-    Tree tree = Tree{
-        {{"ciao", Tree{{}, {}, true}},
-        {"bye", Tree{{{"b", Tree{{}, {}, true}}}, {{"b", 2}}, false}},
-        {"hello", Tree{{{"ciao", Tree{{}, {}, true}}, {"a", Tree{{}, {}, true}}},
-                        {{"ciao", 20}, {"a", 1}},
-                        true}}},
+    AecidPgTree tree = AecidPgTree{
+        {{"ciao", AecidPgTree{{}, {}, true}},
+        {"bye", AecidPgTree{{{"b", AecidPgTree{{}, {}, true}}},
+                           {{"b", 2}}, false}},
+        {"hello", AecidPgTree{{{"ciao", AecidPgTree{{}, {}, true}},
+                              {"a", AecidPgTree{{}, {}, true}}},
+                             {{"ciao", 20}, {"a", 1}}, true}}},
         {{"ciao", 40}, {"bye", 1}, {"hello", 1}},
         false};
 
@@ -153,5 +160,3 @@ TEST(TreeOpTest, GetTemplates) {
 
     EXPECT_EQ(actual, expected);
 }
-
-}  // namespace aecid_pg

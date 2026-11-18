@@ -6,19 +6,17 @@
 #include <utility>
 
 
-namespace aecid_pg {
-
-bool Tree::operator==(const Tree& other) const {
+bool AecidPgTree::operator==(const AecidPgTree& other) const {
     return children == other.children &&
            count == other.count &&
            is_end_state == other.is_end_state;
 }
 
-Tree initTree() {
+AecidPgTree initTree() {
     return {};
 }
 
-void addLog(Tree& tree, const std::vector<std::string>& log) {
+void addLog(AecidPgTree& tree, const std::vector<std::string>& log) {
     if (log.empty()) {
         tree.is_end_state = true;
         return;
@@ -36,7 +34,7 @@ void addLog(Tree& tree, const std::vector<std::string>& log) {
     addLog(tree.children.at(head), tail);
 }
 
-void addLogs(Tree& tree, const std::vector<std::string>& logs) {
+void addLogs(AecidPgTree& tree, const std::vector<std::string>& logs) {
     std::vector<std::string> words;
     std::size_t start = 0;
     std::size_t end = 0;
@@ -55,7 +53,7 @@ void addLogs(Tree& tree, const std::vector<std::string>& logs) {
     }
 }
 
-void mergeLeft(Tree& tree_left, const Tree& tree_right) {
+void mergeLeft(AecidPgTree& tree_left, const AecidPgTree& tree_right) {
     tree_left.is_end_state |= tree_right.is_end_state;
     for (const auto& [child, subtree] : tree_right.children) {
         if (tree_left.children.find(child) == tree_left.children.end()) {
@@ -69,7 +67,7 @@ void mergeLeft(Tree& tree_left, const Tree& tree_right) {
 }
 
 bool isRule1(
-    const Tree& tree,
+    const AecidPgTree& tree,
     const std::vector<std::string>& children,
     const AecidPgThresholds& thresholds,
     int n
@@ -85,7 +83,7 @@ bool isRule1(
     return thresholds.theta_1 > maximum;
 }
 
-void applyRule1(Tree& tree, const std::vector<std::string>& children) {
+void applyRule1(AecidPgTree& tree, const std::vector<std::string>& children) {
     auto subtree = tree.children.extract(children.at(0));
     auto count = tree.count.extract(children.at(0));
 
@@ -102,7 +100,7 @@ void applyRule1(Tree& tree, const std::vector<std::string>& children) {
 }
 
 bool isRule2(
-    const Tree& tree,
+    const AecidPgTree& tree,
     const std::string& child,
     const AecidPgThresholds& thresholds,
     int n
@@ -110,7 +108,7 @@ bool isRule2(
     return static_cast<double>(tree.count.at(child)) / n < thresholds.theta_2;
 }
 
-void applyRule2(Tree& tree, const std::string& child) {
+void applyRule2(AecidPgTree& tree, const std::string& child) {
     if (tree.children.find("<*>") == tree.children.end()) {
         auto subtree = tree.children.extract(child);
         auto count = tree.count.extract(child);
@@ -126,7 +124,7 @@ void applyRule2(Tree& tree, const std::string& child) {
 }
 
 bool rule3(
-    Tree& tree,
+    AecidPgTree& tree,
     const std::vector<std::string>& children,
     const AecidPgThresholds& thresholds,
     int n
@@ -161,7 +159,7 @@ bool rule3(
     return true;
 }
 
-void prune(Tree& tree, const AecidPgThresholds& thresholds) {
+void prune(AecidPgTree& tree, const AecidPgThresholds& thresholds) {
     std::vector<std::string> children;
     int n = 0;
 
@@ -195,11 +193,13 @@ void prune(Tree& tree, const AecidPgThresholds& thresholds) {
     }
 }
 
-std::vector<std::string> getTemplates(const Tree& tree) {
+std::vector<std::string> getTemplates(const AecidPgTree& tree) {
     std::vector<std::string> templates;
     std::vector<std::string> words;
 
-    std::function<void(const Tree&)> visit = [&](const Tree& node) {
+    std::function<void(const AecidPgTree&)> visit = [&](
+        const AecidPgTree& node
+    ) {
         if (node.is_end_state) {
             std::string text;
             std::size_t index = 0;
@@ -223,17 +223,15 @@ std::vector<std::string> getTemplates(const Tree& tree) {
     return templates;
 }
 
-}  // namespace aecid_pg
-
 std::vector<std::string> aecidPgGenerator(
     const std::vector<std::string>& logs,
     double theta_1,
     double theta_2,
     double theta_3
 ) {
-    const aecid_pg::AecidPgThresholds thresholds{theta_1, theta_2, theta_3};
-    aecid_pg::Tree tree = aecid_pg::initTree();
-    aecid_pg::addLogs(tree, logs);
-    aecid_pg::prune(tree, thresholds);
-    return aecid_pg::getTemplates(tree);
+    const AecidPgThresholds thresholds{theta_1, theta_2, theta_3};
+    AecidPgTree tree = initTree();
+    addLogs(tree, logs);
+    prune(tree, thresholds);
+    return getTemplates(tree);
 }
