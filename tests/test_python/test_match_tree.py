@@ -24,7 +24,7 @@ class TestCaseTreeMatcher:
             "Hello. world 129.131.12.12",
             "Receiving block blk_-1608999687919862906",
             "Receiving block /home/linux/home/windows",
-            "pid=123"
+            "pid=123",
         ]
 
         expected = [
@@ -33,7 +33,7 @@ class TestCaseTreeMatcher:
             "Hello world 129.131.12.12",
             "Receiving block blk_-1608999687919862906",
             "Receiving block /home/linux/home/windows",
-            "pid 123"
+            "pid 123",
         ]
 
         for value, exp in zip(values, expected):
