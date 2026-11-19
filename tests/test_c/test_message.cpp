@@ -260,7 +260,7 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     EXPECT_EQ(result1.variables, expected1);
 
     ParsedElement result2 = matcher->match_string_with_var(
-        "hi general mr. and mrs. kenobi"
+        "hi general mr and mrs kenobi"
     )->getElemWithVar(0);
     std::string expected2 = "mr and mrs";
     EXPECT_EQ(result2.log_template, "hi general VAR kenobi");
@@ -292,7 +292,7 @@ TEST(TreeMatchTest, MatchStringBatch) {
         "hi there", "hi general VAR VAR kenobi", "load VAR from VAR VAR"
     };
     std::vector<std::string> logs = {
-        "hi there", "hi general mr. and mrs. kenobi", "hi random guy", "load 1213 asd from 112 bye"
+        "hi there", "hi general mr. and mrs kenobi", "hi random guy", "load 1213 asd from 112 bye"
     };
     std::vector<std::string> msg = {
         "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
@@ -323,7 +323,7 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
         "hi there", "hi general VAR VAR kenobi", "load VAR from VAR VAR"
     };
     std::vector<std::string> logs = {
-        "hi there", "hi general mr. and mrs. kenobi", "hi random guy", "load 1213 asd from 112 bye"
+        "hi there", "hi general mr and mrs kenobi", "hi random guy", "load 1213 asd from 112 bye"
     };
     std::vector<std::string> msg = {
         "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"

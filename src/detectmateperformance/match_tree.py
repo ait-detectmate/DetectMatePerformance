@@ -4,12 +4,17 @@ from detectmateperformance.lib.bind_class import MatchTree, Parsed
 from detectmateperformance.types_ import LogTemplates, ParsedLogs
 
 import polars as pl
+import re
 
 
 class TreeMatcher:
     def __init__(self, templates: LogTemplates) -> None:
         self.templates = templates
         self.inst = MatchTree(self.templates.inst)
+        self.pattern = re.compile(
+            r"""[!"#$%&'()*+,:;<=>?@\[\]^`{|}~\s]|[.-](?![a-zA-Z0-9])""",
+            re.ASCII,
+        )
 
     def __wrap(self, inst: Parsed, get_var: bool) -> ParsedLogs:
         return ParsedLogs.from_cls(inst, with_vars=get_var)
@@ -28,6 +33,7 @@ class TreeMatcher:
         return self.templates.get_templates(do_print=do_print)
 
     def match_log(self, log: str, get_var: bool = False) -> ParsedLogs:
+        log = self.pattern.sub(" ", log)
         if get_var:
             result = self.inst.match_string_with_var(log)
         else:
