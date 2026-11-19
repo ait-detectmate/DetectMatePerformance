@@ -28,7 +28,6 @@ void remove_empty(std::deque<std::string>& words) {
 std::deque<std::string> preprocessing(std::string message) {
     std::deque<std::string> words;
 
-    message = clean_string(message);
     const char* start = message.data();
     const char* end = start;
 

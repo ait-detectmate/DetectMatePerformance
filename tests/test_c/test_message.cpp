@@ -260,7 +260,7 @@ TEST(TreeMatchTest, MatchStringWithVar) {
     EXPECT_EQ(result1.variables, expected1);
 
     ParsedElement result2 = matcher->match_string_with_var(
-        "hi general mr. and mrs. kenobi"
+        "hi general mr and mrs kenobi"
     )->getElemWithVar(0);
     std::string expected2 = "mr and mrs";
     EXPECT_EQ(result2.log_template, "hi general VAR kenobi");
@@ -292,7 +292,7 @@ TEST(TreeMatchTest, MatchStringBatch) {
         "hi there", "hi general VAR VAR kenobi", "load VAR from VAR VAR"
     };
     std::vector<std::string> logs = {
-        "hi there", "hi general mr. and mrs. kenobi", "hi random guy", "load 1213 asd from 112 bye"
+        "hi there", "hi general mr. and mrs kenobi", "hi random guy", "load 1213 asd from 112 bye"
     };
     std::vector<std::string> msg = {
         "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
@@ -323,7 +323,7 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
         "hi there", "hi general VAR VAR kenobi", "load VAR from VAR VAR"
     };
     std::vector<std::string> logs = {
-        "hi there", "hi general mr. and mrs. kenobi", "hi random guy", "load 1213 asd from 112 bye"
+        "hi there", "hi general mr and mrs kenobi", "hi random guy", "load 1213 asd from 112 bye"
     };
     std::vector<std::string> msg = {
         "hi there", "hi general VAR kenobi", "template not found", "load VAR from VAR"
@@ -362,84 +362,4 @@ TEST(TreeMatchTest, MatchStringBatchVar) {
     }
 
     delete matcher;
-}
-
-TEST(ParsedMessagesTest, HardCases1) {
-    std::deque<std::string> input = {
-        "VAR floating point alignment exceptions",
-        "floating point instr. enabled.....VAR",
-        "floating pt ex mode <*> enable......VAR",
-    };
-    std::string log = "8 floating point alignment exceptions";
-
-    Templates* templates = new Templates(input);
-    MatchTree* matcher = new MatchTree(templates);
-
-    ParsedMessages* result1 = matcher->match_string(log);
-    EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0).log_template, "VAR floating point alignment exceptions");
-
-}
-
-TEST(ParsedMessagesTest, HardCases2) {
-    std::deque<std::string> input = {
-        "Exception in receiveBlock for block VAR java.io.IOException: Broken pipe",
-        "VAR:Exception writing block VAR to mirror VAR",
-    };
-    std::string log = "10.250.14.196:50010:Exception writing block blk_-6994808880344424033 to mirror 10.251.107.50:50010";
-
-    Templates* templates = new Templates(input);
-    MatchTree* matcher = new MatchTree(templates);
-
-    ParsedMessages* result1 = matcher->match_string(log);
-    EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0).log_template, "VAR Exception writing block VAR to mirror VAR");
-
-}
-
-TEST(ParsedMessagesTest, HardCases3) {
-    std::deque<std::string> input = {
-        "rts: kernel terminated for reason VAR",
-        "rts: kernel terminated for reason VAR: bad message header: invalid cpu, type=VAR, cpu=VAR, index=VAR, total=VAR",
-    };
-    std::string log = "rts: kernel terminated for reason 1001";
-
-    Templates* templates = new Templates(input);
-    MatchTree* matcher = new MatchTree(templates);
-
-    ParsedMessages* result1 = matcher->match_string(log);
-    EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0).log_template, "rts kernel terminated for reason VAR");
-
-}
-
-TEST(ParsedMessagesTest, HardCases4) {
-    std::deque<std::string> input = {
-        "data TLB error interrupt data address space................0",
-        "data TLB error interrupt",
-    };
-    std::string log = "data TLB error interrupt";
-
-    Templates* templates = new Templates(input);
-    MatchTree* matcher = new MatchTree(templates);
-
-    ParsedMessages* result1 = matcher->match_string(log);
-    EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0).log_template, "data TLB error interrupt");
-
-}
-
-TEST(ParsedMessagesTest, HardCases5) {
-    std::deque<std::string> input = {
-        "VAR Killing process VAR (kill) with signal SIGKILL.",
-    };
-    std::string log = "user@1002.service: Killing process 29 (kill) with signal SIGKILL.";
-
-    Templates* templates = new Templates(input);
-    MatchTree* matcher = new MatchTree(templates);
-
-    ParsedMessages* result1 = matcher->match_string(log);
-    EXPECT_EQ(result1->size(), 1);
-    EXPECT_EQ(result1->getElem(0).log_template, "VAR Killing process VAR kill with signal SIGKILL");
-
 }

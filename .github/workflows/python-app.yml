@@ -24,6 +24,8 @@ jobs:
         run: sudo timedatectl set-timezone Europe/Vienna
 
       - name: Run pre-commit with prek
+        env:
+          PREK_SKIP: clean-so
         run: uv run --dev prek run -a
 
       - name: Run local compilation

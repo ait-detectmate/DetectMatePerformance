@@ -78,6 +78,22 @@ def postprocessing(df: pl.DataFrame) -> pl.DataFrame:
     return df
 
 
+def applying_regex(df: pl.DataFrame) -> pl.DataFrame:
+    pattern = (
+        r"""[!"#$%&'()*+,:;<=>?@\[\]^`{|}~]"""  # punctuation
+        r"|(?-u:\s)"                            # ASCII whitespace
+        r"|[.-](?-u:\B)"                        # dot or hyphen before a non-word char or end
+    )
+
+    return df.with_columns(
+        pl.col("Content")
+        .str.replace_all(pattern, " ")
+        .str.replace_all(r"[.-]_", " _")
+        .str.replace_all(r" {2,}", " ")
+        .alias("Content")
+    )
+
+
 def run_batches(
     func: Callable[[list[str], bool, int], ParsedLogs],
     table: pl.DataFrame,
@@ -85,6 +101,9 @@ def run_batches(
     n_workers: int = 1,
     batch: int = int(3e+6),
 ) -> pl.DataFrame:
+
+    print("\033[46m  \033[0m  🛠️  Applying regex...")
+    table = applying_regex(table)
 
     first = True
     print("\033[46m  \033[0m  🛠️  Matching data")
@@ -95,7 +114,7 @@ def run_batches(
         bar_format='{l_bar}{bar:10}{r_bar}{bar:-10b}'
     ):
         results = func(  # type: ignore
-            table["Content"][i-batch: i].to_list(), get_var=get_var, n_workers=n_workers
+            table["Content"][i-batch: i].to_list(), get_var=get_var, n_workers=n_workers, do_regex=False
         )
         if first:
             df = add_parsed(df=table[i-batch: i], results=results)
