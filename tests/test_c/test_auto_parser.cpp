@@ -74,7 +74,6 @@ TEST(AutoTest, MainPipeline) {
     EXPECT_EQ(temp, "saddr VAR");
     EXPECT_TRUE(result1.second > -1);
 
-
     auto result2 = autoParserGenerator(sentences2, paths, regexs);
     Templates templates2 = result2.first;
     std::string temp2 = templates2.getNextConcatenate();
