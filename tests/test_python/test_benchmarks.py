@@ -10,7 +10,7 @@ import pytest
 regex = r"type=(?P<Type>\w+) msg=audit\((?P<Time>[^:]+):(?P<Serial>\d+)\): (?P<Content>.*)"
 path_temp = "tests/test_data/audit_templates.txt"
 logs_path = "tests/test_data/audit.log"
-max_time = 6
+max_time = 2
 
 
 class TestPerformance:

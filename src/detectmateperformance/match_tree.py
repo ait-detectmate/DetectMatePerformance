@@ -1,4 +1,4 @@
-from detectmateperformance.pipeline_op import run_full_pipeline, run_batches
+from detectmateperformance.pipeline_op import run_full_pipeline, run_batches, applying_regex
 from detectmateperformance.lib.bind_class import MatchTree, Parsed
 
 from detectmateperformance.types_ import LogTemplates, ParsedLogs
@@ -41,8 +41,10 @@ class TreeMatcher:
         return self.__wrap(result, get_var=get_var)
 
     def match_batch(
-        self, logs: list[str], get_var: bool = False, n_workers: int = 1
+        self, logs: list[str], get_var: bool = False, n_workers: int = 1, do_regex: bool = True
     ) -> ParsedLogs:
+        if do_regex:
+            logs = applying_regex(pl.DataFrame({"Content": logs}))["Content"].to_list()
         if get_var:
             result = self.inst.match_batch_with_var(logs, n_workers)
         else:
