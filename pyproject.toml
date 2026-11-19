@@ -3,7 +3,7 @@ name = "detectmateperformance"
 description = "A Python package for DetectMate performance evaluation."
 requires-python = ">=3.12"
 license = "EUPL-1.2"
-version="0.2.0"
+dynamic = ["version"]
 dependencies = [
     "levenshtein>=0.27.3",
     "numpy>=2.4.4",
@@ -42,8 +42,20 @@ where = ["src"]
 include-package-data = true
 license-files = ["LICENSE.md"]
 
+[tool.setuptools.dynamic]
+version = { attr = "detectmateperformance.metadata.__version__" }
+
 [tool.setuptools.package-data]
 "*" = [
     "lib/bind_class.*",
     "_templates/*.txt"
+]
+
+[tool.uv]
+cache-keys = [
+    { file = "pyproject.toml" },
+    { file = "setup.py" },
+    { file = "setup.cfg" },
+    { dir = "src" },
+    { file = "src/detectmateperformance/metadata.py" },
 ]
