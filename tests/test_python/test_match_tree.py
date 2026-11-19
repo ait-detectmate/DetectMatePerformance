@@ -1,4 +1,4 @@
-from detectmateperformance.match_tree import TreeMatcher
+from detectmateperformance.match_tree import TreeMatcher, CleanString
 from detectmateperformance.types_ import LogTemplates
 
 import polars as pl
@@ -16,6 +16,29 @@ def load_logs() -> list[str]:
 
 
 class TestCaseTreeMatcher:
+    def test_clean_strings(self):
+        clean_string = CleanString()
+        values = [
+            "Hello, world",
+            "Hello. world",
+            "Hello. world 129.131.12.12",
+            "Receiving block blk_-1608999687919862906",
+            "Receiving block /home/linux/home/windows",
+            "pid=123"
+        ]
+
+        expected = [
+            "Hello world",
+            "Hello world",
+            "Hello world 129.131.12.12",
+            "Receiving block blk_-1608999687919862906",
+            "Receiving block /home/linux/home/windows",
+            "pid 123"
+        ]
+
+        for value, exp in zip(values, expected):
+            assert clean_string(value) == exp
+
     def test_init(self):
         assert len(TreeMatcher.from_file(path_temp)) == 9
 

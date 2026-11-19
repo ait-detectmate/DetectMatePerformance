@@ -89,6 +89,7 @@ def applying_regex(df: pl.DataFrame) -> pl.DataFrame:
         pl.col("Content")
         .str.replace_all(pattern, " ")
         .str.replace_all(r"[.-]_", " _")
+        .str.replace_all(r" {2,}", " ")
         .alias("Content")
     )
 

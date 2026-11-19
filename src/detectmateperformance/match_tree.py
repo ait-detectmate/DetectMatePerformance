@@ -7,14 +7,23 @@ import polars as pl
 import re
 
 
+class CleanString:
+    def __init__(self) -> None:
+        self.pattern = re.compile(
+            r"""(?:[!"#$%&'()*+,:;<=>?@\[\]^`{|}~\s]"""
+            r"|[.-](?![a-zA-Z0-9]))+",
+            re.ASCII,
+        )
+
+    def __call__(self, string: str) -> str:
+        return self.pattern.sub(" ", string)
+
+
 class TreeMatcher:
     def __init__(self, templates: LogTemplates) -> None:
         self.templates = templates
         self.inst = MatchTree(self.templates.inst)
-        self.pattern = re.compile(
-            r"""[!"#$%&'()*+,:;<=>?@\[\]^`{|}~\s]|[.-](?![a-zA-Z0-9])""",
-            re.ASCII,
-        )
+        self.clean_string = CleanString()
 
     def __wrap(self, inst: Parsed, get_var: bool) -> ParsedLogs:
         return ParsedLogs.from_cls(inst, with_vars=get_var)
@@ -33,7 +42,7 @@ class TreeMatcher:
         return self.templates.get_templates(do_print=do_print)
 
     def match_log(self, log: str, get_var: bool = False) -> ParsedLogs:
-        log = self.pattern.sub(" ", log)
+        log = self.clean_string(log)
         if get_var:
             result = self.inst.match_string_with_var(log)
         else:
