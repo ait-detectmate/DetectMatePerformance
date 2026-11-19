@@ -9,7 +9,8 @@ import polars as pl
 
 
 def cluster_logs_df(df: pl.DataFrame, depth: int = 2, max_child: int = 10) -> dict[str, list[str]]:
-    df = df.unique()
+    # The first log in each group seeds native clustering.
+    df = df.unique(keep="first", maintain_order=True)
 
     df = df.insert_column(-1, pl.col("Content").str.split(by=" ").list.len().alias("L"))
     df = df.with_columns(
@@ -27,7 +28,12 @@ def cluster_logs_df(df: pl.DataFrame, depth: int = 2, max_child: int = 10) -> di
     df = df.with_columns(concat_list=pl.concat_list(cols).list.join("_"))
     df = df.drop(cols)
 
-    dict_ = df.group_by("concat_list").agg(pl.col("Content")).rows_by_key("concat_list")
+    # The order of the groups determines template order and event IDs.
+    dict_ = (
+        df.group_by("concat_list", maintain_order=True)
+        .agg(pl.col("Content"))
+        .rows_by_key("concat_list")
+    )
     return {k: v[0][0] for k, v in dict_.items()}
 
 

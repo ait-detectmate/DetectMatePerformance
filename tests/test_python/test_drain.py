@@ -61,6 +61,24 @@ class TestDrain:
         template = tree_match.match_log("hello tobias my man").get_all_templates()[0]
         assert "hello VAR my VAR" == template
 
+    def test_drain_preserves_input_order(self) -> None:
+        logs = [
+            "job run aaaabbbb",
+            "client connected",
+            "job run aaaaaaaa",
+            "job run aaaabbbb",
+            "job run bbbbbbbb",
+        ]
+
+        tree_match = drain.Drain()(logs)
+
+        assert tree_match.get_templates(do_print=False) == [
+            "job run <*>",
+            "client connected",
+        ]
+        matched_logs = tree_match.match_batch(logs)
+        assert matched_logs.get_all_events_ids() == [0, 1, 0, 0, 0]
+
     def test_num_cases(self):
         drain_ = drain.Drain(depth=1)
         drain_.add("Hello 1ad231b1")
