@@ -97,3 +97,46 @@ class TestCaseHardones:
 
         assert len(results["Templates"].unique()) == 1
         assert results["Templates"].unique()[0] == "<*> floating point alignment exceptions"
+
+    def test_case_2(self):
+        temp = LogTemplates([
+            "Exception in receiveBlock for block <*> java.io.IOException: Broken pipe",
+            "VAR:Exception writing block <*> to mirror <*>",
+        ])
+        log = "10.250.14.196:50010:Exception writing block blk_-6994808880344424033 to mirror 10.251.107.50:50010"  # noqa: E501
+
+        tree_macther = TreeMatcher(temp)
+        results = tree_macther.match_log(log, get_var=False).get_all_templates()
+        assert results[0] == "VAR Exception writing block VAR to mirror VAR"
+
+    def test_case_3(self):
+        temp = LogTemplates([
+            "rts: kernel terminated for reason VAR",
+            "rts: kernel terminated for reason VAR: bad message header: invalid cpu, type=VAR, cpu=VAR, index=VAR, total=VAR",  # noqa: E501
+        ])
+        log = "rts: kernel terminated for reason VAR"
+
+        tree_macther = TreeMatcher(temp)
+        results = tree_macther.match_log(log, get_var=False).get_all_templates()
+        assert results[0] == "rts kernel terminated for reason VAR"
+
+    def test_case_4(self):
+        temp = LogTemplates([
+            "data TLB error interrupt data address space................0",
+            "data TLB error interrupt",
+        ])
+        log = "data TLB error interrupt"
+
+        tree_macther = TreeMatcher(temp)
+        results = tree_macther.match_log(log, get_var=False).get_all_templates()
+        assert results[0] == "data TLB error interrupt"
+
+    def test_case_5(self):
+        temp = LogTemplates([
+            "VAR Killing process VAR (kill) with signal SIGKILL.",
+        ])
+        log = "user@1002.service: Killing process 29 (kill) with signal SIGKILL."
+
+        tree_macther = TreeMatcher(temp)
+        results = tree_macther.match_log(log, get_var=False).get_all_templates()
+        assert results[0] == "VAR Killing process VAR kill with signal SIGKILL"
