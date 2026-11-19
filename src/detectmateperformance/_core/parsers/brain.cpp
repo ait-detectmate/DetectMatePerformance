@@ -18,9 +18,22 @@ bool isLengthNegative(
     return !lengths[row] || *lengths[row] < 0;
 }
 
-bool isPositionInRange( int length, int position) {
+bool isPositionInRange(int length, int position) {
     return position < 0 || position >= length;
 }
+
+void concatenateString(
+    std::vector<std::string_view> tokens, std::string& sentence
+) {
+    sentence.clear();
+    for (std::size_t index = 0; index < tokens.size(); ++index) {
+        if (index > 0) {
+            sentence += ' ';
+        }
+        sentence += tokens[index];
+    }
+}
+
 
 std::vector<std::string> brain(
     const std::vector<std::optional<std::int64_t>>& lengths,
@@ -31,11 +44,12 @@ std::vector<std::string> brain(
     }
 
     std::vector<std::string> sentences;
-    sentences.reserve(lengths.size());
     std::vector<std::string_view> tokens;
     std::string sentence;
     std::int64_t length;
     std::int64_t position;
+
+    sentences.reserve(lengths.size());
 
     for (std::size_t row = 0; row < lengths.size(); ++row) {
         if (isLengthNegative(lengths, row)) {
@@ -54,13 +68,7 @@ std::vector<std::string> brain(
             tokens[static_cast<std::size_t>(position)] = templates[row][index].second;
         }
 
-        sentence.clear();
-        for (std::size_t index = 0; index < tokens.size(); ++index) {
-            if (index > 0) {
-                sentence += ' ';
-            }
-            sentence += tokens[index];
-        }
+        concatenateString(tokens, sentence);
         sentences.push_back(std::move(sentence));
     }
 
