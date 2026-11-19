@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.25)
+cmake_minimum_required(VERSION 3.14)
 project(detectmateperformance)
 
 # GoogleTest requires at least C++17
@@ -6,33 +6,6 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
-
-# Arrow 23 and later require C++20.
-FetchContent_Declare(
-  apache_arrow
-  URL https://archive.apache.org/dist/arrow/arrow-22.0.0/apache-arrow-22.0.0.tar.gz
-  URL_HASH SHA512=8ec9ddaf7917c0e35c8bb32831fe6ea0a7b81de5723828a1289ba1b9e104b42af688d0f427a0ceff6f617d5f7ac67769431184b137e54f6987779e467c59d3ec
-  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-  SOURCE_SUBDIR cpp
-)
-
-block()
-  if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE Release)
-  endif()
-  set(ARROW_BUILD_STATIC ON)
-  set(ARROW_POSITION_INDEPENDENT_CODE ON)
-  set(ARROW_DEPENDENCY_SOURCE AUTO)
-  set(ARROW_SIMD_LEVEL NONE)
-  set(ARROW_RUNTIME_SIMD_LEVEL NONE)
-  FetchContent_MakeAvailable(apache_arrow)
-
-  target_include_directories(
-    arrow_static SYSTEM INTERFACE
-    "$<BUILD_INTERFACE:${apache_arrow_SOURCE_DIR}/cpp/src>"
-    "$<BUILD_INTERFACE:${apache_arrow_BINARY_DIR}/src>"
-  )
-endblock()
 
 FetchContent_Declare(
   googletest
@@ -175,6 +148,13 @@ add_executable(
 )
 target_link_libraries(test_aecid_pg PRIVATE GTest::gtest_main)
 
+add_executable(
+  test_brain
+  tests/test_c/test_brain.cpp
+  src/detectmateperformance/_core/parsers/brain.cpp
+)
+target_link_libraries(test_brain PRIVATE GTest::gtest_main)
+
 pybind11_add_module(
   bind_class
   src/detectmateperformance/_core/bind_class.cpp
@@ -203,7 +183,6 @@ pybind11_add_module(
   src/detectmateperformance/_core/parsers/brain.h
   src/detectmateperformance/_core/parsers/brain.cpp
 )
-target_link_libraries(bind_class PRIVATE arrow_static)
 
 target_link_libraries(
   test_c
@@ -282,3 +261,4 @@ gtest_discover_tests(test_matcher_vars)
 gtest_discover_tests(test_drain_op)
 gtest_discover_tests(test_auto_parser)
 gtest_discover_tests(test_aecid_pg)
+gtest_discover_tests(test_brain)

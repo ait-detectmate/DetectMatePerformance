@@ -1,12 +1,58 @@
+from typing import TYPE_CHECKING, TypedDict, cast
+
 from detectmateperformance.match_tree import TreeMatcher
 from detectmateperformance.types_ import LogTemplates
 
 from detectmateperformance._iparser import IParser
 
-from detectmateperformance.lib.bind_class import brain as template_generator
+from detectmateperformance.lib.bind_class import brain_generator
 
 
 import polars as pl
+
+if TYPE_CHECKING:
+    import pyarrow as pa
+
+
+class _PositionedWord(TypedDict, total=False):
+    position: int | None
+    word: str | None
+
+
+def _generate_templates(
+    lengths: list[int | None],
+    templates: list[list[_PositionedWord | None] | None],
+) -> list[str]:
+    positioned_templates: list[list[tuple[int, str]]] = []
+    for template in templates:
+        positioned_words = []
+        for token in template or []:
+            if token is None:
+                continue
+            position = token.get("position")
+            word = token.get("word")
+            if position is not None and word is not None:
+                positioned_words.append((position, word))
+        positioned_templates.append(positioned_words)
+    return cast(list[str], brain_generator(lengths, positioned_templates))
+
+
+def _brain_from_table(table: object) -> "pa.Table":
+    import pyarrow as pa
+
+    if not hasattr(table, "__arrow_c_stream__"):
+        raise TypeError("brain() expects a table that exports an Arrow C stream")
+
+    arrow_table = pa.table(table)
+    if arrow_table.schema.get_field_index("Lenght") < 0 or arrow_table.schema.get_field_index("Template") < 0:
+        raise ValueError("Brain requires Lenght and Template columns")
+
+    template_type = pa.large_list(pa.struct([("position", pa.int64()), ("word", pa.large_string())]))
+    sentences = _generate_templates(
+        arrow_table["Lenght"].cast(pa.int64()).to_pylist(),
+        arrow_table["Template"].cast(template_type).to_pylist(),
+    )
+    return pa.table({"Templates": pa.array(sentences, type=pa.large_string())})
 
 
 def cluter_logs(logs: pl.DataFrame, weight: float = 0.5) -> pl.DataFrame:
@@ -68,8 +114,9 @@ class Brain(IParser):
         set_groups = cluter_logs(logs=df[["Content"]], weight=self.weight)
 
         print("\033[46m  \033[0m  ⚙️  Generating templates")
-        results = pl.from_arrow(template_generator(set_groups.to_arrow()))
-        templates = LogTemplates(results["Templates"].to_list())
+        templates = LogTemplates(_generate_templates(
+            set_groups["Lenght"].to_list(), set_groups["Template"].to_list()
+        ))
 
         print("\033[46m  \033[0m  💻  Initializing tree matcher instance")
         tree_matcher = TreeMatcher(templates)
