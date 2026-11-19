@@ -7,7 +7,6 @@
 
 #include "../aux.h"
 
-
 std::vector<std::string> te_preprocess(std::deque<std::string> message) {
     // remove multiple VARs in a row
     std::vector<std::string> processed;
@@ -25,7 +24,7 @@ std::vector<std::string> te_preprocess(std::deque<std::string> message) {
 
 Templates::Templates(std::deque<std::string> templates) {
     for (const auto& message : templates) {
-        this->messages.push_back(te_preprocess(preprocessing(message)));
+        this->messages.push_back(te_preprocess(preprocessing(clean_string(message))));
     }
     resetCount();
 }
@@ -36,7 +35,7 @@ Templates::Templates(std::string filename) {
 
     for (const auto& message : templates) {
         this->messages.push_back(te_preprocess(preprocessing(
-            std::regex_replace(message, pattern, "VAR")
+            clean_string(std::regex_replace(message, pattern, "VAR"))
         )));
     }
     resetCount();

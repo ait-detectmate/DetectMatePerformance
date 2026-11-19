@@ -1,5 +1,7 @@
 
-from detectmateperformance.pipeline_op import preprocessing
+from detectmateperformance.pipeline_op import preprocessing, applying_regex
+
+import polars as pl
 
 
 class TestCasePreprocessingPipeline:
@@ -24,3 +26,26 @@ class TestCasePreprocessingPipeline:
         )
         print(df)
         assert len(df) == 4
+
+    def test_apply_regex(self):
+        df = pl.DataFrame({
+            "Content": [
+                "Hello, world",
+                "Hello. world",
+                "Hello. world 129.131.12.12",
+                "Receiving block blk_-1608999687919862906",
+                "Receiving block /home/linux/home/windows",
+                "pid=123",
+            ]
+        })
+        expected = pl.DataFrame({
+            "Content": [
+                "Hello world",
+                "Hello world",
+                "Hello world 129.131.12.12",
+                "Receiving block blk_-1608999687919862906",
+                "Receiving block /home/linux/home/windows",
+                "pid 123",
+            ]
+        })
+        assert applying_regex(df).equals(expected)

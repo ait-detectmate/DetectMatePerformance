@@ -5,9 +5,10 @@
 #include "../../src/detectmateperformance/_core/parsers/auto_parser.h"
 
 
-std::vector<std::string> paths = {
-    "../src/detectmateperformance/_templates/audit_templates.txt",
-    "../src/detectmateperformance/_templates/hdfs_templates.txt",
+const std::string templateDirectory = TEST_TEMPLATES_DIR "/";
+const std::vector<std::string> paths = {
+    templateDirectory + "audit_templates.txt",
+    templateDirectory + "hdfs_templates.txt",
 };
 
 std::vector<const char*> regexs = {
@@ -73,7 +74,6 @@ TEST(AutoTest, MainPipeline) {
     EXPECT_EQ(temp, "saddr VAR");
     EXPECT_TRUE(result1.second > -1);
 
-
     auto result2 = autoParserGenerator(sentences2, paths, regexs);
     Templates templates2 = result2.first;
     std::string temp2 = templates2.getNextConcatenate();
@@ -85,48 +85,59 @@ TEST(AutoTest, MainPipeline) {
 }
 
 
-TEST(AutoTest, AllLogs) {
-    std::string path = "../src/detectmateperformance/_templates/";
+TEST(AutoTest, RequiresEveryLogToMatch) {
+    auto result = autoParserGenerator(
+        {
+            sentences1.front(),
+            "type=USER_ACCT msg=audit(1642723741.072:376): "
+            "service finished with unknown status"
+        },
+        {paths.front()},
+        {regexs.front()}
+    );
 
-    auto result1 = doAutoParse(sentences1, path);
+    EXPECT_EQ(result.second, -1);
+}
+
+
+TEST(AutoTest, AllLogs) {
+    auto result1 = doAutoParse(sentences1, templateDirectory);
     Templates templates = result1.first;
     std::string temp = templates.getNextConcatenate();
     EXPECT_EQ(temp, "saddr VAR");
 
-    auto result2 = doAutoParse(sentences2, path);
+    auto result2 = doAutoParse(sentences2, templateDirectory);
     Templates templates2 = result2.first;
     std::string temp2 = templates2.getNextConcatenate();
     EXPECT_EQ(temp2, "Receiving block VAR src VAR dest VAR");
 
-    auto result3 = doAutoParse(sentences3, path);
+    auto result3 = doAutoParse(sentences3, templateDirectory);
     Templates templates3 = result3.first;
     std::string temp3 = templates3.getNextConcatenate();
     EXPECT_EQ(temp3, "VAR BGLERR_IDO_PKT_TIMEOUT connection lost to node/link/service card");
 
-    auto result4 = doAutoParse(sentences4, path);
+    auto result4 = doAutoParse(sentences4, templateDirectory);
     Templates templates4 = result4.first;
     std::string temp4 = templates4.getNextConcatenate();
     EXPECT_EQ(temp4, "nameserver VAR refused to do a recursive query");
 
-    auto result5 = doAutoParse(sentences5, path);
+    auto result5 = doAutoParse(sentences5, templateDirectory);
     Templates templates5 = result5.first;
     std::string temp5 = templates5.getNextConcatenate();
     EXPECT_EQ(temp5, "Validating certificate extended key usage");
 
-    auto result6 = doAutoParse(sentences6, path);
+    auto result6 = doAutoParse(sentences6, templateDirectory);
     EXPECT_EQ(result6.second, -1);
 }
 
 
 TEST(AutoTest, AssignedLog) {
-    std::string path = "../src/detectmateperformance/_templates/";
-
-    auto result1 = doAutoParse(sentences1, path, "Audit");
+    auto result1 = doAutoParse(sentences1, templateDirectory, "Audit");
     Templates templates = result1.first;
     std::string temp = templates.getNextConcatenate();
     EXPECT_EQ(temp, "saddr VAR");
     EXPECT_EQ(result1.second, 0);
 
-    EXPECT_THROW(doAutoParse(sentences1, path, "Unknow"), std::runtime_error);
+    EXPECT_THROW(doAutoParse(sentences1, templateDirectory, "Unknow"), std::runtime_error);
 
 }

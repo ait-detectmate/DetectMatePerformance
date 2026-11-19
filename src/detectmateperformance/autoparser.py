@@ -52,7 +52,7 @@ class AutoParse:
         templates, idx = auto_parser(sample, self.path, log_type)
         templates = LogTemplates(templates)
 
-        print("\033[46m  \033[0m  💻  Initializing tree matcher instansce")
+        print("\033[46m  \033[0m  💻  Initializing tree matcher instance")
         tree_matcher = TreeMatcher(templates)
 
         print("\033[46m  \033[0m  ✅ Process complete!")

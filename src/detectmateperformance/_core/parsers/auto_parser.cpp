@@ -1,5 +1,6 @@
 
 #include "auto_parser.h"
+#include "../aux.h"
 
 #include <stdexcept>
 #include <regex>
@@ -71,16 +72,16 @@ std::pair<Templates, int> autoParserGenerator(
         std::vector<std::string> sentences_aux(sentences.size());
         for (size_t j = 0; j < sentences.size(); j++) {
             std::regex_search(sentences[j], match_results, log_regex);
-            sentences_aux[j] = match_results[match_results.size() - 1].str();
+            sentences_aux[j] = clean_string(match_results[match_results.size() - 1].str());
         }
         ParsedMessages* parsed_logs = tree->match_batch(sentences_aux, 1);
 
-        // Count template missmatchess
+        // Count template mismatches for the sampled logs.
         int not_found = 0;
 
         for (size_t j = 0; j < sentences.size(); j++) {
-            ParsedElement elem = parsed_logs->getElem(i);
-            if (elem.log_template == "template not found" || sentences_aux[j] == "") {
+            if (sentences_aux[j].empty() ||
+                parsed_logs->getElem(j).log_template == "template not found") {
                 not_found += 1;
             }
         }
