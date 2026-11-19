@@ -4,6 +4,7 @@
 #include "parsers/aecid_pg.h"
 #include "parsers/drain.h"
 #include "parsers/auto_parser.h"
+#include "parsers/brain.h"
 
 #include "template_matcher/match_tree.h"
 #include "_type/element.h"
@@ -17,6 +18,10 @@ namespace py = pybind11;
 PYBIND11_MODULE(bind_class, m) {
     m.def("drain_generator", &drainGenerator);
     m.def("auto_parser", &doAutoParse);
+    m.def("brain_generator", &brain, py::arg("lengths"), py::arg("templates"));
+    m.def("brain", [](py::handle table) {
+        return py::module_::import("detectmateperformance.brain").attr("_brain_from_table")(table);
+    }, py::arg("table"));
 
     constexpr AecidPgThresholds aecid_thresholds{};
     m.def(

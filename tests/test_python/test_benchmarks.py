@@ -1,6 +1,7 @@
 from detectmateperformance import match_tree
 from detectmateperformance import autoparser
 from detectmateperformance import aecid_pg
+from detectmateperformance import brain
 from detectmateperformance import drain
 
 import pytest
@@ -18,6 +19,13 @@ class TestPerformance:
     def test_drain_pipeline(self):
         for _ in range(10):
             drain_ = drain.Drain(sim=0.3, max_child=1000, depth=2)
+            drain_(logs=logs_path, regex=regex)
+
+    @pytest.mark.ignored
+    @pytest.mark.timeout(max_time)
+    def test_brain_pipeline(self):
+        for _ in range(10):
+            drain_ = brain.Brain(weight=0.5)
             drain_(logs=logs_path, regex=regex)
 
     @pytest.mark.ignored

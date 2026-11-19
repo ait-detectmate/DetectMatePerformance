@@ -5,8 +5,8 @@ project(detectmateperformance)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-
 include(FetchContent)
+
 FetchContent_Declare(
   googletest
   URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
@@ -148,6 +148,13 @@ add_executable(
 )
 target_link_libraries(test_aecid_pg PRIVATE GTest::gtest_main)
 
+add_executable(
+  test_brain
+  tests/test_c/test_brain.cpp
+  src/detectmateperformance/_core/parsers/brain.cpp
+)
+target_link_libraries(test_brain PRIVATE GTest::gtest_main)
+
 pybind11_add_module(
   bind_class
   src/detectmateperformance/_core/bind_class.cpp
@@ -173,6 +180,8 @@ pybind11_add_module(
   src/detectmateperformance/_core/parsers/auto_parser.cpp
   src/detectmateperformance/_core/parsers/aecid_pg.h
   src/detectmateperformance/_core/parsers/aecid_pg.cpp
+  src/detectmateperformance/_core/parsers/brain.h
+  src/detectmateperformance/_core/parsers/brain.cpp
 )
 
 target_link_libraries(
@@ -252,3 +261,4 @@ gtest_discover_tests(test_matcher_vars)
 gtest_discover_tests(test_drain_op)
 gtest_discover_tests(test_auto_parser)
 gtest_discover_tests(test_aecid_pg)
+gtest_discover_tests(test_brain)
