@@ -9,7 +9,7 @@ make
 cd ..
 
 # Move compiled C++ code
-mkdir lib
+mkdir -p src/detectmateperformance/lib/
 cp build/bind_class* src/detectmateperformance/lib/
 chmod 775 src/detectmateperformance/lib/*
 chmod 775 -R build/*
