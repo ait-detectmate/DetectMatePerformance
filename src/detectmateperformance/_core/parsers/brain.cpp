@@ -34,7 +34,6 @@ void concatenateString(
     }
 }
 
-
 std::vector<std::string> brain(
     const std::vector<std::optional<std::int64_t>>& lengths,
     const std::vector<std::vector<PositionedWord>>& templates
